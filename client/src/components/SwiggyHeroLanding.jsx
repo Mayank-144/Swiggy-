@@ -38,6 +38,10 @@ export const SwiggyLandingHeader = ({ onSearch, searchQuery = '' }) => {
     if (onSearch) {
       onSearch(localSearch);
     }
+    setTimeout(() => {
+      const el = document.getElementById('restaurants-grid-section');
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 50);
   };
 
   const handleSearchChange = (e) => {
@@ -369,6 +373,18 @@ export const SwiggyLandingHeader = ({ onSearch, searchQuery = '' }) => {
               />
             </div>
           </div>
+        </div>
+
+        {/* Scroll down explore indicator */}
+        <div className="flex justify-center pt-6">
+          <button
+            type="button"
+            onClick={scrollToFood}
+            className="flex items-center gap-2 px-6 py-2.5 rounded-full bg-white/20 hover:bg-white/30 backdrop-blur-md text-white font-bold text-xs transition-all animate-bounce cursor-pointer shadow-md"
+          >
+            <span>Explore Restaurants & Menus</span>
+            <ChevronDown className="w-4 h-4" />
+          </button>
         </div>
       </div>
     </div>
