@@ -1,0 +1,114 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply text-slate-800 bg-[#FAFAFC] antialiased overflow-x-hidden;
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #F1F1F4;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #D1D5DB;
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #9CA3AF;
+}
+
+/* Hide scrollbar for clean horizontal chip list */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Shimmer animation for Skeleton Loader */
+.skeleton-shimmer {
+  background: linear-gradient(
+    90deg,
+    #f0f0f2 0%,
+    #f8f8fa 50%,
+    #f0f0f2 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Swiggy Green Rating Badge */
+.rating-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 2px 6px;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 0.75rem;
+  color: white;
+}
+
+.rating-badge-green {
+  background-color: #24963F;
+}
+
+.rating-badge-yellow {
+  background-color: #DB7C38;
+}
+
+/* Veg / Non-Veg Indicator Icons */
+.veg-icon {
+  width: 16px;
+  height: 16px;
+  border: 1.5px solid #0F8A65;
+  border-radius: 3px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1px;
+}
+.veg-dot {
+  width: 7px;
+  height: 7px;
+  background-color: #0F8A65;
+  border-radius: 50%;
+}
+
+.non-veg-icon {
+  width: 16px;
+  height: 16px;
+  border: 1.5px solid #E43B4F;
+  border-radius: 3px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1px;
+}
+.non-veg-dot {
+  width: 0;
+  height: 0;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-bottom: 7px solid #E43B4F;
+}
