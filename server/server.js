@@ -36,23 +36,34 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-// Serve frontend in production (Render deployment)
+// Serve frontend (Production & Built SPA)
 const path = require('path');
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, '../client/dist')));
+const fs = require('fs');
+
+const clientDistPath = path.join(__dirname, '../client/dist');
+const indexHtmlPath = path.join(clientDistPath, 'index.html');
+
+if (fs.existsSync(clientDistPath) && fs.existsSync(indexHtmlPath)) {
+  console.log('📁 Serving static frontend from:', clientDistPath);
+  app.use(express.static(clientDistPath));
   app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, '../client/dist', 'index.html'));
+    if (req.path.startsWith('/api')) {
+      return res.status(404).json({ success: false, message: 'API route not found' });
+    }
+    res.sendFile(indexHtmlPath);
   });
 } else {
   app.get('/', (req, res) => {
     res.json({
       name: 'Swiggy Clone MERN API',
       version: '1.0.0',
+      status: 'online',
+      message: 'Swiggy Clone backend is running! Build frontend to see UI.',
       documentation: {
         auth: '/api/auth',
         restaurants: '/api/restaurants',
         orders: '/api/orders',
-        payment: '/api/payment'
+        health: '/api/health'
       }
     });
   });
@@ -84,8 +95,8 @@ const startServer = async () => {
     }
   }
 
-  app.listen(PORT, () => {
-    console.log(`🚀 Swiggy Clone Server running on http://localhost:${PORT}`);
+  app.listen(PORT, '0.0.0.0', () => {
+    console.log(`🚀 Swiggy Clone Server running on http://0.0.0.0:${PORT}`);
   });
 };
 
