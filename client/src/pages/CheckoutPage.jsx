@@ -663,10 +663,16 @@ export const CheckoutPage = () => {
               {placingOrder ? (
                 <>
                   <Loader2 className="w-5 h-5 animate-spin" />
-                  <span>Connecting Razorpay...</span>
+                  <span>{paymentMethod === 'COD' ? 'Placing COD Order...' : 'Connecting Razorpay...'}</span>
+                </>
+              ) : paymentMethod === 'COD' ? (
+                <>
+                  <Banknote className="w-4 h-4" />
+                  <span>Place Order • ₹{grandTotal} (Cash on Delivery)</span>
                 </>
               ) : (
                 <>
+                  <Zap className="w-4 h-4" />
                   <span>Proceed to Pay ₹{grandTotal}</span>
                   <ArrowRight className="w-4 h-4" />
                 </>
@@ -674,8 +680,17 @@ export const CheckoutPage = () => {
             </button>
 
             <div className="flex items-center justify-center gap-1.5 text-[10px] sm:text-[11px] text-slate-400 font-medium pt-1">
-              <ShieldCheck className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
-              <span className="text-center">Razorpay 256-Bit Encrypted Payment Gateway</span>
+              {paymentMethod === 'COD' ? (
+                <>
+                  <Banknote className="w-3.5 h-3.5 text-amber-600 shrink-0" />
+                  <span className="text-center">Pay ₹{grandTotal} at your doorstep upon delivery (Cash or UPI QR)</span>
+                </>
+              ) : (
+                <>
+                  <ShieldCheck className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+                  <span className="text-center">Razorpay 256-Bit Encrypted Payment Gateway</span>
+                </>
+              )}
             </div>
           </div>
         </div>
@@ -779,26 +794,43 @@ export const CheckoutPage = () => {
               transition={{ type: 'spring', damping: 25, stiffness: 300 }}
               className="w-full max-w-md bg-white rounded-3xl p-6 sm:p-8 text-center space-y-5 shadow-2xl border border-slate-100"
             >
-              {/* Green Animated Checkmark Icon */}
+              {/* Green / Amber Animated Checkmark Icon */}
               <motion.div
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
                 transition={{ delay: 0.2, type: 'spring', damping: 12, stiffness: 200 }}
-                className="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-emerald-50 text-emerald-600 mx-auto flex items-center justify-center shadow-inner border-4 border-emerald-100"
+                className={`w-20 h-20 sm:w-24 sm:h-24 rounded-full mx-auto flex items-center justify-center shadow-inner border-4 ${
+                  /cash\s*on\s*delivery|cod/i.test(confirmedOrder.paymentMethod || '')
+                    ? 'bg-amber-50 text-amber-600 border-amber-100'
+                    : 'bg-emerald-50 text-emerald-600 border-emerald-100'
+                }`}
               >
-                <CheckCircle2 className="w-12 h-12 sm:w-14 sm:h-14 stroke-[2.5]" />
+                {/cash\s*on\s*delivery|cod/i.test(confirmedOrder.paymentMethod || '') ? (
+                  <Banknote className="w-12 h-12 sm:w-14 sm:h-14 stroke-[2.2]" />
+                ) : (
+                  <CheckCircle2 className="w-12 h-12 sm:w-14 sm:h-14 stroke-[2.5]" />
+                )}
               </motion.div>
 
               <div className="space-y-1.5">
-                <div className="inline-flex items-center gap-1 text-[11px] font-black text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-full uppercase tracking-wider">
-                  <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
-                  <span>Payment Verified</span>
-                </div>
+                {/cash\s*on\s*delivery|cod/i.test(confirmedOrder.paymentMethod || '') ? (
+                  <div className="inline-flex items-center gap-1 text-[11px] font-black text-amber-800 bg-amber-100 px-3 py-1 rounded-full uppercase tracking-wider">
+                    <Banknote className="w-3.5 h-3.5 text-amber-700" />
+                    <span>Cash On Delivery (Payment Pending)</span>
+                  </div>
+                ) : (
+                  <div className="inline-flex items-center gap-1 text-[11px] font-black text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-full uppercase tracking-wider">
+                    <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
+                    <span>Payment Verified • PAID</span>
+                  </div>
+                )}
                 <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
                   Order Placed Successfully!
                 </h2>
                 <p className="text-xs sm:text-sm text-slate-500 font-medium">
-                  Your meal is being prepared with love and safety.
+                  {/cash\s*on\s*delivery|cod/i.test(confirmedOrder.paymentMethod || '')
+                    ? `Keep ₹${confirmedOrder.totalAmount || confirmedOrder.bill?.grandTotal} cash / UPI QR ready for the delivery partner.`
+                    : 'Your meal is being prepared with love and safety.'}
                 </p>
               </div>
 
@@ -811,9 +843,21 @@ export const CheckoutPage = () => {
                   </span>
                 </div>
                 <div className="flex items-center justify-between text-xs">
-                  <span className="text-slate-400 font-bold">Amount Paid:</span>
+                  <span className="text-slate-400 font-bold">
+                    {/cash\s*on\s*delivery|cod/i.test(confirmedOrder.paymentMethod || '') ? 'To Pay on Delivery:' : 'Amount Paid:'}
+                  </span>
                   <span className="font-extrabold text-[#FF5200]">
                     ₹{confirmedOrder.totalAmount || confirmedOrder.bill?.grandTotal}
+                  </span>
+                </div>
+                <div className="flex items-center justify-between text-xs">
+                  <span className="text-slate-400 font-bold">Payment Status:</span>
+                  <span className={`font-black text-[11px] uppercase tracking-wider px-2 py-0.5 rounded ${
+                    /cash\s*on\s*delivery|cod/i.test(confirmedOrder.paymentMethod || '')
+                      ? 'text-amber-700 bg-amber-100'
+                      : 'text-emerald-700 bg-emerald-100'
+                  }`}>
+                    {/cash\s*on\s*delivery|cod/i.test(confirmedOrder.paymentMethod || '') ? 'PENDING (Pay on Delivery)' : 'PAID'}
                   </span>
                 </div>
                 <div className="flex items-center justify-between text-xs">

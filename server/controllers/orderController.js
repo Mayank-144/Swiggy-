@@ -39,6 +39,9 @@ exports.createOrder = async (req, res) => {
     const assignedRider = deliveryPartners[Math.floor(Math.random() * deliveryPartners.length)];
     const finalTotal = Number(req.body.totalAmount || (bill ? bill.grandTotal : 0));
 
+    // For Cash on Delivery (COD), payment status is PENDING until delivered!
+    const isCOD = /cash\s*on\s*delivery|cod/i.test(String(paymentMethod || ''));
+
     const orderData = {
       orderId,
       userId,
@@ -48,8 +51,9 @@ exports.createOrder = async (req, res) => {
       totalAmount: finalTotal,
       bill: bill || { grandTotal: finalTotal, itemTotal: finalTotal },
       deliveryAddress,
-      paymentMethod: paymentMethod || 'UPI',
-      paymentStatus: 'PAID',
+      paymentMethod: isCOD ? 'Cash on Delivery' : (paymentMethod || 'UPI'),
+      status: isCOD ? 'pending' : 'paid',
+      paymentStatus: isCOD ? 'PENDING' : 'PAID',
       orderStatus: 'CONFIRMED',
       deliveryPartner: assignedRider,
       deliveryTimeEstimate: '25-30 mins',
@@ -61,14 +65,14 @@ exports.createOrder = async (req, res) => {
       await newOrder.save();
       return res.status(201).json({
         success: true,
-        message: 'Order placed successfully!',
+        message: isCOD ? 'Order placed! Pay at delivery.' : 'Order placed successfully!',
         order: newOrder
       });
     } else {
       inMemoryOrders.unshift(orderData);
       return res.status(201).json({
         success: true,
-        message: 'Order placed successfully!',
+        message: isCOD ? 'Order placed! Pay at delivery.' : 'Order placed successfully!',
         order: orderData
       });
     }
@@ -101,6 +105,11 @@ exports.getUserOrders = async (req, res) => {
       if (orderObj.orderStatus !== 'CANCELLED' && orderObj.orderStatus !== 'DELIVERED') {
         const liveStatus = getSimulatedStatus(orderObj.createdAt);
         orderObj.orderStatus = liveStatus;
+        // When delivered, if it was COD, cash has been collected at doorstep
+        if (liveStatus === 'DELIVERED') {
+          orderObj.paymentStatus = 'PAID';
+          orderObj.status = 'paid';
+        }
       }
       return orderObj;
     });
@@ -139,7 +148,12 @@ exports.getOrderById = async (req, res) => {
 
     const orderObj = order.toObject ? order.toObject() : { ...order };
     if (orderObj.orderStatus !== 'CANCELLED' && orderObj.orderStatus !== 'DELIVERED') {
-      orderObj.orderStatus = getSimulatedStatus(orderObj.createdAt);
+      const liveStatus = getSimulatedStatus(orderObj.createdAt);
+      orderObj.orderStatus = liveStatus;
+      if (liveStatus === 'DELIVERED') {
+        orderObj.paymentStatus = 'PAID';
+        orderObj.status = 'paid';
+      }
     }
 
     res.json({

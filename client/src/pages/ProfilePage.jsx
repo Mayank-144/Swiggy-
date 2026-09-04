@@ -289,12 +289,23 @@ export const ProfilePage = () => {
                         </div>
                       </div>
 
-                      <div className="flex sm:flex-col items-center sm:items-end justify-between">
-                        <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-emerald-100 text-emerald-800">
-                          {order.orderStatus.replace(/_/g, ' ')}
-                        </span>
+                      <div className="flex sm:flex-col items-center sm:items-end justify-between gap-1">
+                        <div className="flex items-center gap-1.5 flex-wrap">
+                          {/cash\s*on\s*delivery|cod/i.test(order.paymentMethod || '') && order.orderStatus !== 'DELIVERED' && order.paymentStatus !== 'PAID' ? (
+                            <span className="px-2 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-amber-100 text-amber-800 border border-amber-200">
+                              COD Pending
+                            </span>
+                          ) : (
+                            <span className="px-2 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-emerald-100 text-emerald-800">
+                              PAID
+                            </span>
+                          )}
+                          <span className="px-2 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-slate-100 text-slate-700">
+                            {order.orderStatus.replace(/_/g, ' ')}
+                          </span>
+                        </div>
                         <span className="font-black text-sm text-slate-900 mt-0.5 sm:mt-1">
-                          ₹{order.bill?.grandTotal}
+                          ₹{order.bill?.grandTotal || order.totalAmount}
                         </span>
                       </div>
                     </div>

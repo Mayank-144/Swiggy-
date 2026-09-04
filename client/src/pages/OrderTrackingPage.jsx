@@ -12,7 +12,9 @@ import {
   PackageCheck,
   Star,
   ShieldCheck,
-  RotateCcw
+  RotateCcw,
+  Banknote,
+  AlertCircle
 } from 'lucide-react';
 import { orderAPI } from '../services/api';
 
@@ -88,6 +90,8 @@ export const OrderTrackingPage = () => {
   }
 
   const isDelivered = currentStepIndex === 3;
+  const isCOD = /cash\s*on\s*delivery|cod/i.test(String(order.paymentMethod || ''));
+  const isPendingCOD = isCOD && !isDelivered && order.paymentStatus !== 'PAID';
 
   return (
     <div className="max-w-4xl mx-auto px-3 sm:px-6 py-4 sm:py-8 space-y-4 sm:space-y-6">
@@ -108,10 +112,45 @@ export const OrderTrackingPage = () => {
           </div>
         </div>
 
-        <span className="px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-full text-[10px] sm:text-xs font-black bg-emerald-100 text-emerald-800 border border-emerald-300 uppercase shrink-0">
-          {order.orderStatus.replace(/_/g, ' ')}
-        </span>
+        <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+          {isPendingCOD ? (
+            <span className="px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-full text-[10px] sm:text-xs font-black bg-amber-100 text-amber-800 border border-amber-300 uppercase shrink-0 flex items-center gap-1">
+              <Banknote className="w-3 h-3" />
+              <span>COD: Pending</span>
+            </span>
+          ) : (
+            <span className="px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-full text-[10px] sm:text-xs font-black bg-emerald-100 text-emerald-800 border border-emerald-300 uppercase shrink-0 flex items-center gap-1">
+              <CheckCircle2 className="w-3 h-3" />
+              <span>Paid Online</span>
+            </span>
+          )}
+          <span className="px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-full text-[10px] sm:text-xs font-black bg-slate-100 text-slate-800 border border-slate-300 uppercase shrink-0">
+            {order.orderStatus.replace(/_/g, ' ')}
+          </span>
+        </div>
       </div>
+
+      {/* COD Pending Payment Alert Banner */}
+      {isPendingCOD && (
+        <div className="p-4 rounded-2xl bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-sm">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-amber-500 text-white flex items-center justify-center shrink-0 shadow-md">
+              <Banknote className="w-5 h-5" />
+            </div>
+            <div>
+              <p className="text-xs sm:text-sm font-black text-amber-950">
+                💵 Amount to Pay at Doorstep: ₹{order.bill?.grandTotal || order.totalAmount}
+              </p>
+              <p className="text-[11px] text-amber-800 font-medium">
+                Keep cash or UPI QR payment ready for the valet upon delivery. Payment will be marked <strong>PAID</strong> once delivered.
+              </p>
+            </div>
+          </div>
+          <span className="px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider bg-amber-200 text-amber-900 shrink-0 border border-amber-300">
+            Pay on Delivery
+          </span>
+        </div>
+      )}
 
       {/* Main Delivery Status Card */}
       <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 border border-slate-100 shadow-sm space-y-5 sm:space-y-8">
@@ -279,8 +318,15 @@ export const OrderTrackingPage = () => {
         </div>
 
         <div className="pt-4 border-t border-slate-100 flex items-center justify-between">
-          <span className="font-extrabold text-xs sm:text-sm text-slate-800">Total Paid ({order.paymentMethod})</span>
-          <span className="font-black text-base sm:text-lg text-swiggy-orange">₹{order.bill?.grandTotal}</span>
+          <div>
+            <span className="font-extrabold text-xs sm:text-sm text-slate-800 block">
+              {isPendingCOD ? 'Amount to Pay on Delivery' : `Total Paid (${order.paymentMethod || 'Online'})`}
+            </span>
+            <span className={`text-[10px] font-bold uppercase tracking-wider ${isPendingCOD ? 'text-amber-600' : 'text-emerald-600'}`}>
+              {isPendingCOD ? 'Pending at Doorstep (Cash / UPI QR)' : 'Payment Verified • PAID'}
+            </span>
+          </div>
+          <span className="font-black text-base sm:text-lg text-swiggy-orange">₹{order.bill?.grandTotal || order.totalAmount}</span>
         </div>
       </div>
     </div>
