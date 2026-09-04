@@ -27,37 +27,41 @@ export const BestFoodOptions = ({ selectedCategory, onSelectCategory }) => {
   };
 
   return (
-    <section id="food-options-section" className="py-2 bg-white">
+    <div id="food-options-section" className="w-full">
       {/* Section Header */}
-      <div className="flex items-center justify-between mb-3 sm:mb-6">
-        <h2 className="text-lg sm:text-xl md:text-2xl font-black text-slate-900 tracking-tight text-left">
-          Order our best food options
-        </h2>
+      <div className="flex items-center justify-between mb-4 sm:mb-6">
+        <div>
+          <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-slate-900 tracking-tight text-left">
+            Order our best food options
+          </h2>
+          <p className="text-xs sm:text-sm text-slate-500 font-normal mt-0.5">
+            Satisfy your cravings with top cuisines and popular meals
+          </p>
+        </div>
 
-        {/* Right side: two circle arrow buttons < > for navigation */}
+        {/* Right side: circle arrow buttons < > for navigation */}
         <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
           <button
             onClick={() => handleScroll('left')}
             aria-label="Scroll left"
-            className="w-8 h-8 rounded-full border border-gray-300 bg-white hover:bg-slate-50 flex items-center justify-center text-slate-700 transition-colors shadow-2xs cursor-pointer"
+            className="w-8 h-8 sm:w-9 sm:h-9 rounded-full border border-slate-200 bg-white hover:bg-slate-50 flex items-center justify-center text-slate-700 transition-colors shadow-2xs cursor-pointer"
           >
             <ChevronLeft className="w-4 h-4" />
           </button>
           <button
             onClick={() => handleScroll('right')}
             aria-label="Scroll right"
-            className="w-8 h-8 rounded-full border border-gray-300 bg-white hover:bg-slate-50 flex items-center justify-center text-slate-700 transition-colors shadow-2xs cursor-pointer"
+            className="w-8 h-8 sm:w-9 sm:h-9 rounded-full border border-slate-200 bg-white hover:bg-slate-50 flex items-center justify-center text-slate-700 transition-colors shadow-2xs cursor-pointer"
           >
             <ChevronRight className="w-4 h-4" />
           </button>
         </div>
       </div>
 
-      {/* MOBILE: horizontal scroll row (NOT grid), flex, overflow-x-auto, scrollbar-hide, min-width 80px */}
-      {/* DESKTOP: grid, 6 columns, no scroll */}
+      {/* Horizontal Swipeable Carousel */}
       <div
         ref={scrollRef}
-        className="flex md:grid md:grid-cols-6 overflow-x-auto md:overflow-visible scrollbar-hide gap-4 md:gap-6 pt-1 scroll-smooth"
+        className="flex overflow-x-auto no-scrollbar gap-4 sm:gap-6 pt-1 pb-2 scroll-smooth"
       >
         {CUISINE_ITEMS.map((item, idx) => {
           const isSelected = selectedCategory === item.id;
@@ -65,12 +69,12 @@ export const BestFoodOptions = ({ selectedCategory, onSelectCategory }) => {
             <button
               key={`${item.name}-${idx}`}
               onClick={() => onSelectCategory(item.id)}
-              className="flex flex-col items-center gap-2 group focus:outline-none cursor-pointer shrink-0 md:shrink min-w-[80px] md:min-w-0"
+              className="flex flex-col items-center gap-2 group focus:outline-none cursor-pointer shrink-0 min-w-[76px] sm:min-w-[96px]"
             >
-              {/* Circle image: 80px diameter on mobile, 100px on desktop. NO borders, NO card bg */}
+              {/* Circle image container */}
               <div
-                className={`w-[80px] h-[80px] md:w-[100px] md:h-[100px] rounded-full overflow-hidden transition-transform duration-200 ${
-                  isSelected ? 'ring-3 ring-[#FC8019] scale-105' : 'group-hover:scale-105'
+                className={`w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 rounded-full overflow-hidden transition-all duration-300 shadow-2xs ${
+                  isSelected ? 'ring-3 ring-[#FF5200] scale-105 shadow-md' : 'group-hover:scale-105'
                 }`}
               >
                 <img
@@ -81,12 +85,11 @@ export const BestFoodOptions = ({ selectedCategory, onSelectCategory }) => {
                 />
               </div>
 
-              {/* Label: font-size 12px mobile, 13px desktop, color: #3D3D3D */}
+              {/* Label */}
               <span
-                style={{
-                  color: isSelected ? '#FC8019' : '#3D3D3D'
-                }}
-                className="text-center truncate max-w-full text-[12px] md:text-[13px] font-medium leading-tight"
+                className={`text-center truncate max-w-full text-xs sm:text-sm font-semibold transition-colors ${
+                  isSelected ? 'text-[#FF5200]' : 'text-slate-700 group-hover:text-[#FF5200]'
+                }`}
               >
                 {item.name}
               </span>
@@ -94,7 +97,7 @@ export const BestFoodOptions = ({ selectedCategory, onSelectCategory }) => {
           );
         })}
       </div>
-    </section>
+    </div>
   );
 };
 

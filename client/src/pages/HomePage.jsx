@@ -115,11 +115,11 @@ export const HomePage = ({ globalSearch = '' }) => {
       )}
 
       {/* Main Body Content Container */}
-      <div className="max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8 space-y-4 sm:space-y-6 md:space-y-8 pt-3 sm:pt-4 pb-12 overflow-x-hidden">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 sm:space-y-12 lg:space-y-16 pt-6 sm:pt-10 pb-16">
         {/* Active Search Notification Banner */}
         {activeSearch && (
-          <div className="my-4 sm:my-6 p-3.5 sm:p-4 rounded-2xl bg-amber-50 border border-amber-200 flex flex-col xs:flex-row xs:items-center justify-between gap-2 shadow-xs">
-            <div className="flex items-center gap-2 text-amber-900 font-bold text-xs sm:text-sm">
+          <div className="p-4 sm:p-5 rounded-2xl bg-amber-50 border border-amber-200 flex flex-col xs:flex-row xs:items-center justify-between gap-3 shadow-xs">
+            <div className="flex items-center gap-2.5 text-amber-900 font-bold text-xs sm:text-sm">
               <Search className="w-4 h-4 text-[#FF5200] shrink-0" />
               <span className="truncate">Showing search results for "{activeSearch}"</span>
             </div>
@@ -134,130 +134,126 @@ export const HomePage = ({ globalSearch = '' }) => {
 
         {/* 2. Order our best food options */}
         {!activeSearch && (
-          <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 border border-orange-100/70 shadow-xs">
+          <section className="pb-4 sm:pb-6 border-b border-slate-100">
             <BestFoodOptions
               selectedCategory={selectedCategory}
               onSelectCategory={handleSelectCategory}
             />
-          </div>
+          </section>
         )}
 
         {/* 3. Shop groceries on Instamart */}
         {!activeSearch && (
-          <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 border border-emerald-100/70 shadow-xs">
+          <section className="pb-4 sm:pb-6 border-b border-slate-100">
             <InstamartGrocerySection />
-          </div>
+          </section>
         )}
 
         {/* 4. Top restaurant chains in your city */}
         {!activeSearch && (
-          <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 border border-slate-100 shadow-xs">
-            <section className="pb-2">
-              <div className="flex items-center justify-between mb-4 sm:mb-6">
-                <div>
-                  <h2 className="text-lg sm:text-xl md:text-2xl font-black text-slate-900 tracking-tight">
-                    Top restaurant chains in your city
-                  </h2>
-                  <p className="text-[11px] sm:text-xs text-slate-400 font-medium mt-0.5">Explore iconic national brands and local favourites</p>
-                </div>
-
-                <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
-                  <button
-                    onClick={() => handleScrollChains('left')}
-                    aria-label="Scroll left"
-                    className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-700 transition-colors shadow-2xs cursor-pointer"
-                  >
-                    <ChevronLeft className="w-4 h-4" />
-                  </button>
-                  <button
-                    onClick={() => handleScrollChains('right')}
-                    aria-label="Scroll right"
-                    className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-700 transition-colors shadow-2xs cursor-pointer"
-                  >
-                    <ChevronRight className="w-4 h-4" />
-                  </button>
-                </div>
+          <section className="pb-4 sm:pb-6 border-b border-slate-100">
+            <div className="flex items-center justify-between mb-4 sm:mb-6">
+              <div>
+                <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-slate-900 tracking-tight">
+                  Top restaurant chains in your city
+                </h2>
+                <p className="text-xs sm:text-sm text-slate-500 font-normal mt-0.5">Explore iconic national brands and local favourites</p>
               </div>
 
-              <div
-                ref={topChainsRef}
-                className="flex items-stretch gap-4 sm:gap-6 overflow-x-auto no-scrollbar pb-3 scroll-smooth"
-              >
-                {restaurants.slice(0, 6).map((restaurant) => (
-                  <div key={restaurant.id} className="w-60 sm:w-72 shrink-0 flex flex-col">
-                    <RestaurantCard restaurant={restaurant} />
-                  </div>
-                ))}
+              <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+                <button
+                  onClick={() => handleScrollChains('left')}
+                  aria-label="Scroll left"
+                  className="w-8 h-8 sm:w-9 sm:h-9 rounded-full border border-slate-200 bg-white hover:bg-slate-50 flex items-center justify-center text-slate-700 transition-colors shadow-2xs cursor-pointer"
+                >
+                  <ChevronLeft className="w-4 h-4" />
+                </button>
+                <button
+                  onClick={() => handleScrollChains('right')}
+                  aria-label="Scroll right"
+                  className="w-8 h-8 sm:w-9 sm:h-9 rounded-full border border-slate-200 bg-white hover:bg-slate-50 flex items-center justify-center text-slate-700 transition-colors shadow-2xs cursor-pointer"
+                >
+                  <ChevronRight className="w-4 h-4" />
+                </button>
               </div>
-            </section>
-          </div>
+            </div>
+
+            <div
+              ref={topChainsRef}
+              className="flex items-stretch gap-4 sm:gap-6 overflow-x-auto no-scrollbar pb-3 scroll-smooth"
+            >
+              {restaurants.slice(0, 6).map((restaurant) => (
+                <div key={restaurant.id} className="w-64 sm:w-72 shrink-0 flex flex-col">
+                  <RestaurantCard restaurant={restaurant} />
+                </div>
+              ))}
+            </div>
+          </section>
         )}
 
         {/* 5. Discover best restaurants on Dineout */}
         {!activeSearch && (
-          <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 border border-rose-100/70 shadow-xs">
+          <section className="pb-4 sm:pb-6 border-b border-slate-100">
             <DineoutSection />
-          </div>
+          </section>
         )}
 
         {/* 6. Restaurants with online food delivery Grid & Filter Toolbar */}
-        <div id="restaurants-grid-section" className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 border border-slate-100 shadow-xs">
-          <section className="py-1 sm:py-2">
-            <RestaurantFilterBar
-              vegOnly={vegOnly}
-              setVegOnly={setVegOnly}
-              minRating={minRating}
-              setMinRating={setMinRating}
-              fastDelivery={fastDelivery}
-              setFastDelivery={setFastDelivery}
-              sortBy={sortBy}
-              setSortBy={setSortBy}
-              priceRange={priceRange}
-              setPriceRange={setPriceRange}
-              totalCount={restaurants.length}
-              onReset={handleResetFilters}
-            />
+        <section id="restaurants-grid-section" className="py-2">
+          <RestaurantFilterBar
+            vegOnly={vegOnly}
+            setVegOnly={setVegOnly}
+            minRating={minRating}
+            setMinRating={setMinRating}
+            fastDelivery={fastDelivery}
+            setFastDelivery={setFastDelivery}
+            sortBy={sortBy}
+            setSortBy={setSortBy}
+            priceRange={priceRange}
+            setPriceRange={setPriceRange}
+            totalCount={restaurants.length}
+            onReset={handleResetFilters}
+          />
 
-            <div className="my-6 sm:my-8">
-              {loading ? (
-                <GridSkeleton count={8} />
-              ) : restaurants.length === 0 ? (
-                <div className="text-center py-12 sm:py-20 bg-slate-50 rounded-2xl sm:rounded-3xl border border-slate-100 p-6 sm:p-8 space-y-4">
-                  <div className="w-16 h-16 sm:w-20 sm:h-20 mx-auto rounded-full bg-slate-200 flex items-center justify-center text-slate-400">
-                    <Frown className="w-8 h-8 sm:w-10 sm:h-10" />
-                  </div>
-                  <div>
-                    <h3 className="text-lg sm:text-xl font-extrabold text-slate-800">No matching restaurants found</h3>
-                    <p className="text-xs text-slate-400 mt-1 max-w-sm mx-auto">
-                      Try clearing your filters or search for something else like "Biryani", "Pizza", or "Burgers".
-                    </p>
-                  </div>
-                  <button
-                    onClick={handleResetFilters}
-                    className="w-full sm:w-auto px-5 py-2.5 bg-[#FF5200] hover:bg-[#E04800] text-white font-bold text-xs rounded-xl shadow-md transition-colors uppercase tracking-wider cursor-pointer"
-                  >
-                    Reset All Filters
-                  </button>
+          <div className="my-6 sm:my-8">
+            {loading ? (
+              <GridSkeleton count={8} />
+            ) : restaurants.length === 0 ? (
+              <div className="text-center py-12 sm:py-20 bg-white rounded-2xl border border-slate-100 p-6 sm:p-8 space-y-4 shadow-xs">
+                <div className="w-16 h-16 sm:w-20 sm:h-20 mx-auto rounded-full bg-slate-100 flex items-center justify-center text-slate-400">
+                  <Frown className="w-8 h-8 sm:w-10 sm:h-10" />
                 </div>
-              ) : (
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
-                  {restaurants.map((restaurant) => (
-                    <RestaurantCard key={restaurant.id || restaurant._id} restaurant={restaurant} />
-                  ))}
+                <div>
+                  <h3 className="text-lg sm:text-xl font-bold text-slate-800">No matching restaurants found</h3>
+                  <p className="text-xs sm:text-sm text-slate-500 mt-1 max-w-sm mx-auto">
+                    Try clearing your filters or search for something else like "Biryani", "Pizza", or "Burgers".
+                  </p>
                 </div>
-              )}
-            </div>
-          </section>
-        </div>
+                <button
+                  onClick={handleResetFilters}
+                  className="w-full sm:w-auto px-5 py-2.5 bg-[#FF5200] hover:bg-[#E64900] text-white font-bold text-xs rounded-xl shadow-md transition-colors uppercase tracking-wider cursor-pointer"
+                >
+                  Reset All Filters
+                </button>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
+                {restaurants.map((restaurant) => (
+                  <RestaurantCard key={restaurant.id || restaurant._id} restaurant={restaurant} />
+                ))}
+              </div>
+            )}
+          </div>
+        </section>
 
         {/* 7. App Download Banner */}
         {!activeSearch && <AppDownloadBanner />}
 
         {/* 8. Explore Near Me & Cities Accordion Directory */}
         {!activeSearch && (
-          <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 border border-slate-100 shadow-xs">
+          <section className="pt-2">
             <ExploreNearMe onSelectCuisine={(c) => setSearchParams({ search: c })} />
-          </div>
+          </section>
         )}
       </div>
     </div>

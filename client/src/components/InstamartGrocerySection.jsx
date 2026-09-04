@@ -17,7 +17,7 @@ export const InstamartGrocerySection = () => {
 
   const handleScroll = (dir) => {
     if (scrollRef.current) {
-      const offset = dir === 'left' ? -300 : 300;
+      const offset = dir === 'left' ? -320 : 320;
       scrollRef.current.scrollBy({ left: offset, behavior: 'smooth' });
     }
   };
@@ -27,95 +27,72 @@ export const InstamartGrocerySection = () => {
   };
 
   return (
-    <div
-      id="instamart-section"
-      style={{
-        backgroundColor: '#FFFFFF',
-        borderRadius: '16px',
-        padding: '20px',
-        boxShadow: '0 1px 3px rgba(0,0,0,0.05)',
-        border: '1px solid #F0F0F0'
-      }}
-      className="w-full my-4"
-    >
-      {/* Header */}
+    <div id="instamart-section" className="w-full">
+      {/* Section Header */}
       <div className="flex items-center justify-between mb-4 sm:mb-6">
-        <h2
-          style={{ fontSize: '18px', fontWeight: 800, color: '#1C1C1C' }}
-          className="tracking-tight text-left"
-        >
-          Shop groceries on Instamart
-        </h2>
+        <div>
+          <div className="flex items-center gap-2">
+            <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-slate-900 tracking-tight">
+              Shop groceries on Instamart
+            </h2>
+            <span className="hidden sm:inline-flex items-center gap-1 bg-emerald-50 text-emerald-700 text-xs font-bold px-2.5 py-0.5 rounded-full border border-emerald-200/60">
+              ⚡ 10 MINS
+            </span>
+          </div>
+          <p className="text-xs sm:text-sm text-slate-500 font-normal mt-0.5">
+            Fresh produce, dairy, daily essentials & more delivered to your doorstep
+          </p>
+        </div>
 
-        {/* Right: < > circle outline buttons (gray border, 32px) */}
-        <div className="flex items-center gap-2 shrink-0">
+        {/* Right: Circle Navigation Buttons */}
+        <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
           <button
             onClick={() => handleScroll('left')}
             aria-label="Scroll left"
-            style={{ width: '32px', height: '32px', borderColor: '#E0E0E0' }}
-            className="rounded-full border bg-white hover:bg-slate-50 flex items-center justify-center text-slate-700 transition-colors shadow-2xs cursor-pointer"
+            className="w-8 h-8 sm:w-9 sm:h-9 rounded-full border border-slate-200 bg-white hover:bg-slate-50 flex items-center justify-center text-slate-700 transition-colors shadow-2xs cursor-pointer"
           >
             <ChevronLeft className="w-4 h-4" />
           </button>
           <button
             onClick={() => handleScroll('right')}
             aria-label="Scroll right"
-            style={{ width: '32px', height: '32px', borderColor: '#E0E0E0' }}
-            className="rounded-full border bg-white hover:bg-slate-50 flex items-center justify-center text-slate-700 transition-colors shadow-2xs cursor-pointer"
+            className="w-8 h-8 sm:w-9 sm:h-9 rounded-full border border-slate-200 bg-white hover:bg-slate-50 flex items-center justify-center text-slate-700 transition-colors shadow-2xs cursor-pointer"
           >
             <ChevronRight className="w-4 h-4" />
           </button>
         </div>
       </div>
 
-      {/* Horizontal Scroll Cards */}
+      {/* Horizontal Scroll Product Cards */}
       <div
         ref={scrollRef}
-        className="flex overflow-x-auto scrollbar-hide gap-4 pb-1 scroll-smooth"
+        className="flex overflow-x-auto no-scrollbar gap-3.5 sm:gap-5 pb-2 scroll-smooth"
       >
         {GROCERY_ITEMS.map((item) => (
           <div
             key={item.id}
             onClick={() => handleItemClick(item.name)}
-            style={{ width: '130px' }}
-            className="flex flex-col items-center cursor-pointer group shrink-0 text-center"
+            className="w-28 xs:w-32 sm:w-36 flex flex-col items-center cursor-pointer group shrink-0 text-center"
           >
-            {/* Square image: 120x120px, rounded-xl, object-cover */}
-            <div className="w-[120px] h-[120px] rounded-xl overflow-hidden bg-slate-50 group-hover:scale-105 transition-transform duration-200">
+            {/* Square image container */}
+            <div className="w-24 h-24 xs:w-28 xs:h-28 sm:w-32 sm:h-32 rounded-2xl overflow-hidden bg-slate-50 border border-slate-100 group-hover:scale-105 transition-transform duration-300 shadow-2xs">
               <img
                 src={item.image}
                 alt={item.name}
-                className="w-full h-full object-cover rounded-xl"
+                className="w-full h-full object-cover"
                 loading="lazy"
               />
             </div>
 
-            {/* Green badge: background: #E8F5E9, color: #2E7D32, font-size: 11px, "⚡ 10 MINS" — padding 2px 8px, border-radius 20px */}
+            {/* Delivery time badge */}
             <div className="mt-2">
-              <span
-                style={{
-                  backgroundColor: '#E8F5E9',
-                  color: '#2E7D32',
-                  fontSize: '11px',
-                  padding: '2px 8px',
-                  borderRadius: '20px'
-                }}
-                className="font-bold inline-block"
-              >
+              <span className="bg-emerald-50 text-emerald-800 text-[10px] sm:text-[11px] font-bold px-2 py-0.5 rounded-full border border-emerald-200/50 inline-block shadow-2xs">
                 ⚡ {item.time}
               </span>
             </div>
 
-            {/* Item name: font-size 12px, font-weight 500, color #1C1C1C, text-align center, margin-top 8px */}
-            <span
-              style={{
-                fontSize: '12px',
-                fontWeight: 500,
-                color: '#1C1C1C',
-                marginTop: '8px'
-              }}
-              className="text-center w-full leading-tight truncate px-1"
-            >
+            {/* Item name */}
+            <span className="text-xs sm:text-sm font-semibold text-slate-800 mt-1.5 text-center w-full leading-tight truncate px-1 group-hover:text-swiggy-orange transition-colors">
               {item.name}
             </span>
           </div>

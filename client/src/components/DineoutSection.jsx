@@ -77,15 +77,15 @@ export const DineoutSection = () => {
   };
 
   return (
-    <section id="dineout-section" className="py-2 sm:py-4">
+    <div id="dineout-section" className="w-full">
       <div className="flex items-center justify-between mb-4 sm:mb-6">
         <div>
           <div className="flex items-center gap-2">
-            <h2 className="text-lg sm:text-xl md:text-2xl font-black text-slate-900 tracking-tight">
+            <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-slate-900 tracking-tight">
               Discover best restaurants on Dineout
             </h2>
           </div>
-          <p className="text-[11px] sm:text-xs text-slate-400 font-medium mt-0.5">
+          <p className="text-xs sm:text-sm text-slate-500 font-normal mt-0.5">
             Book tables, pay bills & save big at top cafes and luxury dining spots
           </p>
         </div>
@@ -94,14 +94,14 @@ export const DineoutSection = () => {
           <button
             onClick={() => handleScroll('left')}
             aria-label="Scroll left"
-            className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-700 transition-colors shadow-2xs cursor-pointer"
+            className="w-8 h-8 sm:w-9 sm:h-9 rounded-full border border-slate-200 bg-white hover:bg-slate-50 flex items-center justify-center text-slate-700 transition-colors shadow-2xs cursor-pointer"
           >
             <ChevronLeft className="w-4 h-4" />
           </button>
           <button
             onClick={() => handleScroll('right')}
             aria-label="Scroll right"
-            className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-700 transition-colors shadow-2xs cursor-pointer"
+            className="w-8 h-8 sm:w-9 sm:h-9 rounded-full border border-slate-200 bg-white hover:bg-slate-50 flex items-center justify-center text-slate-700 transition-colors shadow-2xs cursor-pointer"
           >
             <ChevronRight className="w-4 h-4" />
           </button>
@@ -116,11 +116,11 @@ export const DineoutSection = () => {
           <div
             key={rest.id}
             onClick={() => handleBookTable(rest.name)}
-            className="w-72 sm:w-84 rounded-2xl bg-white border border-slate-200/80 shadow-xs hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col justify-between shrink-0 cursor-pointer group"
+            className="w-72 sm:w-80 rounded-2xl bg-white border border-slate-200/80 shadow-xs hover:shadow-md hover:-translate-y-1 transition-all duration-300 overflow-hidden flex flex-col justify-between shrink-0 cursor-pointer group"
           >
             <div>
               {/* Photo with gradient overlay and bottom name + rating */}
-              <div className="relative h-40 sm:h-48 w-full overflow-hidden bg-slate-100">
+              <div className="relative h-40 sm:h-44 w-full overflow-hidden bg-slate-100">
                 <img
                   src={rest.image}
                   alt={rest.name}
@@ -129,14 +129,14 @@ export const DineoutSection = () => {
                 />
 
                 {/* Dark gradient for text readability */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent" />
 
                 {/* Bottom Overlay Info: Name & Rating Badge */}
                 <div className="absolute bottom-2.5 left-3 right-3 flex items-center justify-between gap-2">
-                  <h3 className="font-extrabold text-sm sm:text-base text-white truncate drop-shadow-md">
+                  <h3 className="font-bold text-sm sm:text-base text-white truncate drop-shadow-md">
                     {rest.name}
                   </h3>
-                  <div className="flex items-center gap-1 px-1.5 py-0.5 bg-emerald-600 text-white rounded-md text-[10px] sm:text-xs font-black shrink-0 shadow-sm">
+                  <div className="flex items-center gap-1 px-1.5 py-0.5 bg-emerald-600 text-white rounded-md text-[10px] sm:text-xs font-bold shrink-0 shadow-xs">
                     <Star className="w-2.5 h-2.5 fill-white" />
                     <span>{rest.rating}</span>
                   </div>
@@ -180,7 +180,7 @@ export const DineoutSection = () => {
           </div>
         ))}
       </div>
-    </section>
+    </div>
   );
 };
 
