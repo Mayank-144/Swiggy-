@@ -355,37 +355,37 @@ export const SwiggyLandingHeader = ({ onSearch, searchQuery = '' }) => {
         </div>
       </div>
 
-      {/* 3 Prominent Swiggy Service Cards (Matching Exact Reference Layout across All Screens) */}
-      <div className="w-full max-w-7xl mx-auto px-2.5 xs:px-3.5 sm:px-6 lg:px-8 pb-4 sm:pb-8 relative z-10">
-        <div className="grid grid-cols-3 gap-2 xs:gap-3 sm:gap-5 lg:gap-6 max-w-6xl mx-auto">
+      {/* 3 Prominent Swiggy Service Cards (Matching Reference Layout across All Screens) */}
+      <div className="w-full max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 pb-5 sm:pb-8 relative z-10">
+        <div className="grid grid-cols-3 gap-2.5 sm:gap-5 lg:gap-6 max-w-6xl mx-auto">
           {/* Card 1: FOOD DELIVERY */}
           <div
             onClick={scrollToFood}
-            className="bg-white rounded-xl xs:rounded-2xl sm:rounded-[28px] lg:rounded-[32px] p-2.5 xs:p-3 sm:p-5 lg:p-7 text-slate-900 shadow-xl sm:shadow-2xl flex flex-col justify-between cursor-pointer hover:shadow-3xl hover:-translate-y-1 transition-all duration-300 group overflow-hidden relative min-h-[115px] xs:min-h-[135px] sm:min-h-[180px] lg:min-h-[220px]"
+            className="bg-white rounded-2xl sm:rounded-3xl lg:rounded-[32px] p-2.5 xs:p-3.5 sm:p-5 lg:p-7 text-slate-900 shadow-xl sm:shadow-2xl flex flex-col justify-between cursor-pointer hover:shadow-3xl hover:-translate-y-1 transition-all duration-300 group overflow-hidden relative min-h-[125px] xs:min-h-[145px] sm:min-h-[185px] lg:min-h-[225px] select-none"
           >
-            <div className="space-y-0.5 sm:space-y-1 z-10 max-w-[70%] sm:max-w-[65%]">
-              <h3 className="text-[10px] xs:text-xs sm:text-lg lg:text-2xl font-black text-[#1C1C1C] tracking-tight leading-none">
+            <div className="space-y-0.5 sm:space-y-1 z-10 max-w-[62%] sm:max-w-[60%] lg:max-w-[65%] pr-0.5">
+              <h3 className="text-[10px] xs:text-xs sm:text-base md:text-lg lg:text-2xl font-black text-[#1C1C1C] tracking-tight leading-tight">
                 FOOD DELIVERY
               </h3>
-              <p className="text-[7px] xs:text-[8px] sm:text-xs font-bold text-[#686B78] uppercase tracking-wider truncate">
+              <p className="text-[7.5px] xs:text-[9px] sm:text-xs font-bold text-[#686B78] uppercase tracking-wider truncate">
                 FROM RESTAURANTS
               </p>
               <div className="pt-0.5 sm:pt-1">
-                <span className="text-[7px] xs:text-[8px] sm:text-xs font-black text-[#FF5200] bg-[#FFF2EA] px-1 xs:px-1.5 sm:px-2.5 py-0.5 sm:py-1 rounded-sm sm:rounded-md inline-block whitespace-nowrap">
+                <span className="text-[7px] xs:text-[8.5px] sm:text-xs font-black text-[#FF5200] bg-[#FFF2EA] px-1 xs:px-1.5 sm:px-2.5 py-0.5 sm:py-1 rounded sm:rounded-md inline-block whitespace-nowrap shadow-2xs">
                   UPTO 60% OFF
                 </span>
               </div>
             </div>
 
             {/* Bottom Left Circular Orange Action Button */}
-            <div className="pt-2 sm:pt-5 z-10">
-              <div className="w-5 h-5 xs:w-6 xs:h-6 sm:w-9 sm:h-9 lg:w-11 lg:h-11 rounded-full bg-[#FF5200] text-white flex items-center justify-center shadow-md group-hover:scale-110 transition-transform">
+            <div className="pt-2 sm:pt-4 z-10">
+              <div className="w-5 h-5 xs:w-6 xs:h-6 sm:w-8 sm:h-8 lg:w-11 lg:h-11 rounded-full bg-[#FF5200] text-white flex items-center justify-center shadow-md group-hover:scale-110 transition-transform">
                 <ArrowRight className="w-2.5 h-2.5 xs:w-3 xs:h-3 sm:w-4 sm:h-4 lg:w-5 lg:h-5 stroke-[2.5]" />
               </div>
             </div>
 
             {/* Bottom Right Skillet Food Image */}
-            <div className="absolute -right-1 -bottom-1 xs:right-0 xs:bottom-0 w-14 h-14 xs:w-16 xs:h-16 sm:w-28 sm:h-28 lg:w-44 lg:h-44 pointer-events-none group-hover:scale-105 transition-transform duration-300">
+            <div className="absolute right-0 bottom-0 w-16 h-16 xs:w-20 xs:h-20 sm:w-28 sm:h-28 md:w-36 md:h-36 lg:w-44 lg:h-44 pointer-events-none group-hover:scale-105 transition-transform duration-300">
               <img
                 src="/images/swiggy_food_skillet.jpg"
                 alt="Food Delivery Skillet"
@@ -397,31 +397,31 @@ export const SwiggyLandingHeader = ({ onSearch, searchQuery = '' }) => {
           {/* Card 2: INSTAMART */}
           <div
             onClick={scrollToInstamart}
-            className="bg-white rounded-xl xs:rounded-2xl sm:rounded-[28px] lg:rounded-[32px] p-2.5 xs:p-3 sm:p-5 lg:p-7 text-slate-900 shadow-xl sm:shadow-2xl flex flex-col justify-between cursor-pointer hover:shadow-3xl hover:-translate-y-1 transition-all duration-300 group overflow-hidden relative min-h-[115px] xs:min-h-[135px] sm:min-h-[180px] lg:min-h-[220px]"
+            className="bg-white rounded-2xl sm:rounded-3xl lg:rounded-[32px] p-2.5 xs:p-3.5 sm:p-5 lg:p-7 text-slate-900 shadow-xl sm:shadow-2xl flex flex-col justify-between cursor-pointer hover:shadow-3xl hover:-translate-y-1 transition-all duration-300 group overflow-hidden relative min-h-[125px] xs:min-h-[145px] sm:min-h-[185px] lg:min-h-[225px] select-none"
           >
-            <div className="space-y-0.5 sm:space-y-1 z-10 max-w-[70%] sm:max-w-[65%]">
-              <h3 className="text-[10px] xs:text-xs sm:text-lg lg:text-2xl font-black text-[#1C1C1C] tracking-tight leading-none">
+            <div className="space-y-0.5 sm:space-y-1 z-10 max-w-[62%] sm:max-w-[60%] lg:max-w-[65%] pr-0.5">
+              <h3 className="text-[10px] xs:text-xs sm:text-base md:text-lg lg:text-2xl font-black text-[#1C1C1C] tracking-tight leading-tight">
                 INSTAMART
               </h3>
-              <p className="text-[7px] xs:text-[8px] sm:text-xs font-bold text-[#686B78] uppercase tracking-wider truncate">
+              <p className="text-[7.5px] xs:text-[9px] sm:text-xs font-bold text-[#686B78] uppercase tracking-wider truncate">
                 INSTANT GROCERY
               </p>
               <div className="pt-0.5 sm:pt-1">
-                <span className="text-[7px] xs:text-[8px] sm:text-xs font-black text-[#FF5200] bg-[#FFF2EA] px-1 xs:px-1.5 sm:px-2.5 py-0.5 sm:py-1 rounded-sm sm:rounded-md inline-block whitespace-nowrap">
+                <span className="text-[7px] xs:text-[8.5px] sm:text-xs font-black text-[#FF5200] bg-[#FFF2EA] px-1 xs:px-1.5 sm:px-2.5 py-0.5 sm:py-1 rounded sm:rounded-md inline-block whitespace-nowrap shadow-2xs">
                   UPTO 60% OFF
                 </span>
               </div>
             </div>
 
             {/* Bottom Left Circular Orange Action Button */}
-            <div className="pt-2 sm:pt-5 z-10">
-              <div className="w-5 h-5 xs:w-6 xs:h-6 sm:w-9 sm:h-9 lg:w-11 lg:h-11 rounded-full bg-[#FF5200] text-white flex items-center justify-center shadow-md group-hover:scale-110 transition-transform">
+            <div className="pt-2 sm:pt-4 z-10">
+              <div className="w-5 h-5 xs:w-6 xs:h-6 sm:w-8 sm:h-8 lg:w-11 lg:h-11 rounded-full bg-[#FF5200] text-white flex items-center justify-center shadow-md group-hover:scale-110 transition-transform">
                 <ArrowRight className="w-2.5 h-2.5 xs:w-3 xs:h-3 sm:w-4 sm:h-4 lg:w-5 lg:h-5 stroke-[2.5]" />
               </div>
             </div>
 
             {/* Bottom Right Grocery Basket Image */}
-            <div className="absolute -right-1 -bottom-1 xs:right-0 xs:bottom-0 w-14 h-14 xs:w-16 xs:h-16 sm:w-28 sm:h-28 lg:w-44 lg:h-44 pointer-events-none group-hover:scale-105 transition-transform duration-300">
+            <div className="absolute right-0 bottom-0 w-16 h-16 xs:w-20 xs:h-20 sm:w-28 sm:h-28 md:w-36 md:h-36 lg:w-44 lg:h-44 pointer-events-none group-hover:scale-105 transition-transform duration-300">
               <img
                 src="/images/swiggy_grocery_basket.jpg"
                 alt="Instamart Basket"
@@ -433,31 +433,31 @@ export const SwiggyLandingHeader = ({ onSearch, searchQuery = '' }) => {
           {/* Card 3: DINEOUT */}
           <div
             onClick={scrollToDineout}
-            className="bg-white rounded-xl xs:rounded-2xl sm:rounded-[28px] lg:rounded-[32px] p-2.5 xs:p-3 sm:p-5 lg:p-7 text-slate-900 shadow-xl sm:shadow-2xl flex flex-col justify-between cursor-pointer hover:shadow-3xl hover:-translate-y-1 transition-all duration-300 group overflow-hidden relative min-h-[115px] xs:min-h-[135px] sm:min-h-[180px] lg:min-h-[220px]"
+            className="bg-white rounded-2xl sm:rounded-3xl lg:rounded-[32px] p-2.5 xs:p-3.5 sm:p-5 lg:p-7 text-slate-900 shadow-xl sm:shadow-2xl flex flex-col justify-between cursor-pointer hover:shadow-3xl hover:-translate-y-1 transition-all duration-300 group overflow-hidden relative min-h-[125px] xs:min-h-[145px] sm:min-h-[185px] lg:min-h-[225px] select-none"
           >
-            <div className="space-y-0.5 sm:space-y-1 z-10 max-w-[70%] sm:max-w-[65%]">
-              <h3 className="text-[10px] xs:text-xs sm:text-lg lg:text-2xl font-black text-[#1C1C1C] tracking-tight leading-none">
+            <div className="space-y-0.5 sm:space-y-1 z-10 max-w-[62%] sm:max-w-[60%] lg:max-w-[65%] pr-0.5">
+              <h3 className="text-[10px] xs:text-xs sm:text-base md:text-lg lg:text-2xl font-black text-[#1C1C1C] tracking-tight leading-tight">
                 DINEOUT
               </h3>
-              <p className="text-[7px] xs:text-[8px] sm:text-xs font-bold text-[#686B78] uppercase tracking-wider truncate">
+              <p className="text-[7.5px] xs:text-[9px] sm:text-xs font-bold text-[#686B78] uppercase tracking-wider truncate">
                 EAT OUT & SAVE MORE
               </p>
               <div className="pt-0.5 sm:pt-1">
-                <span className="text-[7px] xs:text-[8px] sm:text-xs font-black text-[#FF5200] bg-[#FFF2EA] px-1 xs:px-1.5 sm:px-2.5 py-0.5 sm:py-1 rounded-sm sm:rounded-md inline-block whitespace-nowrap">
+                <span className="text-[7px] xs:text-[8.5px] sm:text-xs font-black text-[#FF5200] bg-[#FFF2EA] px-1 xs:px-1.5 sm:px-2.5 py-0.5 sm:py-1 rounded sm:rounded-md inline-block whitespace-nowrap shadow-2xs">
                   UPTO 50% OFF
                 </span>
               </div>
             </div>
 
             {/* Bottom Left Circular Orange Action Button */}
-            <div className="pt-2 sm:pt-5 z-10">
-              <div className="w-5 h-5 xs:w-6 xs:h-6 sm:w-9 sm:h-9 lg:w-11 lg:h-11 rounded-full bg-[#FF5200] text-white flex items-center justify-center shadow-md group-hover:scale-110 transition-transform">
+            <div className="pt-2 sm:pt-4 z-10">
+              <div className="w-5 h-5 xs:w-6 xs:h-6 sm:w-8 sm:h-8 lg:w-11 lg:h-11 rounded-full bg-[#FF5200] text-white flex items-center justify-center shadow-md group-hover:scale-110 transition-transform">
                 <ArrowRight className="w-2.5 h-2.5 xs:w-3 xs:h-3 sm:w-4 sm:h-4 lg:w-5 lg:h-5 stroke-[2.5]" />
               </div>
             </div>
 
             {/* Bottom Right Dineout Table Plate Image */}
-            <div className="absolute -right-1 -bottom-1 xs:right-0 xs:bottom-0 w-14 h-14 xs:w-16 xs:h-16 sm:w-28 sm:h-28 lg:w-44 lg:h-44 pointer-events-none group-hover:scale-105 transition-transform duration-300">
+            <div className="absolute right-0 bottom-0 w-16 h-16 xs:w-20 xs:h-20 sm:w-28 sm:h-28 md:w-36 md:h-36 lg:w-44 lg:h-44 pointer-events-none group-hover:scale-105 transition-transform duration-300">
               <img
                 src="/images/swiggy_dineout_plate.jpg"
                 alt="Dineout Table Plate"

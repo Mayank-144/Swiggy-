@@ -53,8 +53,8 @@ export const ExploreNearMe = ({ onSelectCuisine }) => {
         </button>
       </div>
 
-      {/* Pills grid: 4 columns desktop, 2 columns mobile */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 pt-1">
+      {/* Pills grid: 1 col on small mobile, 2 col on xs/sm mobile, 4 columns on desktop */}
+      <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-4 gap-2.5 sm:gap-3 pt-1">
         {displayedCities.map((city) => (
           <button
             key={city}
@@ -62,12 +62,12 @@ export const ExploreNearMe = ({ onSelectCuisine }) => {
             style={{
               backgroundColor: '#FFFFFF',
               border: '1px solid #E8E8E8',
-              borderRadius: '8px',
-              padding: '12px 16px',
-              fontSize: '13px',
+              borderRadius: '10px',
+              padding: '11px 14px',
+              fontSize: '12.5px',
               color: '#1C1C1C'
             }}
-            className="w-full font-medium text-center hover:border-[#FC8019] hover:text-[#FC8019] transition-all truncate shadow-2xs cursor-pointer block"
+            className="w-full font-semibold text-center hover:border-[#FC8019] hover:text-[#FC8019] transition-all truncate shadow-2xs cursor-pointer block min-h-[44px]"
           >
             {city}
           </button>
