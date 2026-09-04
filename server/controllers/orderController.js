@@ -37,6 +37,7 @@ exports.createOrder = async (req, res) => {
 
     const orderId = `SWG-${Math.floor(100000 + Math.random() * 900000)}`;
     const assignedRider = deliveryPartners[Math.floor(Math.random() * deliveryPartners.length)];
+    const finalTotal = Number(req.body.totalAmount || (bill ? bill.grandTotal : 0));
 
     const orderData = {
       orderId,
@@ -44,7 +45,8 @@ exports.createOrder = async (req, res) => {
       userEmail,
       restaurant,
       items,
-      bill,
+      totalAmount: finalTotal,
+      bill: bill || { grandTotal: finalTotal, itemTotal: finalTotal },
       deliveryAddress,
       paymentMethod: paymentMethod || 'UPI',
       paymentStatus: 'PAID',

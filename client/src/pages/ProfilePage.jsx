@@ -120,34 +120,34 @@ export const ProfilePage = () => {
   };
 
   return (
-    <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8 space-y-8">
+    <div className="max-w-5xl mx-auto px-3 sm:px-6 py-4 sm:py-8 space-y-5 sm:space-y-8">
       {/* Profile Header Banner */}
-      <div className="bg-gradient-to-r from-slate-900 to-slate-800 text-white rounded-3xl p-6 sm:p-8 shadow-xl relative overflow-hidden flex flex-col sm:flex-row sm:items-center justify-between gap-6">
-        <div className="flex items-center gap-4 relative z-10">
+      <div className="bg-gradient-to-r from-slate-900 to-slate-800 text-white rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 shadow-xl relative overflow-hidden flex flex-col sm:flex-row sm:items-center justify-between gap-4 sm:gap-6">
+        <div className="flex items-center gap-3 sm:gap-4 relative z-10 min-w-0">
           <img
             src={user.avatar || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&auto=format&fit=crop&q=80'}
             alt={user.name}
-            className="w-20 h-20 rounded-2xl object-cover border-2 border-swiggy-orange shadow-lg shrink-0"
+            className="w-14 h-14 sm:w-20 sm:h-20 rounded-xl sm:rounded-2xl object-cover border-2 border-swiggy-orange shadow-lg shrink-0"
           />
-          <div>
+          <div className="min-w-0">
             <div className="flex items-center gap-2">
-              <h2 className="text-2xl font-black tracking-tight">{user.name}</h2>
+              <h2 className="text-lg sm:text-2xl font-black tracking-tight truncate">{user.name}</h2>
               <button
                 onClick={() => setIsEditingProfile(!isEditingProfile)}
-                className="p-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-white transition-colors"
+                className="p-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-white transition-colors shrink-0"
                 title="Edit profile"
               >
                 <Edit2 className="w-3.5 h-3.5" />
               </button>
             </div>
-            <p className="text-xs text-slate-300 font-medium mt-0.5">{user.email}</p>
-            <p className="text-xs text-slate-400 font-medium">{user.phone || '+91 98765 43210'}</p>
+            <p className="text-xs text-slate-300 font-medium mt-0.5 truncate">{user.email}</p>
+            <p className="text-xs text-slate-400 font-medium truncate">{user.phone || '+91 98765 43210'}</p>
           </div>
         </div>
 
         <button
           onClick={logout}
-          className="relative z-10 px-4 py-2 rounded-xl bg-white/10 hover:bg-rose-500/20 text-slate-200 hover:text-rose-300 font-bold text-xs flex items-center gap-2 transition-all self-start sm:self-center border border-white/10"
+          className="relative z-10 px-3.5 sm:px-4 py-2 rounded-xl bg-white/10 hover:bg-rose-500/20 text-slate-200 hover:text-rose-300 font-bold text-xs flex items-center justify-center gap-2 transition-all self-stretch sm:self-center border border-white/10"
         >
           <LogOut className="w-4 h-4" />
           <span>Log Out</span>
@@ -158,7 +158,7 @@ export const ProfilePage = () => {
       {isEditingProfile && (
         <form
           onSubmit={handleProfileUpdate}
-          className="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm space-y-4 max-w-lg"
+          className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-6 border border-slate-100 shadow-sm space-y-4 max-w-lg"
         >
           <h4 className="font-extrabold text-sm text-slate-800">Edit Profile Details</h4>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -200,10 +200,10 @@ export const ProfilePage = () => {
       )}
 
       {/* Tab Selectors */}
-      <div className="flex border-b border-slate-200 gap-6">
+      <div className="flex border-b border-slate-200 gap-3 sm:gap-6 overflow-x-auto whitespace-nowrap scrollbar-none py-1">
         <button
           onClick={() => setSearchParams({ tab: 'orders' })}
-          className={`pb-3 font-extrabold text-xs sm:text-sm tracking-tight transition-all relative flex items-center gap-2 ${
+          className={`pb-2.5 sm:pb-3 px-1 sm:px-0 font-extrabold text-xs sm:text-sm tracking-tight transition-all relative flex items-center gap-1.5 sm:gap-2 shrink-0 ${
             activeTab === 'orders' ? 'text-swiggy-orange' : 'text-slate-500 hover:text-slate-800'
           }`}
         >
@@ -219,7 +219,7 @@ export const ProfilePage = () => {
 
         <button
           onClick={() => setSearchParams({ tab: 'addresses' })}
-          className={`pb-3 font-extrabold text-xs sm:text-sm tracking-tight transition-all relative flex items-center gap-2 ${
+          className={`pb-2.5 sm:pb-3 px-1 sm:px-0 font-extrabold text-xs sm:text-sm tracking-tight transition-all relative flex items-center gap-1.5 sm:gap-2 shrink-0 ${
             activeTab === 'addresses' ? 'text-swiggy-orange' : 'text-slate-500 hover:text-slate-800'
           }`}
         >
@@ -235,7 +235,7 @@ export const ProfilePage = () => {
 
         <button
           onClick={() => setSearchParams({ tab: 'favorites' })}
-          className={`pb-3 font-extrabold text-xs sm:text-sm tracking-tight transition-all relative flex items-center gap-2 ${
+          className={`pb-2.5 sm:pb-3 px-1 sm:px-0 font-extrabold text-xs sm:text-sm tracking-tight transition-all relative flex items-center gap-1.5 sm:gap-2 shrink-0 ${
             activeTab === 'favorites' ? 'text-swiggy-orange' : 'text-slate-500 hover:text-slate-800'
           }`}
         >
@@ -251,7 +251,7 @@ export const ProfilePage = () => {
       </div>
 
       {/* Tab Content */}
-      <div className="space-y-6">
+      <div className="space-y-4 sm:space-y-6">
         {/* 1. Orders Tab */}
         {activeTab === 'orders' && (
           <div>
@@ -269,23 +269,23 @@ export const ProfilePage = () => {
                 </p>
               </div>
             ) : (
-              <div className="space-y-4">
+              <div className="space-y-3 sm:space-y-4">
                 {orders.map((order) => (
                   <div
                     key={order.orderId}
-                    className="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm space-y-4 hover:shadow-md transition-shadow"
+                    className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-6 border border-slate-100 shadow-sm space-y-3 sm:space-y-4 hover:shadow-md transition-shadow"
                   >
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-100">
-                      <div className="flex items-center gap-3">
+                      <div className="flex items-center gap-3 min-w-0">
                         <img
                           src={order.restaurant?.image}
                           alt={order.restaurant?.name}
-                          className="w-12 h-12 rounded-2xl object-cover shrink-0"
+                          className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl object-cover shrink-0"
                         />
-                        <div>
-                          <h4 className="font-black text-sm text-slate-900">{order.restaurant?.name}</h4>
-                          <p className="text-xs text-slate-400 font-medium">{order.restaurant?.area}</p>
-                          <p className="text-[11px] text-slate-400 font-mono mt-0.5">ORDER #{order.orderId}</p>
+                        <div className="min-w-0">
+                          <h4 className="font-black text-xs sm:text-sm text-slate-900 truncate">{order.restaurant?.name}</h4>
+                          <p className="text-xs text-slate-400 font-medium truncate">{order.restaurant?.area}</p>
+                          <p className="text-[10px] sm:text-[11px] text-slate-400 font-mono mt-0.5 truncate">ORDER #{order.orderId}</p>
                         </div>
                       </div>
 
@@ -293,7 +293,7 @@ export const ProfilePage = () => {
                         <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-emerald-100 text-emerald-800">
                           {order.orderStatus.replace(/_/g, ' ')}
                         </span>
-                        <span className="font-black text-sm text-slate-900 mt-1">
+                        <span className="font-black text-sm text-slate-900 mt-0.5 sm:mt-1">
                           ₹{order.bill?.grandTotal}
                         </span>
                       </div>
@@ -310,8 +310,8 @@ export const ProfilePage = () => {
                     </div>
 
                     {/* Actions */}
-                    <div className="flex items-center justify-between pt-2">
-                      <span className="text-[11px] text-slate-400 font-medium">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 pt-2">
+                      <span className="text-[10px] sm:text-[11px] text-slate-400 font-medium">
                         {new Date(order.createdAt).toLocaleDateString('en-IN', {
                           day: 'numeric',
                           month: 'short',
@@ -321,16 +321,16 @@ export const ProfilePage = () => {
                         })}
                       </span>
 
-                      <div className="flex items-center gap-3">
+                      <div className="flex items-center gap-2 sm:gap-3 w-full sm:w-auto">
                         <Link
                           to={`/order-tracking/${order.orderId}`}
-                          className="px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition-colors"
+                          className="flex-1 sm:flex-none text-center px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition-colors"
                         >
                           Track Status
                         </Link>
                         <button
                           onClick={() => handleReorder(order)}
-                          className="px-4 py-2 rounded-xl bg-swiggy-orange hover:bg-swiggy-orangeDark text-white font-bold text-xs flex items-center gap-1.5 transition-colors shadow-sm"
+                          className="flex-1 sm:flex-none justify-center px-4 py-2 rounded-xl bg-swiggy-orange hover:bg-swiggy-orangeDark text-white font-bold text-xs flex items-center gap-1.5 transition-colors shadow-sm"
                         >
                           <RotateCcw className="w-3.5 h-3.5" />
                           <span>Reorder</span>
@@ -346,11 +346,11 @@ export const ProfilePage = () => {
 
         {/* 2. Addresses Tab */}
         {activeTab === 'addresses' && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
             {(user.addresses || []).map((addr, idx) => (
               <div
                 key={addr._id || idx}
-                className="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm space-y-3"
+                className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-6 border border-slate-100 shadow-sm space-y-3"
               >
                 <div className="flex items-center justify-between">
                   <span className="font-extrabold text-xs text-slate-800 uppercase tracking-wider flex items-center gap-1.5">
@@ -385,7 +385,7 @@ export const ProfilePage = () => {
                 </p>
               </div>
             ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
                 {favoriteRestaurants.map((restaurant) => (
                   <div
                     key={restaurant.id}
@@ -396,9 +396,11 @@ export const ProfilePage = () => {
                       alt={restaurant.name}
                       className="h-36 w-full object-cover"
                     />
-                    <div className="p-4 space-y-2">
-                      <h4 className="font-extrabold text-sm text-slate-900">{restaurant.name}</h4>
-                      <p className="text-xs text-slate-500 truncate">{restaurant.cuisines.join(', ')}</p>
+                    <div className="p-4 space-y-2 flex-1 flex flex-col justify-between">
+                      <div>
+                        <h4 className="font-extrabold text-sm text-slate-900 truncate">{restaurant.name}</h4>
+                        <p className="text-xs text-slate-500 truncate">{restaurant.cuisines.join(', ')}</p>
+                      </div>
                       <Link
                         to={`/restaurant/${restaurant.id}`}
                         className="w-full mt-2 py-2 bg-swiggy-orangeLight text-swiggy-orangeDark font-bold text-xs rounded-xl flex items-center justify-center gap-1 hover:bg-swiggy-orange hover:text-white transition-colors"

@@ -53,18 +53,18 @@ export const LocationModal = () => {
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm">
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-900/60 backdrop-blur-sm overflow-y-auto">
         <motion.div
           initial={{ opacity: 0, scale: 0.95, y: 10 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 10 }}
-          className="bg-white rounded-2xl max-w-lg w-full shadow-2xl overflow-hidden flex flex-col max-h-[85vh]"
+          className="bg-white rounded-2xl max-w-lg w-full shadow-2xl overflow-hidden flex flex-col my-auto max-h-[85vh]"
         >
           {/* Header */}
-          <div className="flex items-center justify-between p-5 border-b border-slate-100">
+          <div className="flex items-center justify-between p-4 sm:p-5 border-b border-slate-100">
             <div className="flex items-center gap-2">
-              <MapPin className="w-5 h-5 text-swiggy-orange" />
-              <h3 className="font-bold text-lg text-slate-800">Choose Delivery Location</h3>
+              <MapPin className="w-5 h-5 text-swiggy-orange shrink-0" />
+              <h3 className="font-bold text-base sm:text-lg text-slate-800">Choose Delivery Location</h3>
             </div>
             <button
               onClick={() => setIsLocationModalOpen(false)}
@@ -74,27 +74,27 @@ export const LocationModal = () => {
             </button>
           </div>
 
-          <div className="p-5 space-y-4 overflow-y-auto">
+          <div className="p-4 sm:p-5 space-y-3 sm:space-y-4 overflow-y-auto">
             {/* GPS locate button */}
             <button
               onClick={handleUseCurrent}
-              className="w-full flex items-center gap-3 p-3.5 rounded-xl border border-swiggy-orange/30 bg-swiggy-orange/5 hover:bg-swiggy-orange/10 text-swiggy-orange font-semibold transition-colors text-sm"
+              className="w-full flex items-center gap-2.5 sm:gap-3 p-3 sm:p-3.5 rounded-xl border border-swiggy-orange/30 bg-swiggy-orange/5 hover:bg-swiggy-orange/10 text-swiggy-orange font-semibold transition-colors text-xs sm:text-sm"
             >
-              <Navigation className="w-4 h-4 fill-swiggy-orange" />
-              <span>Use Current GPS Location</span>
+              <Navigation className="w-4 h-4 fill-swiggy-orange shrink-0" />
+              <span className="truncate">Use Current GPS Location</span>
             </button>
 
             {/* City selector tabs */}
             <div>
-              <label className="text-xs font-bold uppercase tracking-wider text-slate-400 block mb-2">
+              <label className="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-slate-400 block mb-2">
                 Popular Cities
               </label>
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-wrap gap-1.5 sm:gap-2">
                 {POPULAR_CITIES.map((c) => (
                   <button
                     key={c.city}
                     onClick={() => setSelectedCity(c.city)}
-                    className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-colors ${
+                    className={`px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full text-xs font-semibold transition-colors ${
                       selectedCity === c.city
                         ? 'bg-swiggy-orange text-white shadow-sm'
                         : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
@@ -114,17 +114,17 @@ export const LocationModal = () => {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder={`Search area in ${selectedCity}...`}
-                className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 focus:outline-none focus:border-swiggy-orange text-sm font-medium"
+                className="w-full pl-10 pr-4 py-2 sm:py-2.5 rounded-xl bg-slate-50 border border-slate-200 focus:outline-none focus:border-swiggy-orange text-xs sm:text-sm font-medium"
               />
             </div>
 
             {/* Areas list */}
             <div className="space-y-1">
-              <label className="text-xs font-bold uppercase tracking-wider text-slate-400 block mb-1">
+              <label className="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-slate-400 block mb-1">
                 Select Locality in {selectedCity}
               </label>
               {filteredAreas.length === 0 ? (
-                <div className="text-center py-6 text-slate-400 text-sm">
+                <div className="text-center py-6 text-slate-400 text-xs sm:text-sm">
                   No areas found matching "{searchQuery}"
                 </div>
               ) : (
@@ -134,17 +134,17 @@ export const LocationModal = () => {
                     <button
                       key={area}
                       onClick={() => handleSelect(area, selectedCity)}
-                      className={`w-full flex items-center justify-between p-3 rounded-xl transition-colors text-left text-sm ${
+                      className={`w-full flex items-center justify-between p-2.5 sm:p-3 rounded-xl transition-colors text-left text-xs sm:text-sm ${
                         isSelected
                           ? 'bg-emerald-50 text-emerald-800 font-semibold border border-emerald-200'
                           : 'hover:bg-slate-50 text-slate-700 font-medium'
                       }`}
                     >
-                      <div className="flex items-center gap-2.5">
-                        <MapPin className={`w-4 h-4 ${isSelected ? 'text-emerald-600' : 'text-slate-400'}`} />
-                        <span>{area}</span>
+                      <div className="flex items-center gap-2.5 min-w-0">
+                        <MapPin className={`w-4 h-4 shrink-0 ${isSelected ? 'text-emerald-600' : 'text-slate-400'}`} />
+                        <span className="truncate">{area}</span>
                       </div>
-                      {isSelected && <Check className="w-4 h-4 text-emerald-600" />}
+                      {isSelected && <Check className="w-4 h-4 text-emerald-600 shrink-0" />}
                     </button>
                   );
                 })

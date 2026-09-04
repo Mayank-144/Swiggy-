@@ -18,29 +18,29 @@ export const RestaurantFilterBar = ({
   const hasActiveFilters = vegOnly || minRating || fastDelivery || priceRange || sortBy !== 'relevance';
 
   return (
-    <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 py-4 my-2 border-b border-slate-100">
+    <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 md:gap-4 py-3 sm:py-4 my-1 sm:my-2 border-b border-slate-100">
       {/* Title & Count */}
       <div>
-        <h2 className="text-xl md:text-2xl font-black text-slate-800 tracking-tight flex items-center gap-2">
+        <h2 className="text-base sm:text-xl md:text-2xl font-black text-slate-800 tracking-tight flex items-center gap-2">
           <span>Restaurants with online food delivery</span>
-          <span className="text-xs font-bold bg-slate-100 text-slate-600 px-2 py-0.5 rounded-full">
+          <span className="text-[11px] sm:text-xs font-bold bg-slate-100 text-slate-600 px-2 py-0.5 rounded-full shrink-0">
             {totalCount}
           </span>
         </h2>
       </div>
 
       {/* Filter Chips Toolbar */}
-      <div className="flex items-center gap-2 overflow-x-auto no-scrollbar py-1">
+      <div className="flex items-center gap-2 overflow-x-auto no-scrollbar py-1 w-full md:w-auto">
         {/* Sort Dropdown */}
         <div className="relative shrink-0">
           <select
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value)}
-            className="appearance-none pl-3 pr-8 py-1.5 bg-white border border-slate-200 rounded-full text-xs font-bold text-slate-700 shadow-sm hover:border-slate-300 focus:outline-none focus:border-swiggy-orange cursor-pointer"
+            className="appearance-none pl-3 pr-7 sm:pr-8 py-1.5 bg-white border border-slate-200 rounded-full text-[11px] sm:text-xs font-bold text-slate-700 shadow-xs hover:border-slate-300 focus:outline-none focus:border-swiggy-orange cursor-pointer"
           >
-            <option value="relevance">Sort By: Relevance</option>
+            <option value="relevance">Sort: Relevance</option>
             <option value="rating">Rating: High to Low</option>
-            <option value="deliveryTime">Delivery Time: Fast First</option>
+            <option value="deliveryTime">Time: Fast First</option>
             <option value="costLowToHigh">Cost: Low to High</option>
             <option value="costHighToLow">Cost: High to Low</option>
           </select>
@@ -50,9 +50,9 @@ export const RestaurantFilterBar = ({
         {/* Fast Delivery (< 25 mins) */}
         <button
           onClick={() => setFastDelivery(!fastDelivery)}
-          className={`shrink-0 px-3 py-1.5 rounded-full text-xs font-bold border transition-all flex items-center gap-1.5 ${
+          className={`shrink-0 px-2.5 sm:px-3 py-1.5 rounded-full text-[11px] sm:text-xs font-bold border transition-all flex items-center gap-1.5 cursor-pointer ${
             fastDelivery
-              ? 'bg-swiggy-orangeLight border-swiggy-orange text-swiggy-orangeDark shadow-sm'
+              ? 'bg-swiggy-orangeLight border-swiggy-orange text-swiggy-orangeDark shadow-xs'
               : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-50'
           }`}
         >
@@ -63,9 +63,9 @@ export const RestaurantFilterBar = ({
         {/* Ratings 4.0+ */}
         <button
           onClick={() => setMinRating(minRating === '4.0' ? '' : '4.0')}
-          className={`shrink-0 px-3 py-1.5 rounded-full text-xs font-bold border transition-all flex items-center gap-1.5 ${
+          className={`shrink-0 px-2.5 sm:px-3 py-1.5 rounded-full text-[11px] sm:text-xs font-bold border transition-all flex items-center gap-1.5 cursor-pointer ${
             minRating === '4.0'
-              ? 'bg-emerald-50 border-emerald-500 text-emerald-800 shadow-sm'
+              ? 'bg-emerald-50 border-emerald-500 text-emerald-800 shadow-xs'
               : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-50'
           }`}
         >
@@ -76,13 +76,13 @@ export const RestaurantFilterBar = ({
         {/* Pure Veg */}
         <button
           onClick={() => setVegOnly(!vegOnly)}
-          className={`shrink-0 px-3 py-1.5 rounded-full text-xs font-bold border transition-all flex items-center gap-1.5 ${
+          className={`shrink-0 px-2.5 sm:px-3 py-1.5 rounded-full text-[11px] sm:text-xs font-bold border transition-all flex items-center gap-1.5 cursor-pointer ${
             vegOnly
-              ? 'bg-emerald-50 border-emerald-500 text-emerald-800 shadow-sm'
+              ? 'bg-emerald-50 border-emerald-500 text-emerald-800 shadow-xs'
               : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-50'
           }`}
         >
-          <span className="w-2 h-2 rounded-full bg-emerald-600" />
+          <span className="w-1.5 h-1.5 rounded-full bg-emerald-600" />
           <span>Pure Veg</span>
           {vegOnly && <Check className="w-3 h-3 text-emerald-600 stroke-[3]" />}
         </button>
@@ -90,9 +90,9 @@ export const RestaurantFilterBar = ({
         {/* Price Range Filters */}
         <button
           onClick={() => setPriceRange(priceRange === 'low' ? '' : 'low')}
-          className={`shrink-0 px-3 py-1.5 rounded-full text-xs font-bold border transition-all flex items-center gap-1.5 ${
+          className={`shrink-0 px-2.5 sm:px-3 py-1.5 rounded-full text-[11px] sm:text-xs font-bold border transition-all flex items-center gap-1.5 cursor-pointer ${
             priceRange === 'low'
-              ? 'bg-swiggy-orangeLight border-swiggy-orange text-swiggy-orangeDark shadow-sm'
+              ? 'bg-swiggy-orangeLight border-swiggy-orange text-swiggy-orangeDark shadow-xs'
               : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-50'
           }`}
         >
@@ -102,9 +102,9 @@ export const RestaurantFilterBar = ({
 
         <button
           onClick={() => setPriceRange(priceRange === 'mid' ? '' : 'mid')}
-          className={`shrink-0 px-3 py-1.5 rounded-full text-xs font-bold border transition-all flex items-center gap-1.5 ${
+          className={`shrink-0 px-2.5 sm:px-3 py-1.5 rounded-full text-[11px] sm:text-xs font-bold border transition-all flex items-center gap-1.5 cursor-pointer ${
             priceRange === 'mid'
-              ? 'bg-swiggy-orangeLight border-swiggy-orange text-swiggy-orangeDark shadow-sm'
+              ? 'bg-swiggy-orangeLight border-swiggy-orange text-swiggy-orangeDark shadow-xs'
               : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-50'
           }`}
         >
@@ -116,7 +116,7 @@ export const RestaurantFilterBar = ({
         {hasActiveFilters && (
           <button
             onClick={onReset}
-            className="shrink-0 px-2.5 py-1.5 rounded-full text-xs font-bold bg-rose-50 border border-rose-200 text-rose-600 hover:bg-rose-100 transition-colors flex items-center gap-1"
+            className="shrink-0 px-2.5 py-1.5 rounded-full text-[11px] sm:text-xs font-bold bg-rose-50 border border-rose-200 text-rose-600 hover:bg-rose-100 transition-colors flex items-center gap-1 cursor-pointer"
             title="Reset all filters"
           >
             <X className="w-3 h-3" />
@@ -129,3 +129,4 @@ export const RestaurantFilterBar = ({
 };
 
 export default RestaurantFilterBar;
+

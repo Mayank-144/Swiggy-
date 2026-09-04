@@ -15,11 +15,11 @@ export const MenuItemCard = ({ item, restaurant }) => {
   };
 
   return (
-    <div className="flex items-start justify-between py-6 border-b border-slate-100 last:border-b-0 gap-4 group">
+    <div className="flex items-start justify-between py-4 sm:py-6 border-b border-slate-100 last:border-b-0 gap-3 sm:gap-4 group">
       {/* Dish Details */}
-      <div className="flex-1 pr-2">
+      <div className="flex-1 min-w-0 pr-1 sm:pr-2">
         {/* Badges: Veg/Non-veg & Bestseller */}
-        <div className="flex items-center gap-2 mb-1.5">
+        <div className="flex items-center gap-2 mb-1.5 flex-wrap">
           {item.isVeg ? (
             <span className="veg-icon" title="Pure Vegetarian">
               <span className="veg-dot" />
@@ -39,13 +39,13 @@ export const MenuItemCard = ({ item, restaurant }) => {
         </div>
 
         {/* Name */}
-        <h4 className="font-bold text-base text-slate-800 tracking-tight group-hover:text-swiggy-orange transition-colors">
+        <h4 className="font-bold text-sm sm:text-base text-slate-800 tracking-tight group-hover:text-swiggy-orange transition-colors">
           {item.name}
         </h4>
 
         {/* Price */}
         <div className="flex items-center gap-2 mt-1">
-          <span className="font-extrabold text-sm text-slate-800">₹{item.price}</span>
+          <span className="font-extrabold text-sm sm:text-base text-slate-800">₹{item.price}</span>
           {item.originalPrice && item.originalPrice > item.price && (
             <span className="text-xs text-slate-400 line-through font-medium">₹{item.originalPrice}</span>
           )}
@@ -67,8 +67,8 @@ export const MenuItemCard = ({ item, restaurant }) => {
         {/* Description */}
         {item.description && (
           <p className="text-xs text-slate-500 mt-2 leading-relaxed max-w-lg">
-            {isExpanded ? item.description : `${item.description.slice(0, 110)}${item.description.length > 110 ? '...' : ''}`}
-            {item.description.length > 110 && (
+            {isExpanded ? item.description : `${item.description.slice(0, 95)}${item.description.length > 95 ? '...' : ''}`}
+            {item.description.length > 95 && (
               <button
                 onClick={() => setIsExpanded(!isExpanded)}
                 className="ml-1 text-slate-700 font-bold hover:text-swiggy-orange text-xs underline"
@@ -81,8 +81,8 @@ export const MenuItemCard = ({ item, restaurant }) => {
       </div>
 
       {/* Image & ADD Button */}
-      <div className="relative flex flex-col items-center shrink-0 w-32">
-        <div className="w-32 h-28 rounded-2xl overflow-hidden bg-slate-100 shadow-sm border border-slate-100">
+      <div className="relative flex flex-col items-center shrink-0 w-28 sm:w-32">
+        <div className="w-28 sm:w-32 h-24 sm:h-28 rounded-2xl overflow-hidden bg-slate-100 shadow-sm border border-slate-100">
           <img
             src={item.image || 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=300&auto=format&fit=crop&q=80'}
             alt={item.name}
@@ -92,18 +92,18 @@ export const MenuItemCard = ({ item, restaurant }) => {
         </div>
 
         {/* Action Button */}
-        <div className="absolute -bottom-3 inset-x-3 flex justify-center">
+        <div className="absolute -bottom-3 inset-x-1 sm:inset-x-2 flex justify-center">
           {quantity === 0 ? (
             <motion.button
               whileTap={{ scale: 0.94 }}
               onClick={handleAdd}
-              className="w-full bg-white hover:bg-slate-50 text-emerald-600 border border-slate-200 hover:border-emerald-500 shadow-md font-extrabold text-xs py-2 px-3 rounded-xl flex items-center justify-center gap-1 transition-all duration-200 uppercase tracking-wider"
+              className="w-full bg-white hover:bg-slate-50 text-emerald-600 border border-slate-200 hover:border-emerald-500 shadow-md font-extrabold text-xs py-1.5 sm:py-2 px-2 sm:px-3 rounded-xl flex items-center justify-center gap-1 transition-all duration-200 uppercase tracking-wider"
             >
               <span>Add</span>
               <Plus className="w-3.5 h-3.5 stroke-[3]" />
             </motion.button>
           ) : (
-            <div className="w-full bg-emerald-600 text-white shadow-md font-extrabold text-xs py-1.5 px-2 rounded-xl flex items-center justify-between transition-all duration-200">
+            <div className="w-full bg-emerald-600 text-white shadow-md font-extrabold text-xs py-1 sm:py-1.5 px-2 rounded-xl flex items-center justify-between transition-all duration-200">
               <button
                 onClick={() => updateQuantity(item.id, -1)}
                 className="p-1 hover:bg-emerald-700 rounded-lg transition-colors"
@@ -111,7 +111,7 @@ export const MenuItemCard = ({ item, restaurant }) => {
               >
                 <Minus className="w-3.5 h-3.5 stroke-[3]" />
               </button>
-              <span className="font-black text-sm">{quantity}</span>
+              <span className="font-black text-xs sm:text-sm">{quantity}</span>
               <button
                 onClick={() => updateQuantity(item.id, 1)}
                 className="p-1 hover:bg-emerald-700 rounded-lg transition-colors"

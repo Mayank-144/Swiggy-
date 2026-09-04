@@ -1,51 +1,63 @@
 import React, { useRef } from 'react';
-import { ChevronLeft, ChevronRight, Star, MapPin, Tag, Utensils } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Star, MapPin, Tag, Utensils, Percent, ShieldCheck } from 'lucide-react';
 import { useToast } from '../context/ToastContext';
 
 const DINEOUT_RESTAURANTS = [
   {
     id: 'do-1',
-    name: 'Toit Brewpub',
-    image: 'https://images.unsplash.com/photo-1514933651103-005eec06c04b?w=600&auto=format&fit=crop&q=80',
-    cuisine: 'Microbrewery, Italian, American',
-    area: 'Indiranagar, Bengaluru',
-    rating: 4.8,
-    cost: '₹1,500 for two',
-    offer: 'FLAT 25% OFF with Swiggy Dineout',
-    tag: 'Table Booking Available'
+    name: 'Shree Vrindavan by Hotel Sak...',
+    image: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600&auto=format&fit=crop&q=80',
+    cuisine: 'North Indian • Chinese',
+    location: 'Shivananda Circle, Seshadripuram',
+    distance: '4.1 km',
+    costForTwo: '₹400 for two',
+    rating: '4.0',
+    primaryOffer: 'Flat 10% off on walk-in / pre-book',
+    extraOffersCount: '+1 more',
+    bankOffer: 'Up to 10% off with bank offers',
+    walletOffer: 'Get extra ₹150 off using PAYTM UPI'
   },
   {
     id: 'do-2',
-    name: 'Windmills Craftworks',
+    name: 'GFC - Gourmet Food Club',
     image: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=600&auto=format&fit=crop&q=80',
-    cuisine: 'North Indian, Continental, Craft Beer',
-    area: 'Whitefield, Bengaluru',
-    rating: 4.7,
-    cost: '₹2,000 for two',
-    offer: 'UPTO 30% OFF on Dining Bill',
-    tag: 'Rooftop & Live Jazz'
+    cuisine: 'Chinese • North Indian',
+    location: 'The Green Building, BTM Ring Road',
+    distance: '4.4 km',
+    costForTwo: '₹700 for two',
+    rating: '3.9',
+    primaryOffer: 'Flat 15% off on walk-in / pre-book',
+    extraOffersCount: '+1 more',
+    bankOffer: 'Up to 15% off with bank offers',
+    walletOffer: 'Get extra ₹100 off using PAYTM UPI'
   },
   {
     id: 'do-3',
-    name: 'The Fatty Bao - Asian Gastro Bar',
-    image: 'https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=600&auto=format&fit=crop&q=80',
-    cuisine: 'Asian, Sushi, Cocktails',
-    area: '100ft Rd, Indiranagar',
-    rating: 4.6,
-    cost: '₹1,800 for two',
-    offer: 'FLAT 40% OFF with Swiggy One',
-    tag: 'Fine Dining'
+    name: 'Nayak Pizza & Cafe',
+    image: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=600&auto=format&fit=crop&q=80',
+    cuisine: 'Pizza • Italian • Fast Food',
+    location: 'Seshadripuram, Kumara Park West',
+    distance: '3.2 km',
+    costForTwo: '₹450 for two',
+    rating: '4.2',
+    primaryOffer: 'Flat 10% off on walk-in / pre-book',
+    extraOffersCount: '+1 more',
+    bankOffer: 'Up to 10% off with bank offers',
+    walletOffer: 'Get extra ₹100 off using PAYTM UPI'
   },
   {
     id: 'do-4',
-    name: 'Olive Beach',
-    image: 'https://images.unsplash.com/photo-1544025162-d76694265947?w=600&auto=format&fit=crop&q=80',
-    cuisine: 'Mediterranean, European, Wine Bar',
-    area: 'Ashok Nagar, Bengaluru',
-    rating: 4.9,
-    cost: '₹2,400 for two',
-    offer: 'FLAT 20% OFF + 10% Extra Cashback',
-    tag: 'Romantic Courtyard'
+    name: 'Toit Brewpub & Kitchen',
+    image: 'https://images.unsplash.com/photo-1514933651103-005eec06c04b?w=600&auto=format&fit=crop&q=80',
+    cuisine: 'Microbrewery • Continental • Italian',
+    location: 'Indiranagar 100ft Road',
+    distance: '5.6 km',
+    costForTwo: '₹1,500 for two',
+    rating: '4.8',
+    primaryOffer: 'Flat 20% off with Swiggy Dineout',
+    extraOffersCount: '+2 more',
+    bankOffer: 'Up to 20% off with HDFC Cards',
+    walletOffer: 'Flat ₹200 Cashback with CRED Pay'
   }
 ];
 
@@ -61,38 +73,35 @@ export const DineoutSection = () => {
   };
 
   const handleBookTable = (restName) => {
-    addToast(`Table booking opened for ${restName}! Up to 40% Off applied ✨`, 'success');
+    addToast(`Table reserved at ${restName}! Offer applied on bill 🍽️`, 'success');
   };
 
   return (
-    <section id="dineout-section" className="py-8 border-b border-slate-100">
-      <div className="flex items-center justify-between mb-6">
+    <section id="dineout-section" className="py-2 sm:py-4">
+      <div className="flex items-center justify-between mb-4 sm:mb-6">
         <div>
           <div className="flex items-center gap-2">
-            <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
+            <h2 className="text-lg sm:text-xl md:text-2xl font-black text-slate-900 tracking-tight">
               Discover best restaurants on Dineout
             </h2>
-            <span className="hidden sm:inline-flex text-[10px] font-black uppercase text-rose-600 bg-rose-50 border border-rose-200 px-2 py-0.5 rounded-full">
-              UPTO 50% OFF
-            </span>
           </div>
-          <p className="text-xs sm:text-sm text-slate-500 font-medium mt-0.5">
-            Book tables, pay bills & save big at top cafes and luxury restaurants
+          <p className="text-[11px] sm:text-xs text-slate-400 font-medium mt-0.5">
+            Book tables, pay bills & save big at top cafes and luxury dining spots
           </p>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
           <button
             onClick={() => handleScroll('left')}
             aria-label="Scroll left"
-            className="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-700 transition-colors shadow-2xs"
+            className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-700 transition-colors shadow-2xs cursor-pointer"
           >
             <ChevronLeft className="w-4 h-4" />
           </button>
           <button
             onClick={() => handleScroll('right')}
             aria-label="Scroll right"
-            className="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-700 transition-colors shadow-2xs"
+            className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-700 transition-colors shadow-2xs cursor-pointer"
           >
             <ChevronRight className="w-4 h-4" />
           </button>
@@ -101,59 +110,72 @@ export const DineoutSection = () => {
 
       <div
         ref={scrollRef}
-        className="flex items-center gap-6 overflow-x-auto no-scrollbar pb-3 scroll-smooth"
+        className="flex items-stretch gap-4 sm:gap-6 overflow-x-auto no-scrollbar pb-3 scroll-smooth"
       >
         {DINEOUT_RESTAURANTS.map((rest) => (
           <div
             key={rest.id}
-            className="w-72 sm:w-80 rounded-3xl bg-white border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col justify-between shrink-0 group"
+            onClick={() => handleBookTable(rest.name)}
+            className="w-72 sm:w-84 rounded-2xl bg-white border border-slate-200/80 shadow-xs hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col justify-between shrink-0 cursor-pointer group"
           >
             <div>
-              <div className="relative h-44 w-full overflow-hidden bg-slate-100">
+              {/* Photo with gradient overlay and bottom name + rating */}
+              <div className="relative h-40 sm:h-48 w-full overflow-hidden bg-slate-100">
                 <img
                   src={rest.image}
                   alt={rest.name}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  loading="lazy"
                 />
-                <div className="absolute top-3 left-3 bg-black/70 backdrop-blur-md text-[10px] font-extrabold text-white px-2.5 py-1 rounded-md flex items-center gap-1">
-                  <Utensils className="w-3 h-3 text-[#FF5200]" />
-                  <span>{rest.tag}</span>
-                </div>
 
-                <div className="absolute bottom-2.5 left-3 right-3 flex items-center gap-1 text-white font-black text-xs drop-shadow-md">
-                  <Tag className="w-3.5 h-3.5 text-amber-300" />
-                  <span className="truncate uppercase">{rest.offer}</span>
-                </div>
-              </div>
+                {/* Dark gradient for text readability */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
 
-              <div className="p-4 space-y-2">
-                <div className="flex items-center justify-between">
-                  <h3 className="font-extrabold text-base text-slate-800 truncate group-hover:text-[#FF5200] transition-colors">
+                {/* Bottom Overlay Info: Name & Rating Badge */}
+                <div className="absolute bottom-2.5 left-3 right-3 flex items-center justify-between gap-2">
+                  <h3 className="font-extrabold text-sm sm:text-base text-white truncate drop-shadow-md">
                     {rest.name}
                   </h3>
-                  <div className="flex items-center gap-1 px-1.5 py-0.5 bg-emerald-600 text-white rounded text-xs font-black shrink-0">
-                    <Star className="w-3 h-3 fill-white" />
+                  <div className="flex items-center gap-1 px-1.5 py-0.5 bg-emerald-600 text-white rounded-md text-[10px] sm:text-xs font-black shrink-0 shadow-sm">
+                    <Star className="w-2.5 h-2.5 fill-white" />
                     <span>{rest.rating}</span>
                   </div>
                 </div>
+              </div>
 
-                <p className="text-xs text-slate-500 truncate font-medium">{rest.cuisine}</p>
-                <div className="flex items-center justify-between text-[11px] text-slate-400 font-medium">
-                  <span className="flex items-center gap-1 truncate">
-                    <MapPin className="w-3 h-3" /> {rest.area}
+              {/* Middle Section: Cuisine, Location, Price */}
+              <div className="p-3 sm:p-3.5 space-y-2 text-xs">
+                <div className="flex items-center justify-between text-slate-500 font-medium text-[11px] sm:text-xs">
+                  <span className="truncate">{rest.cuisine}</span>
+                  <span className="font-bold text-slate-800 shrink-0">{rest.costForTwo}</span>
+                </div>
+
+                <div className="flex items-center justify-between text-slate-400 text-[10px] sm:text-[11px]">
+                  <span className="truncate">{rest.location}</span>
+                  <span className="shrink-0">{rest.distance}</span>
+                </div>
+
+                {/* Green Offer Pill: e.g. Flat 10% off on walk-in */}
+                <div className="p-2 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 flex items-center justify-between gap-1 text-[11px] font-extrabold">
+                  <div className="flex items-center gap-1.5 truncate">
+                    <Percent className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+                    <span className="truncate">{rest.primaryOffer}</span>
+                  </div>
+                  <span className="text-[10px] text-emerald-700 underline shrink-0 font-bold">
+                    {rest.extraOffersCount}
                   </span>
-                  <span className="shrink-0 font-bold text-slate-600">{rest.cost}</span>
+                </div>
+
+                {/* Bank Offer Line */}
+                <div className="text-[10px] sm:text-[11px] font-bold text-emerald-700 truncate">
+                  {rest.bankOffer}
+                </div>
+
+                {/* Wallet Offer Line */}
+                <div className="text-[10px] sm:text-[11px] font-bold text-blue-700 truncate">
+                  {rest.walletOffer}
                 </div>
               </div>
-            </div>
-
-            <div className="p-4 pt-0">
-              <button
-                onClick={() => handleBookTable(rest.name)}
-                className="w-full py-2.5 bg-slate-900 hover:bg-[#FF5200] text-white font-extrabold text-xs rounded-xl shadow-sm transition-colors uppercase tracking-wider"
-              >
-                Book Table & Get Offer
-              </button>
             </div>
           </div>
         ))}
@@ -163,3 +185,5 @@ export const DineoutSection = () => {
 };
 
 export default DineoutSection;
+
+

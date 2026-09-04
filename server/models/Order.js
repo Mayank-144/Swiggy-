@@ -20,6 +20,7 @@ const orderSchema = new mongoose.Schema({
     area: { type: String }
   },
   items: [orderItemSchema],
+  totalAmount: { type: Number, required: true },
   bill: {
     itemTotal: { type: Number, required: true },
     deliveryFee: { type: Number, default: 35 },
@@ -39,8 +40,16 @@ const orderSchema = new mongoose.Schema({
     pincode: { type: String, required: true },
     phone: { type: String }
   },
-  paymentMethod: { type: String, default: 'UPI' },
-  paymentStatus: { type: String, enum: ['PAID', 'PENDING'], default: 'PAID' },
+  paymentMethod: { type: String, default: 'Razorpay' },
+  razorpayOrderId: { type: String },
+  razorpayPaymentId: { type: String },
+  razorpaySignature: { type: String },
+  status: {
+    type: String,
+    enum: ['pending', 'paid', 'failed'],
+    default: 'paid'
+  },
+  paymentStatus: { type: String, enum: ['PAID', 'PENDING', 'FAILED'], default: 'PAID' },
   orderStatus: {
     type: String,
     enum: ['CONFIRMED', 'PREPARING', 'OUT_FOR_DELIVERY', 'DELIVERED', 'CANCELLED'],
@@ -58,3 +67,4 @@ const orderSchema = new mongoose.Schema({
 });
 
 module.exports = mongoose.model('Order', orderSchema);
+

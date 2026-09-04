@@ -12,15 +12,25 @@ import {
   LogOut,
   Clock,
   Heart,
-  X
+  X,
+  Menu,
+  Sparkles,
+  ExternalLink,
+  Smartphone,
+  Building2,
+  Briefcase
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
+import { useToast } from '../context/ToastContext';
+import SwiggyLogo from './SwiggyLogo';
 
 export const Navbar = ({ onSearch, searchQuery = '' }) => {
   const { user, isAuthenticated, openAuthModal, logout, currentLocation, setIsLocationModalOpen } = useAuth();
   const { totalItemsCount, openCartDrawer } = useCart();
+  const { addToast } = useToast();
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [localSearch, setLocalSearch] = useState(searchQuery);
   const userMenuRef = useRef(null);
   const navigate = useNavigate();
@@ -41,13 +51,18 @@ export const Navbar = ({ onSearch, searchQuery = '' }) => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  // Close mobile drawer on route changes
+  useEffect(() => {
+    setIsMobileMenuOpen(false);
+  }, [location.pathname]);
+
   const handleSearchSubmit = (e) => {
     e.preventDefault();
     if (onSearch) {
       onSearch(localSearch);
     }
     if (location.pathname !== '/') {
-      navigate(`/?search=${encodeURIComponent(localSearch)}`);
+      navigate('/');
     }
   };
 
@@ -60,28 +75,18 @@ export const Navbar = ({ onSearch, searchQuery = '' }) => {
 
   return (
     <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-100 shadow-xs">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
+      <div className="max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between gap-2 sm:gap-4">
         {/* Left: Brand Logo & Location */}
-        <div className="flex items-center gap-6 shrink-0">
-          {/* Swiggy Logo */}
-          <Link to="/" className="flex items-center gap-2.5 group">
-            <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-swiggy-orange to-amber-500 flex items-center justify-center text-white shadow-lg shadow-swiggy-orange/30 group-hover:scale-105 transition-transform">
-              <span className="text-xl">🍕</span>
-            </div>
-            <div className="flex flex-col">
-              <span className="font-black text-2xl tracking-tighter text-swiggy-orange">
-                swiggy
-              </span>
-              <span className="text-[9px] uppercase font-extrabold tracking-widest text-slate-400 -mt-1">
-                Food & Feast
-              </span>
-            </div>
+        <div className="flex items-center gap-2.5 sm:gap-6 shrink-0">
+          {/* Swiggy Official Brand Logo */}
+          <Link to="/" className="flex items-center">
+            <SwiggyLogo variant="orange" size="md" />
           </Link>
 
-          {/* Location Selector */}
+          {/* Location Selector (Desktop/Tablet) */}
           <button
             onClick={() => setIsLocationModalOpen(true)}
-            className="hidden md:flex items-center gap-2 hover:text-swiggy-orange transition-colors text-left max-w-[240px] pl-3 border-l border-slate-200"
+            className="hidden md:flex items-center gap-2 hover:text-swiggy-orange transition-colors text-left max-w-[200px] lg:max-w-[240px] pl-3 border-l border-slate-200 cursor-pointer"
           >
             <MapPin className="w-4 h-4 text-swiggy-orange shrink-0" />
             <div className="truncate">
@@ -96,12 +101,12 @@ export const Navbar = ({ onSearch, searchQuery = '' }) => {
           </button>
         </div>
 
-        {/* Center: Live Search Bar */}
+        {/* Center: Live Search Bar (Desktop / Tablet) */}
         <form
           onSubmit={handleSearchSubmit}
-          className="flex-1 max-w-md relative hidden sm:block"
+          className="flex-1 max-w-md relative hidden sm:block mx-2"
         >
-          <div className="relative">
+          <div className="relative w-full">
             <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
             <input
               type="text"
@@ -114,7 +119,7 @@ export const Navbar = ({ onSearch, searchQuery = '' }) => {
               <button
                 type="button"
                 onClick={() => handleSearchChange('')}
-                className="absolute right-3 top-1/2 -translate-y-1/2 p-0.5 text-slate-400 hover:text-slate-600 rounded-full"
+                className="absolute right-3 top-1/2 -translate-y-1/2 p-0.5 text-slate-400 hover:text-slate-600 rounded-full cursor-pointer"
               >
                 <X className="w-3.5 h-3.5" />
               </button>
@@ -122,12 +127,12 @@ export const Navbar = ({ onSearch, searchQuery = '' }) => {
           </div>
         </form>
 
-        {/* Right: Nav Links, Auth & Cart */}
-        <div className="flex items-center gap-4 md:gap-7 shrink-0">
-          {/* Swiggy Offers Link */}
+        {/* Right: Nav Links, Auth, Cart & Mobile Menu Button */}
+        <div className="flex items-center gap-2 sm:gap-4 md:gap-6 shrink-0">
+          {/* Swiggy Offers Link (Desktop) */}
           <Link
             to="/"
-            className="hidden lg:flex items-center gap-2 text-xs font-bold text-slate-700 hover:text-swiggy-orange transition-colors"
+            className="hidden lg:flex items-center gap-1.5 text-xs font-bold text-slate-700 hover:text-swiggy-orange transition-colors"
           >
             <Percent className="w-4 h-4 text-slate-500" />
             <span>Offers</span>
@@ -136,12 +141,12 @@ export const Navbar = ({ onSearch, searchQuery = '' }) => {
             </span>
           </Link>
 
-          {/* User Account / Sign In */}
+          {/* User Account / Sign In (Desktop/Tablet) */}
           {isAuthenticated ? (
-            <div className="relative" ref={userMenuRef}>
+            <div className="relative hidden sm:block" ref={userMenuRef}>
               <button
                 onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
-                className="flex items-center gap-2 p-1.5 rounded-full hover:bg-slate-100 transition-colors"
+                className="flex items-center gap-2 p-1.5 rounded-full hover:bg-slate-100 transition-colors cursor-pointer"
               >
                 <img
                   src={user.avatar || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&auto=format&fit=crop&q=80'}
@@ -186,6 +191,15 @@ export const Navbar = ({ onSearch, searchQuery = '' }) => {
                       <span>Addresses</span>
                     </Link>
 
+                    <Link
+                      to="/profile?tab=favorites"
+                      onClick={() => setIsUserMenuOpen(false)}
+                      className="flex items-center gap-2.5 px-4 py-2.5 text-xs font-bold text-slate-700 hover:bg-slate-50 hover:text-swiggy-orange transition-colors"
+                    >
+                      <Heart className="w-4 h-4 text-slate-400" />
+                      <span>Favorites</span>
+                    </Link>
+
                     <div className="border-t border-slate-100 my-1" />
 
                     <button
@@ -193,7 +207,7 @@ export const Navbar = ({ onSearch, searchQuery = '' }) => {
                         setIsUserMenuOpen(false);
                         logout();
                       }}
-                      className="w-full flex items-center gap-2.5 px-4 py-2 text-xs font-bold text-rose-600 hover:bg-rose-50 transition-colors"
+                      className="w-full flex items-center gap-2.5 px-4 py-2 text-xs font-bold text-rose-600 hover:bg-rose-50 transition-colors cursor-pointer"
                     >
                       <LogOut className="w-4 h-4" />
                       <span>Log Out</span>
@@ -205,7 +219,7 @@ export const Navbar = ({ onSearch, searchQuery = '' }) => {
           ) : (
             <button
               onClick={() => openAuthModal('login')}
-              className="flex items-center gap-2 text-xs font-bold text-slate-700 hover:text-swiggy-orange transition-colors px-3 py-2 rounded-xl hover:bg-slate-100"
+              className="hidden sm:flex items-center gap-2 text-xs font-bold text-slate-700 hover:text-swiggy-orange transition-colors px-3 py-2 rounded-xl hover:bg-slate-100 cursor-pointer"
             >
               <User className="w-4 h-4 text-slate-500" />
               <span>Sign In</span>
@@ -216,7 +230,7 @@ export const Navbar = ({ onSearch, searchQuery = '' }) => {
           <motion.button
             whileTap={{ scale: 0.95 }}
             onClick={openCartDrawer}
-            className="relative flex items-center gap-2 px-4 py-2.5 rounded-full bg-slate-900 hover:bg-black text-white font-extrabold text-xs shadow-md transition-all group"
+            className="relative flex items-center gap-1.5 sm:gap-2 px-3 py-2 sm:px-4 sm:py-2.5 rounded-full bg-slate-900 hover:bg-black text-white font-extrabold text-xs shadow-md transition-all group cursor-pointer"
           >
             <ShoppingBag className="w-4 h-4 text-swiggy-orange group-hover:rotate-12 transition-transform" />
             <span className="hidden sm:inline">Cart</span>
@@ -224,30 +238,210 @@ export const Navbar = ({ onSearch, searchQuery = '' }) => {
               <motion.span
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
-                className="ml-0.5 px-2 py-0.5 bg-swiggy-orange text-white text-[11px] font-black rounded-full shadow-sm"
+                className="ml-0.5 px-1.5 py-0.5 bg-swiggy-orange text-white text-[10px] sm:text-[11px] font-black rounded-full shadow-sm"
               >
                 {totalItemsCount}
               </motion.span>
             )}
           </motion.button>
+
+          {/* Mobile Hamburger Menu Toggle Button */}
+          <button
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            aria-label="Toggle mobile menu"
+            className="sm:hidden p-2 rounded-xl bg-slate-100 text-slate-700 hover:bg-slate-200 hover:text-swiggy-orange transition-colors cursor-pointer"
+          >
+            {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+          </button>
         </div>
       </div>
 
-      {/* Mobile Search Bar (under navbar on small devices) */}
-      <div className="sm:hidden px-4 pb-3">
-        <form onSubmit={handleSearchSubmit} className="relative">
+      {/* Mobile Search Bar (Full Width under navbar on mobile) */}
+      <div className="sm:hidden px-3.5 pb-3">
+        <form onSubmit={handleSearchSubmit} className="relative w-full">
           <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
           <input
             type="text"
             value={localSearch}
             onChange={(e) => handleSearchChange(e.target.value)}
-            placeholder="Search food, restaurants..."
-            className="w-full pl-10 pr-4 py-2 rounded-xl bg-slate-100 border border-slate-200 text-xs font-semibold focus:bg-white focus:outline-none focus:border-swiggy-orange"
+            placeholder="Search restaurants, cuisines, dishes..."
+            className="w-full pl-10 pr-9 py-2 rounded-xl bg-slate-100 border border-slate-200 text-xs font-semibold focus:bg-white focus:outline-none focus:border-swiggy-orange transition-all"
           />
+          {localSearch && (
+            <button
+              type="button"
+              onClick={() => handleSearchChange('')}
+              className="absolute right-3 top-1/2 -translate-y-1/2 p-0.5 text-slate-400 hover:text-slate-600 rounded-full cursor-pointer"
+            >
+              <X className="w-3.5 h-3.5" />
+            </button>
+          )}
         </form>
       </div>
+
+      {/* Mobile Navigation Drawer Overlay */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <div className="fixed inset-0 top-16 z-50 sm:hidden bg-slate-900/60 backdrop-blur-sm flex flex-col justify-start">
+            <motion.div
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.2 }}
+              className="w-full bg-white border-b border-slate-200 shadow-2xl p-5 space-y-4 max-h-[85vh] overflow-y-auto"
+            >
+              {/* Location Select Button */}
+              <div className="p-3 bg-orange-50 rounded-2xl border border-orange-200/70 flex items-center justify-between">
+                <div className="flex items-center gap-2.5 truncate">
+                  <MapPin className="w-4 h-4 text-swiggy-orange shrink-0" />
+                  <div className="truncate text-left">
+                    <p className="text-xs font-black text-slate-800 truncate">{currentLocation.area}</p>
+                    <p className="text-[11px] text-slate-500 truncate">{currentLocation.city}</p>
+                  </div>
+                </div>
+                <button
+                  onClick={() => {
+                    setIsMobileMenuOpen(false);
+                    setIsLocationModalOpen(true);
+                  }}
+                  className="px-3 py-1 bg-white border border-swiggy-orange text-swiggy-orangeDark font-extrabold text-[11px] rounded-lg shadow-2xs shrink-0"
+                >
+                  Change
+                </button>
+              </div>
+
+              {/* User Account / Sign In on Mobile */}
+              {isAuthenticated ? (
+                <div className="p-3 bg-slate-50 rounded-2xl border border-slate-100 space-y-2">
+                  <div className="flex items-center gap-3">
+                    <img
+                      src={user.avatar || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&auto=format&fit=crop&q=80'}
+                      alt={user.name}
+                      className="w-10 h-10 rounded-full object-cover border-2 border-swiggy-orange"
+                    />
+                    <div className="truncate">
+                      <p className="font-black text-xs text-slate-800 truncate">{user.name}</p>
+                      <p className="text-[11px] text-slate-400 font-medium truncate">{user.email}</p>
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-3 gap-2 pt-2 border-t border-slate-200/60">
+                    <Link
+                      to="/profile"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="flex flex-col items-center gap-1 p-2 rounded-xl bg-white border border-slate-100 text-center"
+                    >
+                      <Clock className="w-4 h-4 text-slate-600" />
+                      <span className="text-[10px] font-bold text-slate-700">Orders</span>
+                    </Link>
+                    <Link
+                      to="/profile?tab=addresses"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="flex flex-col items-center gap-1 p-2 rounded-xl bg-white border border-slate-100 text-center"
+                    >
+                      <MapPin className="w-4 h-4 text-slate-600" />
+                      <span className="text-[10px] font-bold text-slate-700">Addresses</span>
+                    </Link>
+                    <Link
+                      to="/profile?tab=favorites"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="flex flex-col items-center gap-1 p-2 rounded-xl bg-white border border-slate-100 text-center"
+                    >
+                      <Heart className="w-4 h-4 text-slate-600" />
+                      <span className="text-[10px] font-bold text-slate-700">Favorites</span>
+                    </Link>
+                  </div>
+                </div>
+              ) : (
+                <button
+                  onClick={() => {
+                    setIsMobileMenuOpen(false);
+                    openAuthModal('login');
+                  }}
+                  className="w-full py-3 bg-swiggy-orange text-white font-extrabold text-xs rounded-xl shadow-md flex items-center justify-center gap-2 uppercase tracking-wider cursor-pointer"
+                >
+                  <User className="w-4 h-4" />
+                  <span>Sign In / Create Account</span>
+                </button>
+              )}
+
+              {/* Navigation Links list */}
+              <div className="space-y-1 pt-1">
+                <Link
+                  to="/"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="flex items-center justify-between p-3 rounded-xl hover:bg-slate-50 text-xs font-bold text-slate-800 transition-colors"
+                >
+                  <span className="flex items-center gap-2.5">
+                    <Percent className="w-4 h-4 text-swiggy-orange" />
+                    <span>Offers & Deals</span>
+                  </span>
+                  <span className="text-[10px] font-black uppercase text-swiggy-orange bg-orange-50 px-2 py-0.5 rounded-full">
+                    Up to 60% OFF
+                  </span>
+                </Link>
+
+                <a
+                  href="#corporate"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setIsMobileMenuOpen(false);
+                    addToast('Swiggy Corporate: Meal cards & corporate benefits! 💼', 'info');
+                  }}
+                  className="flex items-center gap-2.5 p-3 rounded-xl hover:bg-slate-50 text-xs font-bold text-slate-700 transition-colors"
+                >
+                  <Briefcase className="w-4 h-4 text-slate-400" />
+                  <span>Swiggy Corporate</span>
+                </a>
+
+                <a
+                  href="#partner"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setIsMobileMenuOpen(false);
+                    addToast('Partner with Swiggy to boost your restaurant 🚀', 'info');
+                  }}
+                  className="flex items-center gap-2.5 p-3 rounded-xl hover:bg-slate-50 text-xs font-bold text-slate-700 transition-colors"
+                >
+                  <Building2 className="w-4 h-4 text-slate-400" />
+                  <span>Partner with us</span>
+                </a>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsMobileMenuOpen(false);
+                    window.open('https://www.swiggy.com', '_blank');
+                  }}
+                  className="w-full flex items-center justify-between p-3 rounded-xl hover:bg-slate-50 text-xs font-bold text-slate-700 transition-colors"
+                >
+                  <span className="flex items-center gap-2.5">
+                    <Smartphone className="w-4 h-4 text-slate-400" />
+                    <span>Get the Swiggy App</span>
+                  </span>
+                  <ExternalLink className="w-3.5 h-3.5 text-slate-400" />
+                </button>
+              </div>
+
+              {/* Logout button if authenticated */}
+              {isAuthenticated && (
+                <button
+                  onClick={() => {
+                    setIsMobileMenuOpen(false);
+                    logout();
+                  }}
+                  className="w-full py-2.5 text-xs font-bold text-rose-600 bg-rose-50 hover:bg-rose-100 rounded-xl flex items-center justify-center gap-2 transition-colors cursor-pointer"
+                >
+                  <LogOut className="w-4 h-4" />
+                  <span>Log Out</span>
+                </button>
+              )}
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </header>
   );
 };
 
 export default Navbar;
+

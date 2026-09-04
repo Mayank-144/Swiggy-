@@ -1,102 +1,77 @@
 import React, { useState } from 'react';
-import { ChevronDown, ChevronUp, MapPin, Utensils } from 'lucide-react';
-
-const TOP_LOCALITIES = [
-  'Explore Restaurants Near Me',
-  'Explore Top Rated Restaurants Near Me',
-  'Chinese Restaurants Near Me',
-  'South Indian Restaurants Near Me',
-  'Indian Restaurants Near Me',
-  'Kerala Restaurants Near Me',
-  'Korean Restaurants Near Me',
-  'North Indian Restaurants Near Me',
-  'Seafood Restaurants Near Me',
-  'Bengali Restaurants Near Me',
-  'Punjabi Restaurants Near Me',
-  'Italian Restaurants Near Me'
-];
 
 const CITIES = [
-  'Bangalore Restaurants',
-  'Delhi Restaurants',
-  'Mumbai Restaurants',
-  'Hyderabad Restaurants',
-  'Pune Restaurants',
-  'Kolkata Restaurants',
-  'Chennai Restaurants',
-  'Ahmedabad Restaurants',
-  'Chandigarh Restaurants',
-  'Jaipur Restaurants',
-  'Kochi Restaurants',
-  'Lucknow Restaurants'
+  'Order food online in Bengaluru',
+  'Order food online in Gurgaon',
+  'Order food online in Hyderabad',
+  'Order food online in Delhi NCR',
+  'Order food online in Mumbai',
+  'Order food online in Pune',
+  'Order food online in Kolkata',
+  'Order food online in Chennai',
+  'Order food online in Ahmedabad',
+  'Order food online in Chandigarh',
+  'Order food online in Jaipur',
+  'Order food online in Kochi',
+  'Order food online in Lucknow',
+  'Order food online in Noida',
+  'Order food online in Goa',
+  'Order food online in Indore'
 ];
 
 export const ExploreNearMe = ({ onSelectCuisine }) => {
-  const [showMoreLocalities, setShowMoreLocalities] = useState(false);
   const [showMoreCities, setShowMoreCities] = useState(false);
 
-  const displayedLocalities = showMoreLocalities ? TOP_LOCALITIES : TOP_LOCALITIES.slice(0, 8);
-  const displayedCities = showMoreCities ? CITIES : CITIES.slice(0, 8);
+  // Default shows 12 cities (3 full rows on 4 col desktop, 6 rows on 2 col mobile)
+  const displayedCities = showMoreCities ? CITIES : CITIES.slice(0, 12);
 
   return (
-    <section className="py-8 border-b border-slate-100 space-y-10">
-      {/* Popular Cuisines Near Me */}
-      <div className="space-y-4">
-        <h3 className="text-xl font-black text-slate-900 tracking-tight flex items-center gap-2">
-          <Utensils className="w-5 h-5 text-[#FF5200]" />
-          <span>Explore Every Restaurant Near Me</span>
+    <section
+      style={{
+        backgroundColor: '#FAFAFA',
+        borderRadius: '16px',
+        padding: '24px 20px'
+      }}
+      className="w-full my-4 space-y-4 font-sans"
+    >
+      {/* Header */}
+      <div className="flex items-center justify-between">
+        <h3
+          style={{ fontSize: '20px', fontWeight: 800, color: '#1C1C1C' }}
+          className="tracking-tight text-left"
+        >
+          Cities with food delivery
         </h3>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
-          {displayedLocalities.map((loc) => (
-            <button
-              key={loc}
-              onClick={() => onSelectCuisine && onSelectCuisine(loc.split(' ')[0])}
-              className="p-3.5 bg-white border border-slate-200 hover:border-[#FF5200] hover:text-[#FF5200] rounded-2xl text-xs font-bold text-slate-700 text-center transition-all truncate shadow-2xs"
-            >
-              {loc}
-            </button>
-          ))}
-        </div>
-
-        <div className="text-center pt-2">
-          <button
-            onClick={() => setShowMoreLocalities(!showMoreLocalities)}
-            className="inline-flex items-center gap-1.5 text-xs font-black text-[#FF5200] hover:underline"
-          >
-            <span>{showMoreLocalities ? 'Show Less' : 'Show More Cuisines'}</span>
-            {showMoreLocalities ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-          </button>
-        </div>
+        {/* "Show More ▾" — color #FC8019, font-weight 600, text-align right, cursor pointer */}
+        <button
+          onClick={() => setShowMoreCities(!showMoreCities)}
+          style={{ color: '#FC8019', fontWeight: 600, fontSize: '13px' }}
+          className="inline-flex items-center gap-1 hover:underline cursor-pointer bg-transparent border-none"
+        >
+          <span>{showMoreCities ? 'Show Less ▴' : 'Show More ▾'}</span>
+        </button>
       </div>
 
-      {/* Cities with food delivery */}
-      <div className="space-y-4">
-        <h3 className="text-xl font-black text-slate-900 tracking-tight flex items-center gap-2">
-          <MapPin className="w-5 h-5 text-[#FF5200]" />
-          <span>Cities With Food Delivery</span>
-        </h3>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
-          {displayedCities.map((city) => (
-            <div
-              key={city}
-              className="p-3.5 bg-white border border-slate-200 rounded-2xl text-xs font-bold text-slate-700 text-center transition-all truncate shadow-2xs"
-            >
-              {city}
-            </div>
-          ))}
-        </div>
-
-        <div className="text-center pt-2">
+      {/* Pills grid: 4 columns desktop, 2 columns mobile */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 pt-1">
+        {displayedCities.map((city) => (
           <button
-            onClick={() => setShowMoreCities(!showMoreCities)}
-            className="inline-flex items-center gap-1.5 text-xs font-black text-[#FF5200] hover:underline"
+            key={city}
+            onClick={() => onSelectCuisine && onSelectCuisine(city.replace('Order food online in ', ''))}
+            style={{
+              backgroundColor: '#FFFFFF',
+              border: '1px solid #E8E8E8',
+              borderRadius: '8px',
+              padding: '12px 16px',
+              fontSize: '13px',
+              color: '#1C1C1C'
+            }}
+            className="w-full font-medium text-center hover:border-[#FC8019] hover:text-[#FC8019] transition-all truncate shadow-2xs cursor-pointer block"
           >
-            <span>{showMoreCities ? 'Show Less' : 'Show More Cities'}</span>
-            {showMoreCities ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+            {city}
           </button>
-        </div>
+        ))}
       </div>
     </section>
   );

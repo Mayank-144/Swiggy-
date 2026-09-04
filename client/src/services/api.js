@@ -50,4 +50,10 @@ export const orderAPI = {
   getOrderById: (orderId) => api.get(`/orders/${orderId}`)
 };
 
+export const paymentAPI = {
+  createOrder: (paymentData) => api.post('/payment/create-order', paymentData),
+  verifyPayment: (verifyData) => api.post('/payment/verify', verifyData)
+};
+
 export default api;
+

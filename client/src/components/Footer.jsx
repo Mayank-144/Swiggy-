@@ -1,15 +1,15 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { Heart, ShieldCheck, Truck, Headphones, Smartphone } from 'lucide-react';
+import { Truck, ShieldCheck, Headphones, Smartphone } from 'lucide-react';
+import SwiggyLogo from './SwiggyLogo';
 
 export const Footer = () => {
   return (
-    <footer className="bg-slate-950 text-white mt-20 pt-14 pb-10 border-t border-slate-900">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+    <footer className="bg-slate-950 text-white mt-12 sm:mt-20 pt-10 sm:pt-14 pb-8 sm:pb-10 border-t border-slate-900">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 sm:space-y-12">
         {/* Features Row */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 pb-10 border-b border-slate-900">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 pb-8 sm:pb-10 border-b border-slate-900">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-slate-900 flex items-center justify-center text-swiggy-orange">
+            <div className="w-10 h-10 rounded-xl bg-slate-900 flex items-center justify-center text-swiggy-orange shrink-0">
               <Truck className="w-5 h-5" />
             </div>
             <div>
@@ -19,7 +19,7 @@ export const Footer = () => {
           </div>
 
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-slate-900 flex items-center justify-center text-emerald-400">
+            <div className="w-10 h-10 rounded-xl bg-slate-900 flex items-center justify-center text-emerald-400 shrink-0">
               <ShieldCheck className="w-5 h-5" />
             </div>
             <div>
@@ -29,7 +29,7 @@ export const Footer = () => {
           </div>
 
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-slate-900 flex items-center justify-center text-amber-400">
+            <div className="w-10 h-10 rounded-xl bg-slate-900 flex items-center justify-center text-amber-400 shrink-0">
               <Headphones className="w-5 h-5" />
             </div>
             <div>
@@ -39,7 +39,7 @@ export const Footer = () => {
           </div>
 
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-slate-900 flex items-center justify-center text-rose-400">
+            <div className="w-10 h-10 rounded-xl bg-slate-900 flex items-center justify-center text-rose-400 shrink-0">
               <Smartphone className="w-5 h-5" />
             </div>
             <div>
@@ -50,14 +50,11 @@ export const Footer = () => {
         </div>
 
         {/* Links Columns */}
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-8 text-xs text-slate-400">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 text-xs text-slate-400">
           {/* Brand Col */}
-          <div className="col-span-2 space-y-4">
+          <div className="col-span-1 sm:col-span-2 space-y-3 sm:space-y-4">
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-xl bg-swiggy-orange flex items-center justify-center text-white font-black text-base shadow-md">
-                🍕
-              </div>
-              <span className="font-black text-xl text-white tracking-tight">swiggy</span>
+              <SwiggyLogo variant="dark" size="md" />
             </div>
             <p className="text-slate-400 leading-relaxed max-w-sm">
               Swiggy is India's leading on-demand food delivery platform, connecting foodies with the best restaurants, cafes and eateries across the country.
