@@ -879,7 +879,7 @@ export const CheckoutPage = () => {
               {/* Action Buttons */}
               <div className="space-y-2 pt-2">
                 <button
-                  onClick={() => navigate(`/order-tracking/${confirmedOrder.orderId}`)}
+                  onClick={() => navigate(`/order-tracking/${confirmedOrder.orderId}`, { state: { order: confirmedOrder } })}
                   className="w-full py-3.5 px-5 rounded-2xl bg-[#FF5200] hover:bg-[#E04800] text-white font-black text-xs sm:text-sm shadow-lg shadow-[#FF5200]/30 flex items-center justify-center gap-2 uppercase tracking-wider transition-all cursor-pointer"
                 >
                   <Bike className="w-4 h-4" />

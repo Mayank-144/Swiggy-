@@ -1,9 +1,11 @@
 const Order = require('../models/Order');
 const { getDBStatus } = require('../config/db');
-const { mockOrders } = require('../data/restaurantsData');
-
-// Local in-memory orders
-let inMemoryOrders = [...mockOrders];
+const {
+  addSharedOrder,
+  findSharedOrderById,
+  findSharedOrdersByUser,
+  getSharedOrders
+} = require('../data/orderStore');
 
 // Delivery partner pool for realistic tracking
 const deliveryPartners = [
@@ -60,22 +62,28 @@ exports.createOrder = async (req, res) => {
       createdAt: new Date()
     };
 
+    // Always update shared in-memory store so it is instantly available
+    addSharedOrder(orderData);
+
     if (getDBStatus()) {
-      const newOrder = new Order(orderData);
-      await newOrder.save();
-      return res.status(201).json({
-        success: true,
-        message: isCOD ? 'Order placed! Pay at delivery.' : 'Order placed successfully!',
-        order: newOrder
-      });
-    } else {
-      inMemoryOrders.unshift(orderData);
-      return res.status(201).json({
-        success: true,
-        message: isCOD ? 'Order placed! Pay at delivery.' : 'Order placed successfully!',
-        order: orderData
-      });
+      try {
+        const newOrder = new Order(orderData);
+        await newOrder.save();
+        return res.status(201).json({
+          success: true,
+          message: isCOD ? 'Order placed! Pay at delivery.' : 'Order placed successfully!',
+          order: newOrder
+        });
+      } catch (dbErr) {
+        console.warn('DB save notice, using shared store:', dbErr.message);
+      }
     }
+
+    return res.status(201).json({
+      success: true,
+      message: isCOD ? 'Order placed! Pay at delivery.' : 'Order placed successfully!',
+      order: orderData
+    });
   } catch (error) {
     console.error('Create order error:', error);
     res.status(500).json({ success: false, message: 'Server error creating order' });
@@ -91,12 +99,15 @@ exports.getUserOrders = async (req, res) => {
     let orders = [];
 
     if (getDBStatus()) {
-      orders = await Order.find({ $or: [{ userId }, { userEmail }] }).sort({ createdAt: -1 });
+      try {
+        orders = await Order.find({ $or: [{ userId }, { userEmail }] }).sort({ createdAt: -1 });
+      } catch (e) {
+        console.warn('DB find notice:', e.message);
+      }
     }
 
-    if (orders.length === 0) {
-      orders = inMemoryOrders.filter(o => o.userId === userId || o.userEmail === userEmail || userId === 'usr-demo-01');
-      if (orders.length === 0) orders = inMemoryOrders;
+    if (!orders || orders.length === 0) {
+      orders = findSharedOrdersByUser(userId, userEmail);
     }
 
     // Dynamic simulated status check for active freshness
@@ -132,11 +143,15 @@ exports.getOrderById = async (req, res) => {
 
     let order;
     if (getDBStatus()) {
-      order = await Order.findOne({ orderId });
+      try {
+        order = await Order.findOne({ $or: [{ orderId }, { _id: orderId.match(/^[0-9a-fA-F]{24}$/) ? orderId : undefined }] });
+      } catch (e) {
+        console.warn('DB findOne notice:', e.message);
+      }
     }
 
     if (!order) {
-      order = inMemoryOrders.find(o => o.orderId === orderId);
+      order = findSharedOrderById(orderId);
     }
 
     if (!order) {

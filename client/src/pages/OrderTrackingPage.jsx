@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
   CheckCircle2,
@@ -27,9 +27,17 @@ const STAGES = [
 
 export const OrderTrackingPage = () => {
   const { orderId } = useParams();
-  const [order, setOrder] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [currentStepIndex, setCurrentStepIndex] = useState(1);
+  const location = useLocation();
+  const initialOrder = location.state?.order || null;
+  const [order, setOrder] = useState(initialOrder);
+  const [loading, setLoading] = useState(!initialOrder);
+  const [currentStepIndex, setCurrentStepIndex] = useState(() => {
+    if (initialOrder?.orderStatus) {
+      const idx = STAGES.findIndex((s) => s.key === initialOrder.orderStatus);
+      return idx !== -1 ? idx : 1;
+    }
+    return 1;
+  });
   const [etaMinutes, setEtaMinutes] = useState(25);
 
   useEffect(() => {

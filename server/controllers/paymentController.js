@@ -2,9 +2,7 @@ const Razorpay = require('razorpay');
 const crypto = require('crypto');
 const Order = require('../models/Order');
 const { getDBStatus } = require('../config/db');
-
-// In-memory order fallback
-let inMemoryOrders = [];
+const { addSharedOrder } = require('../data/orderStore');
 
 // Delivery partners pool for assigned rider
 const deliveryPartners = [
@@ -13,10 +11,10 @@ const deliveryPartners = [
   { name: "Anand Verma", phone: "+91 99201 34912", rating: 4.7, vehicleNumber: "KA 03 GH 8831", avatar: "https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=150&auto=format&fit=crop&q=80" }
 ];
 
-// Initialize Razorpay instance
+// Initialize Razorpay instance with default fallback to active test key
 const getRazorpayInstance = () => {
-  const keyId = process.env.RAZORPAY_KEY_ID || 'rzp_test_SwiggyClone2026Key';
-  const keySecret = process.env.RAZORPAY_KEY_SECRET || 'SwiggySecretKey2026';
+  const keyId = process.env.RAZORPAY_KEY_ID || 'rzp_test_TXul5hpjc66JQg';
+  const keySecret = process.env.RAZORPAY_KEY_SECRET || 'TeqdTJ43vSkVX2LDUkCVXqZN';
 
   return new Razorpay({
     key_id: keyId,
@@ -43,7 +41,7 @@ exports.createOrder = async (req, res) => {
 
     // Convert amount to paise (1 INR = 100 Paise)
     const amountInPaise = Math.round(Number(finalAmount) * 100);
-    const razorpayKey = process.env.RAZORPAY_KEY_ID || 'rzp_test_SwiggyClone2026Key';
+    const razorpayKey = process.env.RAZORPAY_KEY_ID || 'rzp_test_TXul5hpjc66JQg';
 
     try {
       const razorpay = getRazorpayInstance();
@@ -65,7 +63,7 @@ exports.createOrder = async (req, res) => {
       });
     } catch (rzpError) {
       console.warn('Razorpay API notice (Using fallback test order):', rzpError.message);
-      // Seamless simulation mode if key is in test/offline environment
+      // Simulation mode if offline or Razorpay network error
       const simulatedOrderId = `order_sim_${Date.now()}_${Math.floor(1000 + Math.random() * 9000)}`;
       return res.status(200).json({
         success: true,
@@ -115,7 +113,7 @@ exports.verifyPayment = async (req, res) => {
       });
     }
 
-    const keySecret = process.env.RAZORPAY_KEY_SECRET || 'SwiggySecretKey2026';
+    const keySecret = process.env.RAZORPAY_KEY_SECRET || 'TeqdTJ43vSkVX2LDUkCVXqZN';
 
     // Verify HMAC-SHA256 signature
     let isValidSignature = false;
@@ -186,22 +184,28 @@ exports.verifyPayment = async (req, res) => {
       createdAt: new Date()
     };
 
+    // Always store in shared orders store
+    addSharedOrder(orderData);
+
     if (getDBStatus()) {
-      const newOrder = new Order(orderData);
-      await newOrder.save();
-      return res.status(200).json({
-        success: true,
-        message: 'Payment verified and Order placed successfully! 🚀',
-        order: newOrder
-      });
-    } else {
-      inMemoryOrders.unshift(orderData);
-      return res.status(200).json({
-        success: true,
-        message: 'Payment verified and Order placed successfully! 🚀',
-        order: orderData
-      });
+      try {
+        const newOrder = new Order(orderData);
+        await newOrder.save();
+        return res.status(200).json({
+          success: true,
+          message: 'Payment verified and Order placed successfully! 🚀',
+          order: newOrder
+        });
+      } catch (dbErr) {
+        console.warn('DB save notice in paymentController:', dbErr.message);
+      }
     }
+
+    return res.status(200).json({
+      success: true,
+      message: 'Payment verified and Order placed successfully! 🚀',
+      order: orderData
+    });
   } catch (error) {
     console.error('Error in verifyPayment controller:', error);
     res.status(500).json({
