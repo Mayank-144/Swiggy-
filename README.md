@@ -1,14 +1,22 @@
-# 🍕 Swiggy Clone — MERN Stack Food Delivery Platform
+<p align="center">
+  <img src="https://cdn.worldvectorlogo.com/logos/swiggy-1.svg" alt="Swiggy Official Logo" width="220" />
+</p>
 
-[![React](https://img.shields.io/badge/React-18.x-61DAFB?style=flat&logo=react&logoColor=black)](https://react.dev/)
-[![Node.js](https://img.shields.io/badge/Node.js-18+-339933?style=flat&logo=node.js&logoColor=white)](https://nodejs.org/)
-[![Express](https://img.shields.io/badge/Express.js-4.x-000000?style=flat&logo=express&logoColor=white)](https://expressjs.com/)
-[![MongoDB](https://img.shields.io/badge/MongoDB-Atlas%20%2F%20Mongoose-47A248?style=flat&logo=mongodb&logoColor=white)](https://www.mongodb.com/)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.x-38B2AC?style=flat&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
-[![Razorpay](https://img.shields.io/badge/Razorpay-Payment%20Gateway-0C2340?style=flat&logo=razorpay&logoColor=blue)](https://razorpay.com/)
-[![Vite](https://img.shields.io/badge/Vite-5.x-646CFF?style=flat&logo=vite&logoColor=white)](https://vitejs.dev/)
+<h1 align="center">Swiggy Clone — MERN Stack Food Delivery Platform</h1>
 
-A pixel-perfect, feature-rich, high-performance food ordering and delivery web application inspired by **Swiggy**, engineered using the **MERN Stack** (MongoDB, Express.js, React.js, Node.js), Tailwind CSS, Razorpay Payment Gateway, and Framer Motion.
+<p align="center">
+  A pixel-perfect, high-performance food ordering and delivery web application inspired by <strong>Swiggy</strong>, built using the <strong>MERN Stack</strong> (MongoDB, Express.js, React.js, Node.js), Tailwind CSS, Razorpay Payment Gateway, and Framer Motion.
+</p>
+
+<p align="center">
+  <a href="https://react.dev/"><img src="https://img.shields.io/badge/React-18.x-61DAFB?style=flat&logo=react&logoColor=black" alt="React" /></a>
+  <a href="https://nodejs.org/"><img src="https://img.shields.io/badge/Node.js-18+-339933?style=flat&logo=node.js&logoColor=white" alt="Node.js" /></a>
+  <a href="https://expressjs.com/"><img src="https://img.shields.io/badge/Express.js-4.x-000000?style=flat&logo=express&logoColor=white" alt="Express" /></a>
+  <a href="https://www.mongodb.com/"><img src="https://img.shields.io/badge/MongoDB-Atlas%20%2F%20Mongoose-47A248?style=flat&logo=mongodb&logoColor=white" alt="MongoDB" /></a>
+  <a href="https://tailwindcss.com/"><img src="https://img.shields.io/badge/Tailwind_CSS-3.x-38B2AC?style=flat&logo=tailwind-css&logoColor=white" alt="Tailwind CSS" /></a>
+  <a href="https://razorpay.com/"><img src="https://img.shields.io/badge/Razorpay-Payment%20Gateway-0C2340?style=flat&logo=razorpay&logoColor=blue" alt="Razorpay" /></a>
+  <a href="https://vitejs.dev/"><img src="https://img.shields.io/badge/Vite-5.x-646CFF?style=flat&logo=vite&logoColor=white" alt="Vite" /></a>
+</p>
 
 ---
 
