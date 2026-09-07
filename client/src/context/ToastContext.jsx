@@ -34,13 +34,12 @@ export const ToastProvider = ({ children }) => {
               initial={{ opacity: 0, y: 30, scale: 0.95 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, scale: 0.9, transition: { duration: 0.2 } }}
-              className={`pointer-events-auto flex items-center justify-between p-3.5 rounded-xl shadow-xl text-white font-medium text-sm backdrop-blur-md ${
-                toast.type === 'success'
+              className={`pointer-events-auto flex items-center justify-between p-3.5 rounded-xl shadow-xl text-white font-medium text-sm backdrop-blur-md ${toast.type === 'success'
                   ? 'bg-emerald-600/95 border border-emerald-500/30'
                   : toast.type === 'error'
-                  ? 'bg-rose-600/95 border border-rose-500/30'
-                  : 'bg-slate-900/95 border border-slate-700/30'
-              }`}
+                    ? 'bg-rose-600/95 border border-rose-500/30'
+                    : 'bg-slate-900/95 border border-slate-700/30'
+                }`}
             >
               <div className="flex items-center gap-2.5">
                 {toast.type === 'success' && <CheckCircle2 className="w-5 h-5 text-emerald-200 shrink-0" />}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Mail, Lock, User, Phone, Sparkles, ArrowRight, Loader2 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
@@ -16,6 +16,12 @@ export const AuthModal = () => {
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+
+  useEffect(() => {
+    if (isAuthModalOpen) {
+      setError('');
+    }
+  }, [isAuthModalOpen, authModalMode]);
 
   if (!isAuthModalOpen) return null;
 

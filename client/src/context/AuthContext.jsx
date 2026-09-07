@@ -74,7 +74,6 @@ export const AuthProvider = ({ children }) => {
         return true;
       }
     } catch (err) {
-      addToast(err.message || 'Login failed', 'error');
       throw err;
     }
   };
@@ -91,7 +90,6 @@ export const AuthProvider = ({ children }) => {
         return true;
       }
     } catch (err) {
-      addToast(err.message || 'Signup failed', 'error');
       throw err;
     }
   };
@@ -128,7 +126,6 @@ export const AuthProvider = ({ children }) => {
   const toggleFavorite = async (restaurantId) => {
     if (!user) {
       openAuthModal('login');
-      addToast('Please login to save favorite restaurants', 'info');
       return;
     }
 

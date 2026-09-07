@@ -72,8 +72,6 @@ export const CartProvider = ({ children }) => {
       }
       return [...prev, { ...item, quantity: 1 }];
     });
-
-    addToast(`Added "${item.name}" to cart 🛒`, 'success', 2500);
   };
 
   const resolveConflict = (proceed) => {
@@ -86,7 +84,6 @@ export const CartProvider = ({ children }) => {
         area: pendingRestaurant.location?.area || pendingRestaurant.area || 'Bengaluru'
       });
       setCartItems([{ ...pendingItem, quantity: 1 }]);
-      addToast(`Cart replaced with items from ${pendingRestaurant.name}`, 'info');
     }
     setConflictModal({ isOpen: false, pendingItem: null, pendingRestaurant: null });
   };
@@ -107,7 +104,6 @@ export const CartProvider = ({ children }) => {
 
   const removeFromCart = (itemId) => {
     setCartItems((prev) => prev.filter((i) => i.id !== itemId));
-    addToast('Item removed from cart', 'info');
   };
 
   const clearCart = () => {
