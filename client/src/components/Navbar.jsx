@@ -385,7 +385,7 @@ export const Navbar = ({ onSearch, searchQuery = '' }) => {
                   onClick={(e) => {
                     e.preventDefault();
                     setIsMobileMenuOpen(false);
-                    addToast('Swiggy Corporate: Meal cards & corporate benefits! 💼', 'info');
+                    addToast('Swiggy Corporate: Meal cards & corporate benefits!', 'info');
                   }}
                   className="flex items-center gap-2.5 p-3 rounded-xl hover:bg-slate-50 text-xs font-bold text-slate-700 transition-colors"
                 >
@@ -398,7 +398,7 @@ export const Navbar = ({ onSearch, searchQuery = '' }) => {
                   onClick={(e) => {
                     e.preventDefault();
                     setIsMobileMenuOpen(false);
-                    addToast('Partner with Swiggy to boost your restaurant 🚀', 'info');
+                    addToast('Partner with Swiggy to boost your business!', 'info');
                   }}
                   className="flex items-center gap-2.5 p-3 rounded-xl hover:bg-slate-50 text-xs font-bold text-slate-700 transition-colors"
                 >

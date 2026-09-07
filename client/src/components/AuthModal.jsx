@@ -137,7 +137,7 @@ export const AuthModal = () => {
               className="w-full mb-4 sm:mb-5 py-2 sm:py-2.5 px-3 sm:px-4 bg-gradient-to-r from-amber-500/10 to-swiggy-orange/15 hover:from-amber-500/20 hover:to-swiggy-orange/25 border border-swiggy-orange/30 rounded-xl text-swiggy-orangeDark font-bold text-[11px] sm:text-xs flex items-center justify-center gap-2 transition-all group text-center"
             >
               <Sparkles className="w-4 h-4 text-swiggy-orange group-hover:rotate-12 transition-transform shrink-0" />
-              <span className="truncate">⚡ Instant Demo Login (Mayank Jaiswal)</span>
+              <span className="truncate font-black">Instant Demo Login (Mayank Jaiswal)</span>
             </button>
 
             {/* Error banner */}

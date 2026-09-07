@@ -70,7 +70,6 @@ export const AuthProvider = ({ children }) => {
         setUser(res.user);
         localStorage.setItem('swiggy_token', res.token);
         setIsAuthModalOpen(false);
-        addToast(`Welcome back, ${res.user.name.split(' ')[0]}! 🎉`, 'success');
         return true;
       }
     } catch (err) {
@@ -86,7 +85,6 @@ export const AuthProvider = ({ children }) => {
         setUser(res.user);
         localStorage.setItem('swiggy_token', res.token);
         setIsAuthModalOpen(false);
-        addToast(`Account created! Welcome to Swiggy, ${name}! 🎉`, 'success');
         return true;
       }
     } catch (err) {

@@ -16,7 +16,8 @@ import {
   Building2,
   Percent,
   User,
-  Heart
+  Heart,
+  ShoppingBag
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
@@ -130,7 +131,7 @@ export const SwiggyLandingHeader = ({ onSearch, searchQuery = '' }) => {
               href="#corporate"
               onClick={(e) => {
                 e.preventDefault();
-                addToast('Swiggy Corporate: Meal cards & corporate benefits! 💼', 'info');
+                addToast('Swiggy Corporate: Meal cards & corporate benefits!', 'info');
               }}
               className="hidden md:inline-block text-white hover:text-white/80 transition-colors text-[14px] lg:text-[15px]"
             >
@@ -141,7 +142,7 @@ export const SwiggyLandingHeader = ({ onSearch, searchQuery = '' }) => {
               href="#partner"
               onClick={(e) => {
                 e.preventDefault();
-                addToast('Partner with Swiggy to boost your business 🚀', 'info');
+                addToast('Partner with Swiggy to boost your business!', 'info');
               }}
               className="hidden md:inline-block text-white hover:text-white/80 transition-colors text-[14px] lg:text-[15px]"
             >
@@ -236,7 +237,7 @@ export const SwiggyLandingHeader = ({ onSearch, searchQuery = '' }) => {
                 onClick={openCartDrawer}
                 className="px-2.5 sm:px-4 py-1.5 sm:py-2.5 rounded-2xl bg-white text-slate-900 font-black text-xs sm:text-sm flex items-center gap-1.5 shadow-md hover:bg-slate-100 transition-all cursor-pointer"
               >
-                <span className="text-[#FF5200]">🛒</span>
+                <ShoppingBag className="w-4 h-4 text-[#FF5200] shrink-0 stroke-[2.5]" />
                 <span>{totalItemsCount}</span>
               </button>
             )}
