@@ -99,20 +99,16 @@ export const HomePage = ({ globalSearch = '' }) => {
   return (
     <div className="w-full bg-[#FAFAFC] min-h-screen">
       {/* 1. Official Swiggy Hero Orange Landing Header */}
-      {!activeSearch && (
-        <SwiggyLandingHeader
-          onSearch={(query) => {
-            if (query) setSearchParams({ search: query });
-            else setSearchParams({});
-          }}
-          searchQuery={activeSearch}
-        />
-      )}
+      <SwiggyLandingHeader
+        onSearch={(query) => {
+          if (query) setSearchParams({ search: query });
+          else setSearchParams({});
+        }}
+        searchQuery={activeSearch}
+      />
 
       {/* Decorative Top Orange Accent Slider Bar */}
-      {!activeSearch && (
-        <div className="w-full h-1.5 bg-gradient-to-r from-[#FF5200] via-[#FFA472] to-[#FF5200] opacity-80" />
-      )}
+      <div className="w-full h-1.5 bg-gradient-to-r from-[#FF5200] via-[#FFA472] to-[#FF5200] opacity-80" />
 
       {/* Main Body Content Container */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 sm:space-y-12 lg:space-y-16 pt-6 sm:pt-10 pb-16">

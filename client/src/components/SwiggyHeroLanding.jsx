@@ -28,10 +28,15 @@ export const SwiggyLandingHeader = ({ onSearch, searchQuery = '' }) => {
   const { user, isAuthenticated, openAuthModal, logout, currentLocation, setIsLocationModalOpen } = useAuth();
   const { totalItemsCount, openCartDrawer } = useCart();
   const { addToast } = useToast();
-  const [localSearch, setLocalSearch] = useState(searchQuery);
+  const [localSearch, setLocalSearch] = useState(searchQuery || '');
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const userMenuRef = useRef(null);
+
+  // Sync with external searchQuery changes
+  useEffect(() => {
+    setLocalSearch(searchQuery || '');
+  }, [searchQuery]);
 
   // Close user dropdown on outside click
   useEffect(() => {
@@ -47,7 +52,7 @@ export const SwiggyLandingHeader = ({ onSearch, searchQuery = '' }) => {
   const handleSearchSubmit = (e) => {
     e.preventDefault();
     if (onSearch) {
-      onSearch(localSearch);
+      onSearch(localSearch.trim());
     }
     setTimeout(() => {
       const el = document.getElementById('restaurants-grid-section');
@@ -57,9 +62,6 @@ export const SwiggyLandingHeader = ({ onSearch, searchQuery = '' }) => {
 
   const handleSearchChange = (e) => {
     setLocalSearch(e.target.value);
-    if (onSearch) {
-      onSearch(e.target.value);
-    }
   };
 
   const scrollToFood = () => {
@@ -408,7 +410,7 @@ export const SwiggyLandingHeader = ({ onSearch, searchQuery = '' }) => {
             {/* Bottom Right Skillet Food Image */}
             <div className="absolute right-0 bottom-0 w-20 h-20 xs:w-24 xs:h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 pointer-events-none group-hover:scale-105 transition-transform duration-300">
               <img
-                src="/images/swiggy_food_skillet.jpg"
+                src="/images/swiggy_food_skillet.png"
                 alt="Food Delivery Skillet"
                 className="w-full h-full object-contain object-bottom-right"
               />
@@ -444,7 +446,7 @@ export const SwiggyLandingHeader = ({ onSearch, searchQuery = '' }) => {
             {/* Bottom Right Grocery Basket Image */}
             <div className="absolute right-0 bottom-0 w-20 h-20 xs:w-24 xs:h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 pointer-events-none group-hover:scale-105 transition-transform duration-300">
               <img
-                src="/images/swiggy_grocery_basket.jpg"
+                src="/images/swiggy_grocery_basket.png"
                 alt="Instamart Basket"
                 className="w-full h-full object-contain object-bottom-right"
               />
@@ -480,7 +482,7 @@ export const SwiggyLandingHeader = ({ onSearch, searchQuery = '' }) => {
             {/* Bottom Right Dineout Table Plate Image */}
             <div className="absolute right-0 bottom-0 w-20 h-20 xs:w-24 xs:h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 pointer-events-none group-hover:scale-105 transition-transform duration-300">
               <img
-                src="/images/swiggy_dineout_plate.jpg"
+                src="/images/swiggy_dineout_plate.png"
                 alt="Dineout Table Plate"
                 className="w-full h-full object-contain object-bottom-right"
               />
