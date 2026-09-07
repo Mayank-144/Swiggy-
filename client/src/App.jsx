@@ -15,6 +15,9 @@ import RestaurantPage from './pages/RestaurantPage';
 import CheckoutPage from './pages/CheckoutPage';
 import OrderTrackingPage from './pages/OrderTrackingPage';
 import ProfilePage from './pages/ProfilePage';
+import FoodDeliveryPage from './pages/FoodDeliveryPage';
+import InstamartPage from './pages/InstamartPage';
+import DineoutPage from './pages/DineoutPage';
 
 export function AppContent() {
   const [globalSearch, setGlobalSearch] = useState('');
@@ -31,6 +34,9 @@ export function AppContent() {
       <main className="flex-1">
         <Routes>
           <Route path="/" element={<HomePage globalSearch={globalSearch} />} />
+          <Route path="/food" element={<FoodDeliveryPage />} />
+          <Route path="/instamart" element={<InstamartPage />} />
+          <Route path="/dineout" element={<DineoutPage />} />
           <Route path="/restaurant/:id" element={<RestaurantPage />} />
           <Route path="/checkout" element={<CheckoutPage />} />
           <Route path="/order-tracking/:orderId" element={<OrderTrackingPage />} />

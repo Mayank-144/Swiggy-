@@ -158,3 +158,120 @@ exports.getCategories = (req, res) => {
     data: seedCategories
   });
 };
+
+// @route   GET /api/restaurants/suggestions
+exports.getSearchSuggestions = async (req, res) => {
+  try {
+    const q = (req.query.q || req.query.search || '').trim().toLowerCase();
+    
+    let allRestaurants = [];
+    if (getDBStatus()) {
+      allRestaurants = await Restaurant.find({});
+      if (!allRestaurants || allRestaurants.length === 0) {
+        allRestaurants = inMemoryRestaurants;
+      }
+    } else {
+      allRestaurants = inMemoryRestaurants;
+    }
+
+    if (!q) {
+      // Return top trending suggestions
+      const topDishes = [];
+      allRestaurants.forEach(r => {
+        r.menuCategories?.forEach(cat => {
+          cat.items?.forEach(item => {
+            if (topDishes.length < 6 && item.image) {
+              topDishes.push({
+                id: item.id || item._id,
+                name: item.name,
+                price: item.price,
+                image: item.image,
+                isVeg: item.isVeg,
+                restaurantId: r.id,
+                restaurantName: r.name,
+                rating: item.rating || 4.2
+              });
+            }
+          });
+        });
+      });
+
+      return res.json({
+        success: true,
+        dishes: topDishes,
+        restaurants: allRestaurants.slice(0, 4).map(r => ({
+          id: r.id,
+          name: r.name,
+          image: r.image,
+          cuisines: r.cuisines,
+          rating: r.rating,
+          deliveryTimeMinutes: r.deliveryTimeMinutes,
+          area: r.location?.area || 'Bengaluru'
+        })),
+        cuisines: seedCategories.slice(0, 5).map(c => c.name)
+      });
+    }
+
+    const matchedDishes = [];
+    const matchedRestaurants = [];
+    const matchedCuisinesSet = new Set();
+
+    allRestaurants.forEach(r => {
+      const restNameMatch = r.name.toLowerCase().includes(q);
+      const cuisineMatch = r.cuisines?.some(c => c.toLowerCase().includes(q));
+
+      if (restNameMatch || cuisineMatch) {
+        if (matchedRestaurants.length < 6) {
+          matchedRestaurants.push({
+            id: r.id,
+            name: r.name,
+            image: r.image,
+            cuisines: r.cuisines,
+            rating: r.rating,
+            deliveryTimeMinutes: r.deliveryTimeMinutes,
+            area: r.location?.area || 'Bengaluru'
+          });
+        }
+      }
+
+      r.cuisines?.forEach(c => {
+        if (c.toLowerCase().includes(q)) {
+          matchedCuisinesSet.add(c);
+        }
+      });
+
+      r.menuCategories?.forEach(cat => {
+        cat.items?.forEach(item => {
+          const itemNameMatch = item.name.toLowerCase().includes(q);
+          const descMatch = item.description && item.description.toLowerCase().includes(q);
+          const catMatch = cat.name && cat.name.toLowerCase().includes(q);
+
+          if (itemNameMatch || descMatch || catMatch) {
+            if (matchedDishes.length < 8) {
+              matchedDishes.push({
+                id: item.id || item._id,
+                name: item.name,
+                price: item.price,
+                image: item.image,
+                isVeg: item.isVeg,
+                restaurantId: r.id,
+                restaurantName: r.name,
+                rating: item.rating || 4.2
+              });
+            }
+          }
+        });
+      });
+    });
+
+    res.json({
+      success: true,
+      dishes: matchedDishes,
+      restaurants: matchedRestaurants,
+      cuisines: Array.from(matchedCuisinesSet).slice(0, 4)
+    });
+  } catch (error) {
+    console.error('Search suggestions error:', error);
+    res.status(500).json({ success: false, message: 'Error fetching suggestions' });
+  }
+};

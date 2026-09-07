@@ -41,7 +41,8 @@ export const authAPI = {
 export const restaurantAPI = {
   getRestaurants: (params) => api.get('/restaurants', { params }),
   getRestaurantById: (id) => api.get(`/restaurants/${id}`),
-  getCategories: () => api.get('/restaurants/categories')
+  getCategories: () => api.get('/restaurants/categories'),
+  getSuggestions: (q) => api.get('/restaurants/suggestions', { params: { q } })
 };
 
 export const orderAPI = {

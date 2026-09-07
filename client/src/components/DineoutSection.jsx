@@ -1,5 +1,6 @@
 import React, { useRef } from 'react';
-import { ChevronLeft, ChevronRight, Star, Percent } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { ChevronLeft, ChevronRight, Star, Percent, ArrowRight } from 'lucide-react';
 import { useToast } from '../context/ToastContext';
 
 const DINEOUT_RESTAURANTS = [
@@ -62,6 +63,7 @@ const DINEOUT_RESTAURANTS = [
 ];
 
 export const DineoutSection = () => {
+  const navigate = useNavigate();
   const scrollRef = useRef(null);
   const { addToast } = useToast();
 
@@ -73,16 +75,17 @@ export const DineoutSection = () => {
   };
 
   const handleBookTable = (restName) => {
-    addToast(`Table reserved at ${restName}! Offer applied on bill 🍽️`, 'success');
+    navigate('/dineout');
   };
 
   return (
     <div id="dineout-section" className="w-full">
       <div className="flex items-center justify-between mb-3 sm:mb-5">
-        <div>
-          <h2 className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-[#1C1C1C] tracking-tight">
+        <div onClick={() => navigate('/dineout')} className="cursor-pointer group flex items-center gap-2">
+          <h2 className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-[#1C1C1C] tracking-tight group-hover:text-rose-600 transition-colors">
             Discover best restaurants on Dineout
           </h2>
+          <ArrowRight className="w-5 h-5 text-rose-600 opacity-0 group-hover:opacity-100 transition-opacity" />
         </div>
 
         <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">

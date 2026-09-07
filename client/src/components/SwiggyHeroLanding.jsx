@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   MapPin,
@@ -22,15 +22,22 @@ import {
 import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
 import { useToast } from '../context/ToastContext';
+import { restaurantAPI } from '../services/api';
 import SwiggyLogo from './SwiggyLogo';
+import SearchSuggestionsDropdown from './SearchSuggestionsDropdown';
 
 export const SwiggyLandingHeader = ({ onSearch, searchQuery = '' }) => {
+  const navigate = useNavigate();
   const { user, isAuthenticated, openAuthModal, logout, currentLocation, setIsLocationModalOpen } = useAuth();
   const { totalItemsCount, openCartDrawer } = useCart();
   const { addToast } = useToast();
   const [localSearch, setLocalSearch] = useState(searchQuery || '');
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [suggestions, setSuggestions] = useState(null);
+  const [suggestionsLoading, setSuggestionsLoading] = useState(false);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const searchContainerRef = useRef(null);
   const userMenuRef = useRef(null);
 
   // Sync with external searchQuery changes
@@ -38,11 +45,38 @@ export const SwiggyLandingHeader = ({ onSearch, searchQuery = '' }) => {
     setLocalSearch(searchQuery || '');
   }, [searchQuery]);
 
-  // Close user dropdown on outside click
+  // Fetch search suggestions on input change
+  useEffect(() => {
+    if (!localSearch || localSearch.trim().length === 0) {
+      setSuggestions(null);
+      return;
+    }
+
+    const timer = setTimeout(async () => {
+      setSuggestionsLoading(true);
+      try {
+        const res = await restaurantAPI.getSuggestions(localSearch.trim());
+        if (res.success) {
+          setSuggestions(res);
+        }
+      } catch (err) {
+        console.warn('Error fetching search suggestions:', err);
+      } finally {
+        setSuggestionsLoading(false);
+      }
+    }, 200);
+
+    return () => clearTimeout(timer);
+  }, [localSearch]);
+
+  // Close dropdowns on outside click
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (userMenuRef.current && !userMenuRef.current.contains(e.target)) {
         setIsUserMenuOpen(false);
+      }
+      if (searchContainerRef.current && !searchContainerRef.current.contains(e.target)) {
+        setShowSuggestions(false);
       }
     };
     document.addEventListener('click', handleClickOutside);
@@ -51,6 +85,7 @@ export const SwiggyLandingHeader = ({ onSearch, searchQuery = '' }) => {
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
+    setShowSuggestions(false);
     if (onSearch) {
       onSearch(localSearch.trim());
     }
@@ -62,6 +97,19 @@ export const SwiggyLandingHeader = ({ onSearch, searchQuery = '' }) => {
 
   const handleSearchChange = (e) => {
     setLocalSearch(e.target.value);
+    setShowSuggestions(true);
+  };
+
+  const handleSelectSuggestion = (text) => {
+    setLocalSearch(text);
+    setShowSuggestions(false);
+    if (onSearch) {
+      onSearch(text);
+    }
+    setTimeout(() => {
+      const el = document.getElementById('restaurants-grid-section');
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 50);
   };
 
   const scrollToFood = () => {
@@ -356,25 +404,39 @@ export const SwiggyLandingHeader = ({ onSearch, searchQuery = '' }) => {
             <ChevronDown className="w-4 h-4 text-slate-400 group-hover:text-slate-700 shrink-0" />
           </button>
 
-          {/* Search Box */}
-          <form onSubmit={handleSearchSubmit} className="w-full sm:w-[60%] relative h-12 sm:h-13">
-            <div className="relative h-full w-full flex items-center bg-white rounded-2xl shadow-md">
-              <input
-                type="text"
-                value={localSearch}
-                onChange={handleSearchChange}
-                placeholder="Search for restaurant, item or more"
-                className="w-full h-full bg-transparent text-slate-900 placeholder-[#93959F] px-4 pr-11 rounded-2xl text-xs sm:text-[13.5px] font-semibold focus:outline-none"
+          {/* Search Box with Live Suggestions */}
+          <div ref={searchContainerRef} className="w-full sm:w-[60%] relative">
+            <form onSubmit={handleSearchSubmit} className="relative h-12 sm:h-13">
+              <div className="relative h-full w-full flex items-center bg-white rounded-2xl shadow-md">
+                <input
+                  type="text"
+                  value={localSearch}
+                  onChange={handleSearchChange}
+                  onFocus={() => setShowSuggestions(true)}
+                  placeholder="Search for restaurant, item or more"
+                  className="w-full h-full bg-transparent text-slate-900 placeholder-[#93959F] px-4 pr-11 rounded-2xl text-xs sm:text-[13.5px] font-semibold focus:outline-none"
+                />
+                <button
+                  type="submit"
+                  aria-label="Search"
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-[#FF5200] p-1 cursor-pointer transition-colors"
+                >
+                  <Search className="w-4.5 h-4.5" />
+                </button>
+              </div>
+            </form>
+
+            {/* Live Search Suggestions Dropdown */}
+            {showSuggestions && localSearch.trim().length > 0 && (
+              <SearchSuggestionsDropdown
+                suggestions={suggestions}
+                loading={suggestionsLoading}
+                query={localSearch}
+                onSelectSuggestion={handleSelectSuggestion}
+                onClose={() => setShowSuggestions(false)}
               />
-              <button
-                type="submit"
-                aria-label="Search"
-                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-[#FF5200] p-1 cursor-pointer transition-colors"
-              >
-                <Search className="w-4.5 h-4.5" />
-              </button>
-            </div>
-          </form>
+            )}
+          </div>
         </div>
       </div>
 
@@ -383,27 +445,30 @@ export const SwiggyLandingHeader = ({ onSearch, searchQuery = '' }) => {
         <div className="grid grid-cols-3 gap-3 sm:gap-6 max-w-4xl lg:max-w-5xl mx-auto">
           {/* Card 1: FOOD DELIVERY */}
           <div
-            onClick={scrollToFood}
-            className="bg-white rounded-3xl p-3.5 xs:p-4 sm:p-5 lg:p-6 text-slate-900 shadow-xl flex flex-col justify-between cursor-pointer hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 group overflow-hidden relative min-h-[145px] xs:min-h-[165px] sm:min-h-[200px] lg:min-h-[235px] select-none"
+            onClick={() => navigate('/food')}
+            className="bg-white rounded-3xl p-3.5 xs:p-4 sm:p-5 lg:p-6 text-slate-900 shadow-xl flex flex-col justify-between cursor-pointer hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 group overflow-hidden relative min-h-[155px] xs:min-h-[175px] sm:min-h-[210px] lg:min-h-[240px] select-none"
           >
-            <div className="space-y-1 z-10 max-w-[62%] sm:max-w-[60%] lg:max-w-[65%] pr-0.5">
-              <h3 className="text-xs xs:text-sm sm:text-lg lg:text-xl font-black text-[#1C1C1C] tracking-tight leading-tight">
-                FOOD DELIVERY
-              </h3>
-              <p className="text-[8px] xs:text-[9.5px] sm:text-xs font-bold text-[#686B78] uppercase tracking-wider truncate">
-                FROM RESTAURANTS
-              </p>
-              <div className="pt-0.5 sm:pt-1">
-                <span className="text-[7.5px] xs:text-[9px] sm:text-xs font-black text-[#FF5200] bg-[#FFF2EA] px-1.5 sm:px-2.5 py-0.5 sm:py-1 rounded sm:rounded-md inline-block whitespace-nowrap shadow-2xs">
-                  UPTO 60% OFF
-                </span>
+            <div className="flex flex-col h-full justify-between z-10">
+              {/* Top Text with Consistent Height */}
+              <div className="space-y-1 max-w-[62%] sm:max-w-[60%] lg:max-w-[65%] pr-0.5">
+                <h3 className="text-xs xs:text-sm sm:text-lg lg:text-xl font-black text-[#1C1C1C] tracking-tight leading-tight min-h-[30px] sm:min-h-[44px] flex items-center">
+                  FOOD DELIVERY
+                </h3>
+                <p className="text-[8px] xs:text-[9.5px] sm:text-xs font-bold text-[#686B78] uppercase tracking-wider truncate">
+                  FROM RESTAURANTS
+                </p>
+                <div className="pt-1">
+                  <span className="text-[7.5px] xs:text-[9px] sm:text-xs font-black text-[#FF5200] bg-[#FFF2EA] px-1.5 sm:px-2.5 py-0.5 sm:py-1 rounded sm:rounded-md inline-block whitespace-nowrap shadow-2xs">
+                    UPTO 60% OFF
+                  </span>
+                </div>
               </div>
-            </div>
 
-            {/* Bottom Left Circular Orange Action Button */}
-            <div className="pt-2 sm:pt-4 z-10">
-              <div className="w-6 h-6 xs:w-7 xs:h-7 sm:w-9 sm:h-9 lg:w-10 lg:h-10 rounded-full bg-[#FF5200] text-white flex items-center justify-center shadow-md group-hover:scale-110 transition-transform">
-                <ArrowRight className="w-3 h-3 xs:w-3.5 xs:h-3.5 sm:w-4.5 sm:h-4.5 stroke-[2.5]" />
+              {/* Bottom Left Circular Orange Action Button */}
+              <div className="pt-2 sm:pt-4">
+                <div className="w-6 h-6 xs:w-7 xs:h-7 sm:w-9 sm:h-9 lg:w-10 lg:h-10 rounded-full bg-[#FF5200] text-white flex items-center justify-center shadow-md group-hover:scale-110 transition-transform">
+                  <ArrowRight className="w-3 h-3 xs:w-3.5 xs:h-3.5 sm:w-4.5 sm:h-4.5 stroke-[2.5]" />
+                </div>
               </div>
             </div>
 
@@ -419,27 +484,30 @@ export const SwiggyLandingHeader = ({ onSearch, searchQuery = '' }) => {
 
           {/* Card 2: INSTAMART */}
           <div
-            onClick={scrollToInstamart}
-            className="bg-white rounded-3xl p-3.5 xs:p-4 sm:p-5 lg:p-6 text-slate-900 shadow-xl flex flex-col justify-between cursor-pointer hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 group overflow-hidden relative min-h-[145px] xs:min-h-[165px] sm:min-h-[200px] lg:min-h-[235px] select-none"
+            onClick={() => navigate('/instamart')}
+            className="bg-white rounded-3xl p-3.5 xs:p-4 sm:p-5 lg:p-6 text-slate-900 shadow-xl flex flex-col justify-between cursor-pointer hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 group overflow-hidden relative min-h-[155px] xs:min-h-[175px] sm:min-h-[210px] lg:min-h-[240px] select-none"
           >
-            <div className="space-y-1 z-10 max-w-[62%] sm:max-w-[60%] lg:max-w-[65%] pr-0.5">
-              <h3 className="text-xs xs:text-sm sm:text-lg lg:text-xl font-black text-[#1C1C1C] tracking-tight leading-tight">
-                INSTAMART
-              </h3>
-              <p className="text-[8px] xs:text-[9.5px] sm:text-xs font-bold text-[#686B78] uppercase tracking-wider truncate">
-                INSTANT GROCERY
-              </p>
-              <div className="pt-0.5 sm:pt-1">
-                <span className="text-[7.5px] xs:text-[9px] sm:text-xs font-black text-[#FF5200] bg-[#FFF2EA] px-1.5 sm:px-2.5 py-0.5 sm:py-1 rounded sm:rounded-md inline-block whitespace-nowrap shadow-2xs">
-                  UPTO 60% OFF
-                </span>
+            <div className="flex flex-col h-full justify-between z-10">
+              {/* Top Text with Consistent Height */}
+              <div className="space-y-1 max-w-[62%] sm:max-w-[60%] lg:max-w-[65%] pr-0.5">
+                <h3 className="text-xs xs:text-sm sm:text-lg lg:text-xl font-black text-[#1C1C1C] tracking-tight leading-tight min-h-[30px] sm:min-h-[44px] flex items-center">
+                  INSTAMART
+                </h3>
+                <p className="text-[8px] xs:text-[9.5px] sm:text-xs font-bold text-[#686B78] uppercase tracking-wider truncate">
+                  INSTANT GROCERY
+                </p>
+                <div className="pt-1">
+                  <span className="text-[7.5px] xs:text-[9px] sm:text-xs font-black text-[#FF5200] bg-[#FFF2EA] px-1.5 sm:px-2.5 py-0.5 sm:py-1 rounded sm:rounded-md inline-block whitespace-nowrap shadow-2xs">
+                    UPTO 60% OFF
+                  </span>
+                </div>
               </div>
-            </div>
 
-            {/* Bottom Left Circular Orange Action Button */}
-            <div className="pt-2 sm:pt-4 z-10">
-              <div className="w-6 h-6 xs:w-7 xs:h-7 sm:w-9 sm:h-9 lg:w-10 lg:h-10 rounded-full bg-[#FF5200] text-white flex items-center justify-center shadow-md group-hover:scale-110 transition-transform">
-                <ArrowRight className="w-3 h-3 xs:w-3.5 xs:h-3.5 sm:w-4.5 sm:h-4.5 stroke-[2.5]" />
+              {/* Bottom Left Circular Orange Action Button */}
+              <div className="pt-2 sm:pt-4">
+                <div className="w-6 h-6 xs:w-7 xs:h-7 sm:w-9 sm:h-9 lg:w-10 lg:h-10 rounded-full bg-[#FF5200] text-white flex items-center justify-center shadow-md group-hover:scale-110 transition-transform">
+                  <ArrowRight className="w-3 h-3 xs:w-3.5 xs:h-3.5 sm:w-4.5 sm:h-4.5 stroke-[2.5]" />
+                </div>
               </div>
             </div>
 
@@ -455,27 +523,30 @@ export const SwiggyLandingHeader = ({ onSearch, searchQuery = '' }) => {
 
           {/* Card 3: DINEOUT */}
           <div
-            onClick={scrollToDineout}
-            className="bg-white rounded-3xl p-3.5 xs:p-4 sm:p-5 lg:p-6 text-slate-900 shadow-xl flex flex-col justify-between cursor-pointer hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 group overflow-hidden relative min-h-[145px] xs:min-h-[165px] sm:min-h-[200px] lg:min-h-[235px] select-none"
+            onClick={() => navigate('/dineout')}
+            className="bg-white rounded-3xl p-3.5 xs:p-4 sm:p-5 lg:p-6 text-slate-900 shadow-xl flex flex-col justify-between cursor-pointer hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 group overflow-hidden relative min-h-[155px] xs:min-h-[175px] sm:min-h-[210px] lg:min-h-[240px] select-none"
           >
-            <div className="space-y-1 z-10 max-w-[62%] sm:max-w-[60%] lg:max-w-[65%] pr-0.5">
-              <h3 className="text-xs xs:text-sm sm:text-lg lg:text-xl font-black text-[#1C1C1C] tracking-tight leading-tight">
-                DINEOUT
-              </h3>
-              <p className="text-[8px] xs:text-[9.5px] sm:text-xs font-bold text-[#686B78] uppercase tracking-wider truncate">
-                EAT OUT & SAVE MORE
-              </p>
-              <div className="pt-0.5 sm:pt-1">
-                <span className="text-[7.5px] xs:text-[9px] sm:text-xs font-black text-[#FF5200] bg-[#FFF2EA] px-1.5 sm:px-2.5 py-0.5 sm:py-1 rounded sm:rounded-md inline-block whitespace-nowrap shadow-2xs">
-                  UPTO 50% OFF
-                </span>
+            <div className="flex flex-col h-full justify-between z-10">
+              {/* Top Text with Consistent Height */}
+              <div className="space-y-1 max-w-[62%] sm:max-w-[60%] lg:max-w-[65%] pr-0.5">
+                <h3 className="text-xs xs:text-sm sm:text-lg lg:text-xl font-black text-[#1C1C1C] tracking-tight leading-tight min-h-[30px] sm:min-h-[44px] flex items-center">
+                  DINEOUT
+                </h3>
+                <p className="text-[8px] xs:text-[9.5px] sm:text-xs font-bold text-[#686B78] uppercase tracking-wider truncate">
+                  EAT OUT & SAVE MORE
+                </p>
+                <div className="pt-1">
+                  <span className="text-[7.5px] xs:text-[9px] sm:text-xs font-black text-[#FF5200] bg-[#FFF2EA] px-1.5 sm:px-2.5 py-0.5 sm:py-1 rounded sm:rounded-md inline-block whitespace-nowrap shadow-2xs">
+                    UPTO 50% OFF
+                  </span>
+                </div>
               </div>
-            </div>
 
-            {/* Bottom Left Circular Orange Action Button */}
-            <div className="pt-2 sm:pt-4 z-10">
-              <div className="w-6 h-6 xs:w-7 xs:h-7 sm:w-9 sm:h-9 lg:w-10 lg:h-10 rounded-full bg-[#FF5200] text-white flex items-center justify-center shadow-md group-hover:scale-110 transition-transform">
-                <ArrowRight className="w-3 h-3 xs:w-3.5 xs:h-3.5 sm:w-4.5 sm:h-4.5 stroke-[2.5]" />
+              {/* Bottom Left Circular Orange Action Button */}
+              <div className="pt-2 sm:pt-4">
+                <div className="w-6 h-6 xs:w-7 xs:h-7 sm:w-9 sm:h-9 lg:w-10 lg:h-10 rounded-full bg-[#FF5200] text-white flex items-center justify-center shadow-md group-hover:scale-110 transition-transform">
+                  <ArrowRight className="w-3 h-3 xs:w-3.5 xs:h-3.5 sm:w-4.5 sm:h-4.5 stroke-[2.5]" />
+                </div>
               </div>
             </div>
 

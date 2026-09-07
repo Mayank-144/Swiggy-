@@ -1,5 +1,6 @@
 import React, { useRef } from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { ChevronLeft, ChevronRight, ArrowRight } from 'lucide-react';
 import { useToast } from '../context/ToastContext';
 
 const GROCERY_ITEMS = [
@@ -13,6 +14,7 @@ const GROCERY_ITEMS = [
 ];
 
 export const InstamartGrocerySection = () => {
+  const navigate = useNavigate();
   const scrollRef = useRef(null);
   const { addToast } = useToast();
 
@@ -24,17 +26,18 @@ export const InstamartGrocerySection = () => {
   };
 
   const handleItemClick = (name) => {
-    addToast(`Swiggy Instamart is delivering ${name} in 10 mins! ⚡`, 'info');
+    navigate('/instamart');
   };
 
   return (
     <div id="instamart-section" className="w-full">
       {/* Section Header */}
       <div className="flex items-center justify-between mb-3 sm:mb-5">
-        <div>
-          <h2 className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-[#1C1C1C] tracking-tight">
+        <div onClick={() => navigate('/instamart')} className="cursor-pointer group flex items-center gap-2">
+          <h2 className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-[#1C1C1C] tracking-tight group-hover:text-purple-700 transition-colors">
             Shop groceries on Instamart
           </h2>
+          <ArrowRight className="w-5 h-5 text-purple-600 opacity-0 group-hover:opacity-100 transition-opacity" />
         </div>
 
         {/* Right: Circle Navigation Buttons */}

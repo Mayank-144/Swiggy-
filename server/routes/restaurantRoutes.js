@@ -3,11 +3,13 @@ const router = express.Router();
 const {
   getAllRestaurants,
   getRestaurantById,
-  getCategories
+  getCategories,
+  getSearchSuggestions
 } = require('../controllers/restaurantController');
 
 router.get('/', getAllRestaurants);
 router.get('/categories', getCategories);
+router.get('/suggestions', getSearchSuggestions);
 router.get('/:id', getRestaurantById);
 
 module.exports = router;
