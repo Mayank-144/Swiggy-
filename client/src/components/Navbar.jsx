@@ -27,6 +27,7 @@ import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
 import { useToast } from '../context/ToastContext';
 import { restaurantAPI } from '../services/api';
+import { getLocalSearchSuggestions } from '../services/catalogData';
 import SwiggyLogo from './SwiggyLogo';
 import SearchSuggestionsDropdown from './SearchSuggestionsDropdown';
 
@@ -52,18 +53,21 @@ export const Navbar = ({ onSearch, searchQuery = '' }) => {
     setLocalSearch(searchQuery || '');
   }, [searchQuery]);
 
-  // Debounce search suggestions
+  // Instant local suggestions + async backend enrichment
   useEffect(() => {
     if (!localSearch || localSearch.trim().length === 0) {
       setSuggestions(null);
       return;
     }
 
+    const instant = getLocalSearchSuggestions(localSearch.trim());
+    setSuggestions(instant);
+
     const timer = setTimeout(async () => {
       setSuggestionsLoading(true);
       try {
         const res = await restaurantAPI.getSuggestions(localSearch.trim());
-        if (res.success) {
+        if (res && res.success) {
           setSuggestions(res);
         }
       } catch (err) {
@@ -71,7 +75,7 @@ export const Navbar = ({ onSearch, searchQuery = '' }) => {
       } finally {
         setSuggestionsLoading(false);
       }
-    }, 200);
+    }, 120);
 
     return () => clearTimeout(timer);
   }, [localSearch]);
@@ -105,15 +109,18 @@ export const Navbar = ({ onSearch, searchQuery = '' }) => {
     if (onSearch) {
       onSearch(localSearch.trim());
     }
-    if (location.pathname !== '/' && location.pathname !== '/food') {
-      navigate('/food');
-    }
+    navigate(`/food?search=${encodeURIComponent(localSearch.trim())}`);
   };
 
   const handleSearchChange = (val) => {
     setLocalSearch(val);
     setShowDesktopSuggestions(true);
     setShowMobileSuggestions(true);
+    if (val.trim().length > 0) {
+      setSuggestions(getLocalSearchSuggestions(val.trim()));
+    } else {
+      setSuggestions(null);
+    }
   };
 
   const handleSelectSuggestion = (text) => {
@@ -123,9 +130,7 @@ export const Navbar = ({ onSearch, searchQuery = '' }) => {
     if (onSearch) {
       onSearch(text);
     }
-    if (location.pathname !== '/' && location.pathname !== '/food') {
-      navigate('/food');
-    }
+    navigate(`/food?search=${encodeURIComponent(text)}`);
   };
 
   return (

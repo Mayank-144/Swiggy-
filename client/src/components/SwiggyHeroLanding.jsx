@@ -24,6 +24,7 @@ import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
 import { useToast } from '../context/ToastContext';
 import { restaurantAPI } from '../services/api';
+import { getLocalSearchSuggestions } from '../services/catalogData';
 import SwiggyLogo from './SwiggyLogo';
 import SearchSuggestionsDropdown from './SearchSuggestionsDropdown';
 
@@ -46,18 +47,23 @@ export const SwiggyLandingHeader = ({ onSearch, searchQuery = '' }) => {
     setLocalSearch(searchQuery || '');
   }, [searchQuery]);
 
-  // Fetch search suggestions on input change
+  // Fetch search suggestions with instant local fallback + server enrichment
   useEffect(() => {
     if (!localSearch || localSearch.trim().length === 0) {
       setSuggestions(null);
       return;
     }
 
+    // 1. Instant zero-latency local suggestions
+    const instant = getLocalSearchSuggestions(localSearch.trim());
+    setSuggestions(instant);
+
+    // 2. Query backend to enrich with database matches
     const timer = setTimeout(async () => {
       setSuggestionsLoading(true);
       try {
         const res = await restaurantAPI.getSuggestions(localSearch.trim());
-        if (res.success) {
+        if (res && res.success) {
           setSuggestions(res);
         }
       } catch (err) {
@@ -65,7 +71,7 @@ export const SwiggyLandingHeader = ({ onSearch, searchQuery = '' }) => {
       } finally {
         setSuggestionsLoading(false);
       }
-    }, 200);
+    }, 120);
 
     return () => clearTimeout(timer);
   }, [localSearch]);
@@ -97,8 +103,14 @@ export const SwiggyLandingHeader = ({ onSearch, searchQuery = '' }) => {
   };
 
   const handleSearchChange = (e) => {
-    setLocalSearch(e.target.value);
+    const val = e.target.value;
+    setLocalSearch(val);
     setShowSuggestions(true);
+    if (val.trim().length > 0) {
+      setSuggestions(getLocalSearchSuggestions(val.trim()));
+    } else {
+      setSuggestions(null);
+    }
   };
 
   const handleSelectSuggestion = (text) => {
@@ -135,7 +147,7 @@ export const SwiggyLandingHeader = ({ onSearch, searchQuery = '' }) => {
   };
 
   return (
-    <div className="relative w-full bg-[#FF5200] text-white overflow-hidden flex flex-col justify-between font-sans min-h-[auto] lg:min-h-screen py-3 sm:py-6">
+    <div className="relative w-full bg-[#FF5200] text-white flex flex-col justify-between font-sans min-h-[auto] lg:min-h-screen py-3 sm:py-6">
       {/* Left Decorative Fresh Grocery Bag (Official Swiggy asset, edge-cropped corner clamp) */}
       <div
         className="absolute pointer-events-none z-0 overflow-hidden select-none"
@@ -543,7 +555,7 @@ export const SwiggyLandingHeader = ({ onSearch, searchQuery = '' }) => {
           </button>
 
           {/* Search Box with Live Suggestions */}
-          <div ref={searchContainerRef} className="w-full sm:w-[60%] relative">
+          <div ref={searchContainerRef} className="w-full sm:w-[60%] relative z-50">
             <form onSubmit={handleSearchSubmit} className="relative h-12 sm:h-13">
               <div className="relative h-full w-full flex items-center bg-white rounded-2xl shadow-md">
                 <input
