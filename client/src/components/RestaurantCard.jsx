@@ -34,10 +34,14 @@ export const RestaurantCard = ({ restaurant, className = '' }) => {
           className="relative w-full h-40 xs:h-44 sm:h-48 overflow-hidden bg-slate-100 shrink-0 rounded-t-2xl"
         >
           <img
-            src={restaurant.image}
+            src={restaurant.image || 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&auto=format&fit=crop&q=80'}
             alt={restaurant.name}
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
             loading="lazy"
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&auto=format&fit=crop&q=80';
+            }}
           />
 
           {/* Dark gradient bottom on image */}

@@ -222,7 +222,7 @@ const restaurants = [
             isBestseller: true,
             rating: 4.7,
             ratingCount: 5600,
-            image: "https://images.unsplash.com/photo-1619881589886-538466661a55?w=500&auto=format&fit=crop&q=80",
+            image: "https://images.unsplash.com/photo-1619860860774-1e2e17343432?w=500&auto=format&fit=crop&q=80",
             isCustomisable: false,
             category: "Sides & Desserts"
           },
@@ -328,7 +328,7 @@ const restaurants = [
             isBestseller: true,
             rating: 4.5,
             ratingCount: 2200,
-            image: "https://images.unsplash.com/photo-1576107232684-1279f3908594?w=500&auto=format&fit=crop&q=80",
+            image: "https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=500&auto=format&fit=crop&q=80",
             isCustomisable: false,
             category: "Fries & Shakes"
           },

@@ -96,7 +96,7 @@ export const seedCatalogRestaurants = [
         id: "dom-201",
         name: "Stuffed Garlic Breadsticks",
         price: 159,
-        image: "https://images.unsplash.com/photo-1619881589886-538466661a55?w=500&auto=format&fit=crop&q=80",
+        image: "https://images.unsplash.com/photo-1619860860774-1e2e17343432?w=500&auto=format&fit=crop&q=80",
         isVeg: true,
         rating: 4.7
       },
@@ -140,7 +140,7 @@ export const seedCatalogRestaurants = [
         id: "bk-201",
         name: "King Peri Peri Fries",
         price: 119,
-        image: "https://images.unsplash.com/photo-1576107232684-1279f3908594?w=500&auto=format&fit=crop&q=80",
+        image: "https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=500&auto=format&fit=crop&q=80",
         isVeg: true,
         rating: 4.4
       }
@@ -248,7 +248,7 @@ export const seedCatalogRestaurants = [
         id: "ph-201",
         name: "Creamy Cheesy Pasta Italiano",
         price: 219,
-        image: "https://images.unsplash.com/photo-1621996346565-e3d5d6281729?w=500&auto=format&fit=crop&q=80",
+        image: "https://images.unsplash.com/photo-1608897013039-887f21d8c804?w=500&auto=format&fit=crop&q=80",
         isVeg: true,
         rating: 4.3
       }

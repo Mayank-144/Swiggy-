@@ -294,6 +294,10 @@ export const InstamartPage = () => {
                         alt={item.name}
                         className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300"
                         loading="lazy"
+                        onError={(e) => {
+                          e.target.onerror = null;
+                          e.target.src = 'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=300&auto=format&fit=crop&q=80';
+                        }}
                       />
                       {item.discount && (
                         <span className="absolute top-1.5 left-1.5 bg-[#7B2CBF] text-white text-[9px] font-black px-1.5 py-0.5 rounded-md shadow-2xs">

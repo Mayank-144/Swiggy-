@@ -77,6 +77,10 @@ export const InstamartGrocerySection = () => {
                 alt={item.name}
                 className="w-full h-full object-cover rounded-xl"
                 loading="lazy"
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.target.src = 'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=300&auto=format&fit=crop&q=80';
+                }}
               />
             </div>
 

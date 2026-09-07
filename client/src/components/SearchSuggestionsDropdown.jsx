@@ -116,6 +116,10 @@ export const SearchSuggestionsDropdown = ({
                         alt={dish.name}
                         className="w-full h-full object-cover"
                         loading="lazy"
+                        onError={(e) => {
+                          e.target.onerror = null;
+                          e.target.src = 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=300&auto=format&fit=crop&q=80';
+                        }}
                       />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center bg-orange-50 text-[#FF5200]">
@@ -174,6 +178,10 @@ export const SearchSuggestionsDropdown = ({
                     alt={rest.name}
                     className="w-11 h-11 sm:w-12 sm:h-12 rounded-xl object-cover shrink-0 border border-slate-200/80 group-hover:scale-105 transition-transform"
                     loading="lazy"
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src = 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=300&auto=format&fit=crop&q=80';
+                    }}
                   />
                   <div className="min-w-0">
                     <h4 className="text-xs sm:text-[13px] font-extrabold text-slate-900 group-hover:text-[#FF5200] transition-colors truncate">
