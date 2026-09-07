@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { ChevronLeft, ChevronRight, Star, MapPin, Tag, Utensils, Percent, ShieldCheck } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Star, Percent } from 'lucide-react';
 import { useToast } from '../context/ToastContext';
 
 const DINEOUT_RESTAURANTS = [
@@ -12,10 +12,10 @@ const DINEOUT_RESTAURANTS = [
     distance: '4.1 km',
     costForTwo: '₹400 for two',
     rating: '4.0',
-    primaryOffer: 'Flat 10% off on walk-in / pre-book',
+    primaryOffer: 'Flat 25% off on pre-booking',
     extraOffersCount: '+1 more',
     bankOffer: 'Up to 10% off with bank offers',
-    walletOffer: 'Get extra ₹150 off using PAYTM UPI'
+    walletOffer: 'Get extra ₹100 off using AXIS BANK'
   },
   {
     id: 'do-2',
@@ -25,11 +25,11 @@ const DINEOUT_RESTAURANTS = [
     location: 'The Green Building, BTM Ring Road',
     distance: '4.4 km',
     costForTwo: '₹700 for two',
-    rating: '3.9',
-    primaryOffer: 'Flat 15% off on walk-in / pre-book',
+    rating: '3.6',
+    primaryOffer: 'Flat 20% off on walk-in',
     extraOffersCount: '+1 more',
-    bankOffer: 'Up to 15% off with bank offers',
-    walletOffer: 'Get extra ₹100 off using PAYTM UPI'
+    bankOffer: 'Up to 10% off with bank offers',
+    walletOffer: 'Get extra ₹100 off using HDFC BANK'
   },
   {
     id: 'do-3',
@@ -40,10 +40,10 @@ const DINEOUT_RESTAURANTS = [
     distance: '3.2 km',
     costForTwo: '₹450 for two',
     rating: '4.2',
-    primaryOffer: 'Flat 10% off on walk-in / pre-book',
+    primaryOffer: 'Flat 25% off on walk-in',
     extraOffersCount: '+1 more',
     bankOffer: 'Up to 10% off with bank offers',
-    walletOffer: 'Get extra ₹100 off using PAYTM UPI'
+    walletOffer: 'Get extra ₹100 off using ICICI BANK'
   },
   {
     id: 'do-4',
@@ -78,16 +78,11 @@ export const DineoutSection = () => {
 
   return (
     <div id="dineout-section" className="w-full">
-      <div className="flex items-center justify-between mb-4 sm:mb-6">
+      <div className="flex items-center justify-between mb-3 sm:mb-5">
         <div>
-          <div className="flex items-center gap-2">
-            <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-slate-900 tracking-tight">
-              Discover best restaurants on Dineout
-            </h2>
-          </div>
-          <p className="text-xs sm:text-sm text-slate-500 font-normal mt-0.5">
-            Book tables, pay bills & save big at top cafes and luxury dining spots
-          </p>
+          <h2 className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-[#1C1C1C] tracking-tight">
+            Discover best restaurants on Dineout
+          </h2>
         </div>
 
         <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
@@ -116,11 +111,11 @@ export const DineoutSection = () => {
           <div
             key={rest.id}
             onClick={() => handleBookTable(rest.name)}
-            className="w-72 sm:w-80 rounded-2xl bg-white border border-slate-200/80 shadow-xs hover:shadow-md hover:-translate-y-1 transition-all duration-300 overflow-hidden flex flex-col justify-between shrink-0 cursor-pointer group"
+            className="w-72 sm:w-80 lg:w-88 rounded-2xl bg-white border border-slate-200/80 shadow-xs hover:shadow-lg hover:-translate-y-1 transition-all duration-300 overflow-hidden flex flex-col justify-between shrink-0 cursor-pointer group"
           >
             <div>
               {/* Photo with gradient overlay and bottom name + rating */}
-              <div className="relative h-40 sm:h-44 w-full overflow-hidden bg-slate-100">
+              <div className="relative h-44 sm:h-48 w-full overflow-hidden bg-slate-100">
                 <img
                   src={rest.image}
                   alt={rest.name}
@@ -133,7 +128,7 @@ export const DineoutSection = () => {
 
                 {/* Bottom Overlay Info: Name & Rating Badge */}
                 <div className="absolute bottom-2.5 left-3 right-3 flex items-center justify-between gap-2">
-                  <h3 className="font-bold text-sm sm:text-base text-white truncate drop-shadow-md">
+                  <h3 className="font-extrabold text-sm sm:text-base text-white truncate drop-shadow-md">
                     {rest.name}
                   </h3>
                   <div className="flex items-center gap-1 px-1.5 py-0.5 bg-emerald-600 text-white rounded-md text-[10px] sm:text-xs font-bold shrink-0 shadow-xs">
@@ -155,8 +150,8 @@ export const DineoutSection = () => {
                   <span className="shrink-0">{rest.distance}</span>
                 </div>
 
-                {/* Green Offer Pill: e.g. Flat 10% off on walk-in */}
-                <div className="p-2 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 flex items-center justify-between gap-1 text-[11px] font-extrabold">
+                {/* Green Offer Pill: e.g. Flat 25% off on pre-booking */}
+                <div className="p-2 rounded-xl bg-[#E8F8F0] border border-emerald-300/60 text-emerald-800 flex items-center justify-between gap-1 text-[11px] font-extrabold">
                   <div className="flex items-center gap-1.5 truncate">
                     <Percent className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
                     <span className="truncate">{rest.primaryOffer}</span>
@@ -172,7 +167,7 @@ export const DineoutSection = () => {
                 </div>
 
                 {/* Wallet Offer Line */}
-                <div className="text-[10px] sm:text-[11px] font-bold text-blue-700 truncate">
+                <div className="text-[10px] sm:text-[11px] font-bold text-indigo-700 truncate">
                   {rest.walletOffer}
                 </div>
               </div>

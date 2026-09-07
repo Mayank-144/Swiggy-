@@ -83,33 +83,49 @@ export const SwiggyLandingHeader = ({ onSearch, searchQuery = '' }) => {
   };
 
   return (
-    <div className="relative w-full bg-[#FF5200] text-white overflow-hidden flex flex-col justify-between font-sans min-h-[auto] md:min-h-screen">
-      {/* Left Decorative Fresh Grocery Bag (Edge cropped, hidden on mobile/tablet) */}
-      <div className="hidden xl:block absolute bottom-[-20px] left-[-60px] w-[360px] 2xl:w-[440px] h-[400px] 2xl:h-[460px] pointer-events-none z-0 overflow-hidden">
+    <div className="relative w-full bg-[#FF5200] text-white overflow-hidden flex flex-col justify-between font-sans min-h-[auto] lg:min-h-screen py-3 sm:py-6">
+      {/* Left Decorative Fresh Grocery Bag (Official Swiggy asset, edge-cropped corner clamp) */}
+      <div
+        className="absolute pointer-events-none z-0 overflow-hidden select-none"
+        style={{
+          width: 'clamp(120px, 25vw, 440px)',
+          height: 'clamp(130px, 28vw, 480px)',
+          left: 'clamp(-40px, -2vw, 0px)',
+          top: 'clamp(14%, 18vw, 22%)',
+        }}
+      >
         <img
-          src="/images/swiggy_grocery_bag.jpg"
+          src="/images/swiggy_grocery_bag.png"
           alt="Fresh Grocery Bag"
-          className="w-full h-full object-contain object-bottom-left mix-blend-multiply opacity-95"
+          className="w-full h-full object-contain object-left"
         />
       </div>
 
-      {/* Right Decorative Sushi & Chopsticks Plate (Edge cropped, hidden on mobile/tablet) */}
-      <div className="hidden xl:block absolute top-[-30px] right-[-50px] w-[380px] 2xl:w-[460px] h-[400px] 2xl:h-[460px] pointer-events-none z-0 overflow-hidden">
+      {/* Right Decorative Sushi & Chopsticks Plate (Official Swiggy asset, edge-cropped corner clamp) */}
+      <div
+        className="absolute pointer-events-none z-0 overflow-hidden select-none"
+        style={{
+          width: 'clamp(130px, 26vw, 460px)',
+          height: 'clamp(130px, 26vw, 460px)',
+          right: 'clamp(-40px, -2vw, 0px)',
+          top: 'clamp(8%, 12vw, 16%)',
+        }}
+      >
         <img
-          src="/images/swiggy_sushi_plate.jpg"
+          src="/images/swiggy_sushi_plate.png"
           alt="Asian Sushi Platter"
-          className="w-full h-full object-contain object-top-right mix-blend-multiply opacity-95"
+          className="w-full h-full object-contain object-right"
         />
       </div>
 
       {/* Top Navbar Header */}
-      <div className="w-full max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8 pt-3.5 sm:pt-6 relative z-30">
+      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-1 sm:pt-2 relative z-30">
         <div className="flex items-center justify-between gap-2">
           {/* Swiggy Official Brand Logo */}
           <SwiggyLogo variant="white" size="md" />
 
           {/* Right Header Navigation Links */}
-          <div className="flex items-center gap-2 sm:gap-4 md:gap-7 text-sm font-semibold">
+          <div className="flex items-center gap-3 sm:gap-5 md:gap-7 text-sm font-semibold">
             <a
               href="#corporate"
               onClick={(e) => {
@@ -207,7 +223,7 @@ export const SwiggyLandingHeader = ({ onSearch, searchQuery = '' }) => {
               <button
                 type="button"
                 onClick={() => openAuthModal('login')}
-                className="px-3.5 sm:px-8 py-1.5 sm:py-3 rounded-2xl bg-black hover:bg-neutral-900 text-white font-extrabold text-xs sm:text-sm shadow-xl transition-transform active:scale-95 cursor-pointer"
+                className="px-5 sm:px-8 py-2 sm:py-3 rounded-2xl bg-black hover:bg-neutral-900 text-white font-extrabold text-xs sm:text-sm shadow-xl transition-transform active:scale-95 cursor-pointer"
               >
                 Sign in
               </button>
@@ -307,71 +323,75 @@ export const SwiggyLandingHeader = ({ onSearch, searchQuery = '' }) => {
       </div>
 
       {/* Central Headline & Dual Search Bar Area */}
-      <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 relative z-10 my-4 sm:my-auto py-3 sm:py-8 space-y-4 sm:space-y-6">
-        <div className="text-center space-y-1 sm:space-y-2">
-          <h1 className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-[52px] font-black text-white tracking-tight leading-tight sm:leading-snug drop-shadow-xs max-w-3xl mx-auto">
-            Order food & groceries. Discover<br className="hidden sm:inline" /> best restaurants. Swiggy it!
+      <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 relative z-20 my-auto py-4 sm:py-6 space-y-4 sm:space-y-6">
+        <div className="text-center">
+          <h1
+            className="font-black text-white tracking-tight leading-[1.14] drop-shadow-xs max-w-4xl mx-auto text-center flex flex-col items-center justify-center"
+            style={{
+              fontSize: 'clamp(1.35rem, 3.8vw, 3.35rem)',
+            }}
+          >
+            <span className="block whitespace-normal sm:whitespace-nowrap">Order food &amp; groceries. Discover</span>
+            <span className="block whitespace-normal sm:whitespace-nowrap">best restaurants. Swiggy it!</span>
           </h1>
         </div>
 
-        {/* Unified Pill Bar: Location + Search Input */}
-        <div className="w-full max-w-3xl mx-auto">
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center bg-white rounded-2xl shadow-2xl p-1 sm:p-1.5 gap-1 sm:gap-2">
-            {/* Location Selector */}
-            <button
-              type="button"
-              onClick={() => setIsLocationModalOpen(true)}
-              className="w-full sm:w-72 h-11 sm:h-12 bg-slate-50 sm:bg-transparent text-slate-800 px-3 sm:px-4 rounded-xl flex items-center justify-between gap-2 hover:bg-slate-100/70 transition-all text-left group shrink-0 cursor-pointer sm:border-r sm:border-slate-200"
-            >
-              <div className="flex items-center gap-2 truncate">
-                <MapPin className="w-4 h-4 text-[#FF5200] shrink-0" />
-                <span className="font-semibold text-xs sm:text-sm text-slate-700 truncate">
-                  {currentLocation.area || 'Enter your delivery location'}
-                </span>
-              </div>
-              <ChevronDown className="w-3.5 h-3.5 text-slate-400 group-hover:text-slate-700 shrink-0" />
-            </button>
+        {/* Dual Input Boxes: Location Selector & Search Input */}
+        <div className="w-full max-w-3xl mx-auto flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 sm:gap-3">
+          {/* Location Box */}
+          <button
+            type="button"
+            onClick={() => setIsLocationModalOpen(true)}
+            className="w-full sm:w-[40%] h-12 sm:h-13 bg-white text-slate-800 px-4 rounded-2xl shadow-md flex items-center justify-between gap-2 hover:bg-slate-50 transition-all text-left group shrink-0 cursor-pointer"
+          >
+            <div className="flex items-center gap-2.5 truncate">
+              <MapPin className="w-4.5 h-4.5 text-[#FF5200] shrink-0" />
+              <span className="font-semibold text-xs sm:text-[13.5px] text-slate-700 truncate">
+                {currentLocation.area || 'Enter your delivery location'}
+              </span>
+            </div>
+            <ChevronDown className="w-4 h-4 text-slate-400 group-hover:text-slate-700 shrink-0" />
+          </button>
 
-            {/* Search Input Form */}
-            <form onSubmit={handleSearchSubmit} className="w-full flex-1 relative h-11 sm:h-12">
-              <div className="relative h-full w-full flex items-center">
-                <input
-                  type="text"
-                  value={localSearch}
-                  onChange={handleSearchChange}
-                  placeholder="Search for restaurant, item or more"
-                  className="w-full h-full bg-transparent text-slate-900 placeholder-[#93959F] px-3 sm:px-4 pr-10 rounded-xl text-xs sm:text-sm font-semibold focus:outline-none"
-                />
-                <button
-                  type="submit"
-                  aria-label="Search"
-                  className="absolute right-2 sm:right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 p-1.5 cursor-pointer"
-                >
-                  <Search className="w-4 h-4 sm:w-4.5 sm:h-4.5" />
-                </button>
-              </div>
-            </form>
-          </div>
+          {/* Search Box */}
+          <form onSubmit={handleSearchSubmit} className="w-full sm:w-[60%] relative h-12 sm:h-13">
+            <div className="relative h-full w-full flex items-center bg-white rounded-2xl shadow-md">
+              <input
+                type="text"
+                value={localSearch}
+                onChange={handleSearchChange}
+                placeholder="Search for restaurant, item or more"
+                className="w-full h-full bg-transparent text-slate-900 placeholder-[#93959F] px-4 pr-11 rounded-2xl text-xs sm:text-[13.5px] font-semibold focus:outline-none"
+              />
+              <button
+                type="submit"
+                aria-label="Search"
+                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-[#FF5200] p-1 cursor-pointer transition-colors"
+              >
+                <Search className="w-4.5 h-4.5" />
+              </button>
+            </div>
+          </form>
         </div>
       </div>
 
-      {/* 3 Prominent Swiggy Service Cards (Matching Reference Layout across All Screens) */}
-      <div className="w-full max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 pb-5 sm:pb-8 relative z-10">
-        <div className="grid grid-cols-3 gap-2.5 sm:gap-5 lg:gap-6 max-w-5xl mx-auto">
+      {/* 3 Prominent Swiggy Service Cards (Matching Reference Screenshot) */}
+      <div className="w-full max-w-5xl mx-auto px-3 sm:px-6 lg:px-8 pb-4 sm:pb-8 relative z-10">
+        <div className="grid grid-cols-3 gap-3 sm:gap-6 max-w-4xl lg:max-w-5xl mx-auto">
           {/* Card 1: FOOD DELIVERY */}
           <div
             onClick={scrollToFood}
-            className="bg-white rounded-2xl p-2.5 xs:p-3.5 sm:p-5 lg:p-6 text-slate-900 shadow-lg sm:shadow-xl flex flex-col justify-between cursor-pointer hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 group overflow-hidden relative min-h-[125px] xs:min-h-[145px] sm:min-h-[185px] lg:min-h-[220px] select-none"
+            className="bg-white rounded-3xl p-3.5 xs:p-4 sm:p-5 lg:p-6 text-slate-900 shadow-xl flex flex-col justify-between cursor-pointer hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 group overflow-hidden relative min-h-[145px] xs:min-h-[165px] sm:min-h-[200px] lg:min-h-[235px] select-none"
           >
-            <div className="space-y-0.5 sm:space-y-1 z-10 max-w-[62%] sm:max-w-[60%] lg:max-w-[65%] pr-0.5">
-              <h3 className="text-[10px] xs:text-xs sm:text-base md:text-lg lg:text-xl font-black text-[#1C1C1C] tracking-tight leading-tight">
+            <div className="space-y-1 z-10 max-w-[62%] sm:max-w-[60%] lg:max-w-[65%] pr-0.5">
+              <h3 className="text-xs xs:text-sm sm:text-lg lg:text-xl font-black text-[#1C1C1C] tracking-tight leading-tight">
                 FOOD DELIVERY
               </h3>
-              <p className="text-[7.5px] xs:text-[9px] sm:text-xs font-bold text-[#686B78] uppercase tracking-wider truncate">
+              <p className="text-[8px] xs:text-[9.5px] sm:text-xs font-bold text-[#686B78] uppercase tracking-wider truncate">
                 FROM RESTAURANTS
               </p>
               <div className="pt-0.5 sm:pt-1">
-                <span className="text-[7px] xs:text-[8.5px] sm:text-xs font-black text-[#FF5200] bg-[#FFF2EA] px-1 xs:px-1.5 sm:px-2.5 py-0.5 sm:py-1 rounded sm:rounded-md inline-block whitespace-nowrap shadow-2xs">
+                <span className="text-[7.5px] xs:text-[9px] sm:text-xs font-black text-[#FF5200] bg-[#FFF2EA] px-1.5 sm:px-2.5 py-0.5 sm:py-1 rounded sm:rounded-md inline-block whitespace-nowrap shadow-2xs">
                   UPTO 60% OFF
                 </span>
               </div>
@@ -379,13 +399,13 @@ export const SwiggyLandingHeader = ({ onSearch, searchQuery = '' }) => {
 
             {/* Bottom Left Circular Orange Action Button */}
             <div className="pt-2 sm:pt-4 z-10">
-              <div className="w-5 h-5 xs:w-6 xs:h-6 sm:w-8 sm:h-8 lg:w-10 lg:h-10 rounded-full bg-[#FF5200] text-white flex items-center justify-center shadow-md group-hover:scale-110 transition-transform">
-                <ArrowRight className="w-2.5 h-2.5 xs:w-3 xs:h-3 sm:w-4 sm:h-4 lg:w-4.5 lg:h-4.5 stroke-[2.5]" />
+              <div className="w-6 h-6 xs:w-7 xs:h-7 sm:w-9 sm:h-9 lg:w-10 lg:h-10 rounded-full bg-[#FF5200] text-white flex items-center justify-center shadow-md group-hover:scale-110 transition-transform">
+                <ArrowRight className="w-3 h-3 xs:w-3.5 xs:h-3.5 sm:w-4.5 sm:h-4.5 stroke-[2.5]" />
               </div>
             </div>
 
             {/* Bottom Right Skillet Food Image */}
-            <div className="absolute right-0 bottom-0 w-16 h-16 xs:w-20 xs:h-20 sm:w-28 sm:h-28 md:w-36 md:h-36 lg:w-40 lg:h-40 pointer-events-none group-hover:scale-105 transition-transform duration-300">
+            <div className="absolute right-0 bottom-0 w-20 h-20 xs:w-24 xs:h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 pointer-events-none group-hover:scale-105 transition-transform duration-300">
               <img
                 src="/images/swiggy_food_skillet.jpg"
                 alt="Food Delivery Skillet"
@@ -397,17 +417,17 @@ export const SwiggyLandingHeader = ({ onSearch, searchQuery = '' }) => {
           {/* Card 2: INSTAMART */}
           <div
             onClick={scrollToInstamart}
-            className="bg-white rounded-2xl p-2.5 xs:p-3.5 sm:p-5 lg:p-6 text-slate-900 shadow-lg sm:shadow-xl flex flex-col justify-between cursor-pointer hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 group overflow-hidden relative min-h-[125px] xs:min-h-[145px] sm:min-h-[185px] lg:min-h-[220px] select-none"
+            className="bg-white rounded-3xl p-3.5 xs:p-4 sm:p-5 lg:p-6 text-slate-900 shadow-xl flex flex-col justify-between cursor-pointer hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 group overflow-hidden relative min-h-[145px] xs:min-h-[165px] sm:min-h-[200px] lg:min-h-[235px] select-none"
           >
-            <div className="space-y-0.5 sm:space-y-1 z-10 max-w-[62%] sm:max-w-[60%] lg:max-w-[65%] pr-0.5">
-              <h3 className="text-[10px] xs:text-xs sm:text-base md:text-lg lg:text-xl font-black text-[#1C1C1C] tracking-tight leading-tight">
+            <div className="space-y-1 z-10 max-w-[62%] sm:max-w-[60%] lg:max-w-[65%] pr-0.5">
+              <h3 className="text-xs xs:text-sm sm:text-lg lg:text-xl font-black text-[#1C1C1C] tracking-tight leading-tight">
                 INSTAMART
               </h3>
-              <p className="text-[7.5px] xs:text-[9px] sm:text-xs font-bold text-[#686B78] uppercase tracking-wider truncate">
+              <p className="text-[8px] xs:text-[9.5px] sm:text-xs font-bold text-[#686B78] uppercase tracking-wider truncate">
                 INSTANT GROCERY
               </p>
               <div className="pt-0.5 sm:pt-1">
-                <span className="text-[7px] xs:text-[8.5px] sm:text-xs font-black text-[#FF5200] bg-[#FFF2EA] px-1 xs:px-1.5 sm:px-2.5 py-0.5 sm:py-1 rounded sm:rounded-md inline-block whitespace-nowrap shadow-2xs">
+                <span className="text-[7.5px] xs:text-[9px] sm:text-xs font-black text-[#FF5200] bg-[#FFF2EA] px-1.5 sm:px-2.5 py-0.5 sm:py-1 rounded sm:rounded-md inline-block whitespace-nowrap shadow-2xs">
                   UPTO 60% OFF
                 </span>
               </div>
@@ -415,13 +435,13 @@ export const SwiggyLandingHeader = ({ onSearch, searchQuery = '' }) => {
 
             {/* Bottom Left Circular Orange Action Button */}
             <div className="pt-2 sm:pt-4 z-10">
-              <div className="w-5 h-5 xs:w-6 xs:h-6 sm:w-8 sm:h-8 lg:w-10 lg:h-10 rounded-full bg-[#FF5200] text-white flex items-center justify-center shadow-md group-hover:scale-110 transition-transform">
-                <ArrowRight className="w-2.5 h-2.5 xs:w-3 xs:h-3 sm:w-4 sm:h-4 lg:w-4.5 lg:h-4.5 stroke-[2.5]" />
+              <div className="w-6 h-6 xs:w-7 xs:h-7 sm:w-9 sm:h-9 lg:w-10 lg:h-10 rounded-full bg-[#FF5200] text-white flex items-center justify-center shadow-md group-hover:scale-110 transition-transform">
+                <ArrowRight className="w-3 h-3 xs:w-3.5 xs:h-3.5 sm:w-4.5 sm:h-4.5 stroke-[2.5]" />
               </div>
             </div>
 
             {/* Bottom Right Grocery Basket Image */}
-            <div className="absolute right-0 bottom-0 w-16 h-16 xs:w-20 xs:h-20 sm:w-28 sm:h-28 md:w-36 md:h-36 lg:w-40 lg:h-40 pointer-events-none group-hover:scale-105 transition-transform duration-300">
+            <div className="absolute right-0 bottom-0 w-20 h-20 xs:w-24 xs:h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 pointer-events-none group-hover:scale-105 transition-transform duration-300">
               <img
                 src="/images/swiggy_grocery_basket.jpg"
                 alt="Instamart Basket"
@@ -433,17 +453,17 @@ export const SwiggyLandingHeader = ({ onSearch, searchQuery = '' }) => {
           {/* Card 3: DINEOUT */}
           <div
             onClick={scrollToDineout}
-            className="bg-white rounded-2xl p-2.5 xs:p-3.5 sm:p-5 lg:p-6 text-slate-900 shadow-lg sm:shadow-xl flex flex-col justify-between cursor-pointer hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 group overflow-hidden relative min-h-[125px] xs:min-h-[145px] sm:min-h-[185px] lg:min-h-[220px] select-none"
+            className="bg-white rounded-3xl p-3.5 xs:p-4 sm:p-5 lg:p-6 text-slate-900 shadow-xl flex flex-col justify-between cursor-pointer hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 group overflow-hidden relative min-h-[145px] xs:min-h-[165px] sm:min-h-[200px] lg:min-h-[235px] select-none"
           >
-            <div className="space-y-0.5 sm:space-y-1 z-10 max-w-[62%] sm:max-w-[60%] lg:max-w-[65%] pr-0.5">
-              <h3 className="text-[10px] xs:text-xs sm:text-base md:text-lg lg:text-xl font-black text-[#1C1C1C] tracking-tight leading-tight">
+            <div className="space-y-1 z-10 max-w-[62%] sm:max-w-[60%] lg:max-w-[65%] pr-0.5">
+              <h3 className="text-xs xs:text-sm sm:text-lg lg:text-xl font-black text-[#1C1C1C] tracking-tight leading-tight">
                 DINEOUT
               </h3>
-              <p className="text-[7.5px] xs:text-[9px] sm:text-xs font-bold text-[#686B78] uppercase tracking-wider truncate">
+              <p className="text-[8px] xs:text-[9.5px] sm:text-xs font-bold text-[#686B78] uppercase tracking-wider truncate">
                 EAT OUT & SAVE MORE
               </p>
               <div className="pt-0.5 sm:pt-1">
-                <span className="text-[7px] xs:text-[8.5px] sm:text-xs font-black text-[#FF5200] bg-[#FFF2EA] px-1 xs:px-1.5 sm:px-2.5 py-0.5 sm:py-1 rounded sm:rounded-md inline-block whitespace-nowrap shadow-2xs">
+                <span className="text-[7.5px] xs:text-[9px] sm:text-xs font-black text-[#FF5200] bg-[#FFF2EA] px-1.5 sm:px-2.5 py-0.5 sm:py-1 rounded sm:rounded-md inline-block whitespace-nowrap shadow-2xs">
                   UPTO 50% OFF
                 </span>
               </div>
@@ -451,13 +471,13 @@ export const SwiggyLandingHeader = ({ onSearch, searchQuery = '' }) => {
 
             {/* Bottom Left Circular Orange Action Button */}
             <div className="pt-2 sm:pt-4 z-10">
-              <div className="w-5 h-5 xs:w-6 xs:h-6 sm:w-8 sm:h-8 lg:w-10 lg:h-10 rounded-full bg-[#FF5200] text-white flex items-center justify-center shadow-md group-hover:scale-110 transition-transform">
-                <ArrowRight className="w-2.5 h-2.5 xs:w-3 xs:h-3 sm:w-4 sm:h-4 lg:w-4.5 lg:h-4.5 stroke-[2.5]" />
+              <div className="w-6 h-6 xs:w-7 xs:h-7 sm:w-9 sm:h-9 lg:w-10 lg:h-10 rounded-full bg-[#FF5200] text-white flex items-center justify-center shadow-md group-hover:scale-110 transition-transform">
+                <ArrowRight className="w-3 h-3 xs:w-3.5 xs:h-3.5 sm:w-4.5 sm:h-4.5 stroke-[2.5]" />
               </div>
             </div>
 
             {/* Bottom Right Dineout Table Plate Image */}
-            <div className="absolute right-0 bottom-0 w-16 h-16 xs:w-20 xs:h-20 sm:w-28 sm:h-28 md:w-36 md:h-36 lg:w-40 lg:h-40 pointer-events-none group-hover:scale-105 transition-transform duration-300">
+            <div className="absolute right-0 bottom-0 w-20 h-20 xs:w-24 xs:h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 pointer-events-none group-hover:scale-105 transition-transform duration-300">
               <img
                 src="/images/swiggy_dineout_plate.jpg"
                 alt="Dineout Table Plate"
@@ -465,18 +485,6 @@ export const SwiggyLandingHeader = ({ onSearch, searchQuery = '' }) => {
               />
             </div>
           </div>
-        </div>
-
-        {/* Scroll down explore indicator */}
-        <div className="flex justify-center pt-3.5 sm:pt-6">
-          <button
-            type="button"
-            onClick={scrollToFood}
-            className="flex items-center gap-2 px-4 sm:px-6 py-1.5 sm:py-2.5 rounded-full bg-white/20 hover:bg-white/30 backdrop-blur-md text-white font-bold text-[11px] sm:text-xs transition-all animate-bounce cursor-pointer shadow-md"
-          >
-            <span>Explore Restaurants & Menus</span>
-            <ChevronDown className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-          </button>
         </div>
       </div>
     </div>

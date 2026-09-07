@@ -3,12 +3,13 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useToast } from '../context/ToastContext';
 
 const GROCERY_ITEMS = [
-  { id: 'veg', name: 'Fresh Vegetables', time: '10 MINS', image: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=300&auto=format&fit=crop&q=80' },
-  { id: 'fruits', name: 'Fresh Fruits', time: '10 MINS', image: 'https://images.unsplash.com/photo-1619566636858-adf3ef46400b?w=300&auto=format&fit=crop&q=80' },
-  { id: 'dairy', name: 'Dairy Bread and Eggs', time: '10 MINS', image: 'https://images.unsplash.com/photo-1550583724-b2692b85b150?w=300&auto=format&fit=crop&q=80' },
-  { id: 'rice', name: 'Rice Atta and Dal', time: '10 MINS', image: 'https://images.unsplash.com/photo-1586201375761-83865001e31c?w=300&auto=format&fit=crop&q=80' },
-  { id: 'masala', name: 'Masalas and Dry Fruits', time: '10 MINS', image: 'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=300&auto=format&fit=crop&q=80' },
-  { id: 'oils', name: 'Oils', time: '10 MINS', image: 'https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=300&auto=format&fit=crop&q=80' }
+  { id: 'veg', name: 'Fresh Vegetables', image: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=300&auto=format&fit=crop&q=80' },
+  { id: 'fruits', name: 'Fresh Fruits', image: 'https://images.unsplash.com/photo-1619566636858-adf3ef46400b?w=300&auto=format&fit=crop&q=80' },
+  { id: 'dairy', name: 'Dairy, Bread and Eggs', image: 'https://images.unsplash.com/photo-1550583724-b2692b85b150?w=300&auto=format&fit=crop&q=80' },
+  { id: 'rice', name: 'Rice, Atta and Dal', image: 'https://images.unsplash.com/photo-1586201375761-83865001e31c?w=300&auto=format&fit=crop&q=80' },
+  { id: 'masala', name: 'Masalas and Dry Fruits', image: 'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=300&auto=format&fit=crop&q=80' },
+  { id: 'oils', name: 'Oils and Ghee', image: 'https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=300&auto=format&fit=crop&q=80' },
+  { id: 'snacks', name: 'Munchies & Snacks', image: 'https://images.unsplash.com/photo-1566478989037-eec170784d0b?w=300&auto=format&fit=crop&q=80' }
 ];
 
 export const InstamartGrocerySection = () => {
@@ -29,19 +30,11 @@ export const InstamartGrocerySection = () => {
   return (
     <div id="instamart-section" className="w-full">
       {/* Section Header */}
-      <div className="flex items-center justify-between mb-4 sm:mb-6">
+      <div className="flex items-center justify-between mb-3 sm:mb-5">
         <div>
-          <div className="flex items-center gap-2">
-            <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-slate-900 tracking-tight">
-              Shop groceries on Instamart
-            </h2>
-            <span className="hidden sm:inline-flex items-center gap-1 bg-emerald-50 text-emerald-700 text-xs font-bold px-2.5 py-0.5 rounded-full border border-emerald-200/60">
-              ⚡ 10 MINS
-            </span>
-          </div>
-          <p className="text-xs sm:text-sm text-slate-500 font-normal mt-0.5">
-            Fresh produce, dairy, daily essentials & more delivered to your doorstep
-          </p>
+          <h2 className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-[#1C1C1C] tracking-tight">
+            Shop groceries on Instamart
+          </h2>
         </div>
 
         {/* Right: Circle Navigation Buttons */}
@@ -72,27 +65,20 @@ export const InstamartGrocerySection = () => {
           <div
             key={item.id}
             onClick={() => handleItemClick(item.name)}
-            className="w-28 xs:w-32 sm:w-36 flex flex-col items-center cursor-pointer group shrink-0 text-center"
+            className="w-28 xs:w-32 sm:w-36 md:w-40 flex flex-col items-center cursor-pointer group shrink-0 text-center select-none"
           >
-            {/* Square image container */}
-            <div className="w-24 h-24 xs:w-28 xs:h-28 sm:w-32 sm:h-32 rounded-2xl overflow-hidden bg-slate-50 border border-slate-100 group-hover:scale-105 transition-transform duration-300 shadow-2xs">
+            {/* Square/Rounded Container with soft neutral background */}
+            <div className="w-24 h-24 xs:w-28 xs:h-28 sm:w-32 sm:h-32 md:w-36 md:h-36 rounded-2xl overflow-hidden bg-[#F2F4F7] p-2 flex items-center justify-center group-hover:scale-105 transition-transform duration-300 shadow-2xs border border-slate-100">
               <img
                 src={item.image}
                 alt={item.name}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover rounded-xl"
                 loading="lazy"
               />
             </div>
 
-            {/* Delivery time badge */}
-            <div className="mt-2">
-              <span className="bg-emerald-50 text-emerald-800 text-[10px] sm:text-[11px] font-bold px-2 py-0.5 rounded-full border border-emerald-200/50 inline-block shadow-2xs">
-                ⚡ {item.time}
-              </span>
-            </div>
-
-            {/* Item name */}
-            <span className="text-xs sm:text-sm font-semibold text-slate-800 mt-1.5 text-center w-full leading-tight truncate px-1 group-hover:text-swiggy-orange transition-colors">
+            {/* Item name below */}
+            <span className="text-xs sm:text-sm font-semibold text-slate-800 mt-2 text-center w-full leading-tight line-clamp-2 px-1 group-hover:text-[#FF5200] transition-colors">
               {item.name}
             </span>
           </div>
