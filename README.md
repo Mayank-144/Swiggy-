@@ -36,7 +36,14 @@
   - Responsive Mobile Hamburger menu with profile, orders, addresses, and navigation links.
   - No horizontal page overflow; touch-friendly swipeable carousels.
 
-### 💳 2. Payment Gateway & Checkout
+### 🛍️ 2. Dedicated Service Verticals & Cart System
+- **⚡ Food Delivery (`/food`)**: Dedicated food marketplace with comprehensive filter bar (Veg-only, Ratings, Delivery time, Price) and top restaurant chains.
+- **⚡ Swiggy Instamart (`/instamart`)**: 10-minute grocery delivery with category sidebar navigation, item quantity controls, and instant cart additions.
+- **⚡ Swiggy Dineout (`/dineout`)**: Restaurant discovery, table reservation booking, up to 50% discount offers, and bank deals.
+- **⚡ Persistent Floating Bottom Cart Bar**: Sticky bottom pill/bar displaying total items count, pricing in ₹, and instant `VIEW CART →` trigger across all pages.
+- **⚡ Live Keystroke Search Suggestions**: 0ms instant matching with dish photos, restaurant ratings, highlighted text, and cuisine chips.
+
+### 💳 3. Payment Gateway & Checkout
 - **Official Razorpay Integration**:
   - Direct 256-bit encrypted checkout popup supporting **UPI (Google Pay, PhonePe, Paytm), Cards, NetBanking & Wallets**.
   - Backend HMAC-SHA256 signature verification for fraud-proof transaction security.
@@ -47,14 +54,14 @@
   - Instant coupon validation (`SWIGGY50`, `FEAST100`, `WELCOME20`, `TASTY30`).
   - Automatic dynamic Delivery Fee waiver on orders above ₹500.
 
-### 🛵 3. Live Order Tracking & Simulation
+### 🛵 4. Live Order Tracking & Simulation
 - Real-time animated 4-stage delivery timeline (*Order Confirmed ➔ Preparing Food ➔ Out for Delivery ➔ Order Delivered*).
 - Live ETA countdown timer.
 - Moving valet scooter on dark-mode stylized map route.
 - Delivery Partner contact card with direct phone dialer trigger.
 - Full bill receipt with itemized breakdown and payment status badges.
 
-### 🔒 4. Authentication & User Profile
+### 🔒 5. Authentication & User Profile
 - JWT-based authentication with bcrypt password hashing.
 - **⚡ One-Click Instant Demo Login** for quick testing.
 - Profile dashboard with tabs for:
@@ -62,7 +69,7 @@
   - **Saved Addresses**: Manage multiple home/work addresses.
   - **Favorites**: Bookmarked restaurants for quick ordering.
 
-### ⚡ 5. Resilient Dual-Data Architecture
+### ⚡ 6. Resilient Dual-Data Architecture
 - Connects automatically to **MongoDB Atlas / Local MongoDB**.
 - **Shared In-Memory Fallback**: Seamless high-speed fallback store so the application runs with 100% functionality even in offline / demo environments without database downtime.
 
@@ -74,10 +81,10 @@
 swiggy-clone/
 ├── client/                     # Frontend (React + Vite + Tailwind CSS)
 │   ├── src/
-│   │   ├── components/         # Reusable UI (Navbar, Hero, RestaurantCard, CartDrawer, etc.)
+│   │   ├── components/         # Reusable UI (Navbar, Hero, RestaurantCard, CartDrawer, FloatingCartBar, etc.)
 │   │   ├── context/            # Global State (AuthContext, CartContext, ToastContext)
-│   │   ├── pages/              # Views (HomePage, RestaurantPage, CheckoutPage, OrderTrackingPage, ProfilePage)
-│   │   ├── services/           # Axios API services (auth, restaurant, order, payment)
+│   │   ├── pages/              # Views (HomePage, FoodDeliveryPage, InstamartPage, DineoutPage, RestaurantPage, CheckoutPage, OrderTrackingPage, ProfilePage)
+│   │   ├── services/           # Axios API services & instant catalog search indexing
 │   │   ├── index.css           # Custom utility styles, shimmer animations, badges
 │   │   └── App.jsx             # React Router routing setup
 │   ├── package.json
