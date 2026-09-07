@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
@@ -304,73 +305,210 @@ export const SwiggyLandingHeader = ({ onSearch, searchQuery = '' }) => {
           </div>
         </div>
 
-        {/* Mobile Navigation Drawer for Landing Page */}
-        <AnimatePresence>
-          {isMobileMenuOpen && (
-            <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              className="md:hidden mt-3 bg-white text-slate-800 rounded-2xl shadow-2xl p-4 space-y-2.5 text-xs font-bold"
-            >
-              <button
-                type="button"
-                onClick={() => {
-                  setIsMobileMenuOpen(false);
-                  setIsLocationModalOpen(true);
-                }}
-                className="w-full flex items-center justify-between p-2.5 rounded-xl bg-orange-50 text-swiggy-orangeDark border border-orange-200"
-              >
-                <div className="flex items-center gap-2 truncate">
-                  <MapPin className="w-4 h-4 text-[#FF5200] shrink-0" />
-                  <span className="truncate">{currentLocation.area || 'Set Location'}</span>
+        {/* Full-Screen Mobile Navigation Drawer for Landing Page (Mounted to body) */}
+        {typeof document !== 'undefined' &&
+          createPortal(
+            <AnimatePresence>
+              {isMobileMenuOpen && (
+                <div className="fixed inset-0 z-[9999] sm:hidden bg-slate-900/60 backdrop-blur-xs flex justify-end">
+                  <motion.div
+                    initial={{ x: '100%' }}
+                    animate={{ x: 0 }}
+                    exit={{ x: '100%' }}
+                    transition={{ type: 'tween', duration: 0.25 }}
+                    className="w-full max-w-xs sm:max-w-sm h-full bg-white text-slate-800 shadow-2xl flex flex-col justify-between overflow-y-auto"
+                  >
+                    {/* Drawer Header */}
+                    <div className="p-4 border-b border-slate-100 flex items-center justify-between">
+                      <SwiggyLogo variant="orange" size="sm" />
+                      <button
+                        onClick={() => setIsMobileMenuOpen(false)}
+                        className="p-1.5 rounded-full hover:bg-slate-100 text-slate-400 hover:text-slate-700 cursor-pointer"
+                      >
+                        <X className="w-5 h-5" />
+                      </button>
+                    </div>
+
+                    {/* Drawer Content */}
+                    <div className="p-4 space-y-4 flex-1">
+                      {/* Location Box */}
+                      <div className="p-3 bg-orange-50 rounded-2xl border border-orange-200/70 flex items-center justify-between">
+                        <div className="flex items-center gap-2.5 truncate">
+                          <MapPin className="w-4 h-4 text-swiggy-orange shrink-0" />
+                          <div className="truncate text-left">
+                            <p className="text-xs font-black text-slate-800 truncate">{currentLocation.area}</p>
+                            <p className="text-[10px] text-slate-500 truncate">{currentLocation.city}</p>
+                          </div>
+                        </div>
+                        <button
+                          onClick={() => {
+                            setIsMobileMenuOpen(false);
+                            setIsLocationModalOpen(true);
+                          }}
+                          className="px-2.5 py-1 bg-white border border-swiggy-orange text-swiggy-orangeDark font-extrabold text-[10px] rounded-lg shadow-2xs shrink-0 cursor-pointer"
+                        >
+                          Change
+                        </button>
+                      </div>
+
+                      {/* User Account / Sign In on Mobile */}
+                      {isAuthenticated ? (
+                        <div className="p-3.5 bg-slate-50 rounded-2xl border border-slate-100 space-y-2.5">
+                          <div className="flex items-center gap-3">
+                            <img
+                              src={user.avatar || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&auto=format&fit=crop&q=80'}
+                              alt={user.name}
+                              className="w-10 h-10 rounded-full object-cover border-2 border-swiggy-orange"
+                            />
+                            <div className="truncate">
+                              <p className="font-black text-xs text-slate-800 truncate">{user.name}</p>
+                              <p className="text-[11px] text-slate-400 font-medium truncate">{user.email}</p>
+                            </div>
+                          </div>
+                          <div className="grid grid-cols-3 gap-1.5 pt-2 border-t border-slate-200/60">
+                            <Link
+                              to="/profile"
+                              onClick={() => setIsMobileMenuOpen(false)}
+                              className="flex flex-col items-center gap-1 p-2 rounded-xl bg-white border border-slate-100 text-center"
+                            >
+                              <Clock className="w-4 h-4 text-slate-600" />
+                              <span className="text-[10px] font-bold text-slate-700">Orders</span>
+                            </Link>
+                            <Link
+                              to="/profile?tab=addresses"
+                              onClick={() => setIsMobileMenuOpen(false)}
+                              className="flex flex-col items-center gap-1 p-2 rounded-xl bg-white border border-slate-100 text-center"
+                            >
+                              <MapPin className="w-4 h-4 text-slate-600" />
+                              <span className="text-[10px] font-bold text-slate-700">Addresses</span>
+                            </Link>
+                            <Link
+                              to="/profile?tab=favorites"
+                              onClick={() => setIsMobileMenuOpen(false)}
+                              className="flex flex-col items-center gap-1 p-2 rounded-xl bg-white border border-slate-100 text-center"
+                            >
+                              <Heart className="w-4 h-4 text-slate-600" />
+                              <span className="text-[10px] font-bold text-slate-700">Favorites</span>
+                            </Link>
+                          </div>
+                        </div>
+                      ) : (
+                        <button
+                          onClick={() => {
+                            setIsMobileMenuOpen(false);
+                            openAuthModal('login');
+                          }}
+                          className="w-full py-3.5 bg-[#FF5200] hover:bg-[#E04800] text-white font-black text-xs rounded-2xl shadow-lg flex items-center justify-center gap-2 uppercase tracking-wider cursor-pointer active:scale-95 transition-transform"
+                        >
+                          <User className="w-4 h-4" />
+                          <span>Sign In / Create Account</span>
+                        </button>
+                      )}
+
+                      {/* Main Services Navigation */}
+                      <div className="space-y-1 pt-1">
+                        <p className="text-[10px] font-black uppercase text-slate-400 px-3 tracking-wider">Services</p>
+
+                        <Link
+                          to="/food"
+                          onClick={() => setIsMobileMenuOpen(false)}
+                          className="flex items-center justify-between p-3 rounded-xl hover:bg-orange-50 text-xs font-extrabold text-slate-800 transition-colors"
+                        >
+                          <span>Food Delivery</span>
+                          <span className="text-[9px] font-black uppercase text-[#FF5200] bg-orange-50 px-2 py-0.5 rounded-full">
+                            UPTO 60%
+                          </span>
+                        </Link>
+
+                        <Link
+                          to="/instamart"
+                          onClick={() => setIsMobileMenuOpen(false)}
+                          className="flex items-center justify-between p-3 rounded-xl hover:bg-purple-50 text-xs font-extrabold text-slate-800 transition-colors"
+                        >
+                          <span>Swiggy Instamart</span>
+                          <span className="text-[9px] font-black uppercase text-purple-700 bg-purple-50 px-2 py-0.5 rounded-full">
+                            10 MINS
+                          </span>
+                        </Link>
+
+                        <Link
+                          to="/dineout"
+                          onClick={() => setIsMobileMenuOpen(false)}
+                          className="flex items-center justify-between p-3 rounded-xl hover:bg-rose-50 text-xs font-extrabold text-slate-800 transition-colors"
+                        >
+                          <span>Swiggy Dineout</span>
+                          <span className="text-[9px] font-black uppercase text-rose-600 bg-rose-50 px-2 py-0.5 rounded-full">
+                            UPTO 50%
+                          </span>
+                        </Link>
+                      </div>
+
+                      {/* Corporate & Partner links */}
+                      <div className="space-y-1 pt-2 border-t border-slate-100">
+                        <a
+                          href="#corporate"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            setIsMobileMenuOpen(false);
+                            addToast('Swiggy Corporate: Meal cards & corporate benefits!', 'info');
+                          }}
+                          className="flex items-center gap-2.5 p-2.5 rounded-xl hover:bg-slate-50 text-xs font-bold text-slate-600 transition-colors"
+                        >
+                          <Briefcase className="w-4 h-4 text-slate-400" />
+                          <span>Swiggy Corporate</span>
+                        </a>
+
+                        <a
+                          href="#partner"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            setIsMobileMenuOpen(false);
+                            addToast('Partner with Swiggy to boost your business!', 'info');
+                          }}
+                          className="flex items-center gap-2.5 p-2.5 rounded-xl hover:bg-slate-50 text-xs font-bold text-slate-600 transition-colors"
+                        >
+                          <Building2 className="w-4 h-4 text-slate-400" />
+                          <span>Partner with us</span>
+                        </a>
+
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setIsMobileMenuOpen(false);
+                            window.open('https://www.swiggy.com', '_blank');
+                          }}
+                          className="w-full flex items-center justify-between p-2.5 rounded-xl hover:bg-slate-50 text-xs font-bold text-slate-600 transition-colors"
+                        >
+                          <span className="flex items-center gap-2.5">
+                            <Smartphone className="w-4 h-4 text-slate-400" />
+                            <span>Get the Swiggy App</span>
+                          </span>
+                          <ExternalLink className="w-3.5 h-3.5 text-slate-400" />
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Logout button at bottom if authenticated */}
+                    {isAuthenticated && (
+                      <div className="p-4 border-t border-slate-100">
+                        <button
+                          onClick={() => {
+                            setIsMobileMenuOpen(false);
+                            logout();
+                          }}
+                          className="w-full py-2.5 text-xs font-bold text-rose-600 bg-rose-50 hover:bg-rose-100 rounded-xl flex items-center justify-center gap-2 transition-colors cursor-pointer"
+                        >
+                          <LogOut className="w-4 h-4" />
+                          <span>Log Out</span>
+                        </button>
+                      </div>
+                    )}
+                  </motion.div>
                 </div>
-                <span className="text-[10px] uppercase font-black underline">Change</span>
-              </button>
-
-              <a
-                href="#corporate"
-                onClick={(e) => {
-                  e.preventDefault();
-                  setIsMobileMenuOpen(false);
-                  addToast('Swiggy Corporate: Meal cards & corporate benefits! 💼', 'info');
-                }}
-                className="flex items-center gap-2 p-2.5 rounded-xl hover:bg-slate-50 text-slate-700"
-              >
-                <Briefcase className="w-4 h-4 text-slate-400" />
-                <span>Swiggy Corporate</span>
-              </a>
-
-              <a
-                href="#partner"
-                onClick={(e) => {
-                  e.preventDefault();
-                  setIsMobileMenuOpen(false);
-                  addToast('Partner with Swiggy to boost your business 🚀', 'info');
-                }}
-                className="flex items-center gap-2 p-2.5 rounded-xl hover:bg-slate-50 text-slate-700"
-              >
-                <Building2 className="w-4 h-4 text-slate-400" />
-                <span>Partner with us</span>
-              </a>
-
-              <button
-                type="button"
-                onClick={() => {
-                  setIsMobileMenuOpen(false);
-                  window.open('https://www.swiggy.com', '_blank');
-                }}
-                className="w-full flex items-center justify-between p-2.5 rounded-xl hover:bg-slate-50 text-slate-700"
-              >
-                <div className="flex items-center gap-2">
-                  <Smartphone className="w-4 h-4 text-slate-400" />
-                  <span>Get the App</span>
-                </div>
-                <ExternalLink className="w-3.5 h-3.5 text-slate-400" />
-              </button>
-            </motion.div>
+              )}
+            </AnimatePresence>,
+            document.body
           )}
-        </AnimatePresence>
       </div>
 
       {/* Central Headline & Dual Search Bar Area */}

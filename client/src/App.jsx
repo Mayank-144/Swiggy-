@@ -9,6 +9,7 @@ import Footer from './components/Footer';
 import CartDrawer from './components/CartDrawer';
 import AuthModal from './components/AuthModal';
 import LocationModal from './components/LocationModal';
+import FloatingCartBar from './components/FloatingCartBar';
 
 import HomePage from './pages/HomePage';
 import RestaurantPage from './pages/RestaurantPage';
@@ -45,6 +46,7 @@ export function AppContent() {
       </main>
 
       {/* Modals & Slide-in Drawers */}
+      <FloatingCartBar />
       <CartDrawer />
       <AuthModal />
       <LocationModal />
