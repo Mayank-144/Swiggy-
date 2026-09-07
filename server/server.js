@@ -97,9 +97,21 @@ const startServer = async () => {
     }
   }
 
-  app.listen(PORT, '0.0.0.0', () => {
-    console.log(`🚀 Swiggy Clone Server running on http://0.0.0.0:${PORT}`);
+  const server = app.listen(PORT, '0.0.0.0', () => {
+    console.log(`🚀 Swiggy Clone Server running on http://localhost:${PORT}`);
+  });
+
+  server.on('error', (err) => {
+    if (err.code === 'EADDRINUSE') {
+      console.error(`⚠️ Port ${PORT} is already in use by another running process.`);
+      console.error(`👉 Close the existing terminal process or kill port ${PORT} before restarting.`);
+      process.exit(1);
+    } else {
+      console.error('Server listen error:', err);
+      process.exit(1);
+    }
   });
 };
 
 startServer();
+
